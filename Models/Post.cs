@@ -4,6 +4,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace WebService.Models
 {
+    //Entity will bind our class to the table l_posts in the database
+    //Some value could be nullable (closedDate, parentId, acceptedAnswerId)
     public class Post
     {
         [Key]

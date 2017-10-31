@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using AutoMapper;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -26,7 +25,11 @@ namespace Portfolio_Subproject2
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            //Add a DataService instance parameters to all Controllers constructors.
+            //The DataService provided must be compliant with the IDataService interface.
             services.AddSingleton<IDataService, DataService>();
+            //Go To DAL/DataService.cs to understand
+            //After understanding the DAL part, you should give a look to WebService/Controllers
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -38,14 +41,6 @@ namespace Portfolio_Subproject2
             }
 
             app.UseMvc();
-        }
-        public IMapper CreateMapper()
-        {
-            var config = new MapperConfiguration(cfg =>
-            {
-            });
-
-            return config.CreateMapper();
         }
     }
 }

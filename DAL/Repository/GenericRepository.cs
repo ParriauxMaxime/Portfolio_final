@@ -7,8 +7,10 @@ using System.Linq.Expressions;
 
 namespace DataAccessLayer.Repository
 {
-    //Base class for repositoryCreation
-    //Use GenericReadableRepository or GenericWritableRepository
+    //Base class for repository creation
+    //A repository is an container instance to old a Microsoft.EntityFrameworkCore.DbSet<TEntity>.
+    //See documentation of https://docs.microsoft.com/en-us/aspnet/mvc/overview/older-versions/getting-started-with-ef-5-using-mvc-4/implementing-the-repository-and-unit-of-work-patterns-in-an-asp-net-mvc-application
+    //Never use that, use GenericReadableRepository or GenericWritableRepository
     public abstract class GenericRepository<TEntity> where TEntity : class
     {
         internal DatabaseContext context;
@@ -20,10 +22,11 @@ namespace DataAccessLayer.Repository
             this.dbSet = context.Set<TEntity>();
         }
     }
-    //Useless inheritance abstraction because C#
+
+    //Class for Readable repository creation
+    //Provide Get, GetById and Count function on a Repository;
     public class GenericReadableRepository<TEntity> : GenericRepository<TEntity> where TEntity : class
     {
-
         public GenericReadableRepository(DatabaseContext context) : base(context)
         {
 
@@ -49,7 +52,8 @@ namespace DataAccessLayer.Repository
         }
     }
 
-    //Useless inheritance abstraction because C#
+    //Class for Readable repository creation
+    //Provide Insert, Update and Delete function on a Repository;
     public class GenericWritableRepository<TEntity> : GenericReadableRepository<TEntity> where TEntity : class
     {
         public GenericWritableRepository(DatabaseContext context) : base(context)

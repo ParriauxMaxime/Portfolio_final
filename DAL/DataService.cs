@@ -8,44 +8,29 @@ using WebService.Models;
 
 namespace DataAccessLayer
 {
+    //See IDataService.cs for explanation on Get<Models>Repository 
     public class DataService : IDataService
     {
+        //If you don't know what is the context, you should read DataBaseContext.cs
         private DatabaseContext context = new DatabaseContext();
         public GenericReadableRepository<Post> postRepository {get;}
         public GenericReadableRepository<Comment> commentRepository {get;}
+
+        public DataService() {
+            //The constructor must instanciate everyRepository
+            this.postRepository = new GenericReadableRepository<Post>(context);
+            this.commentRepository = new GenericReadableRepository<Comment>(context);
+            //See DAL/GenericRepository.cs for more explanation
+        }
+
+
         public GenericReadableRepository<Post> GetPostRepository() {
+            //At some point, you should read Models/Post.cs
             return this.postRepository;
         }
         public GenericReadableRepository<Comment> GetCommentRepository() {
+            //At some point, you should read Models/Comment.cs
             return this.commentRepository;
-        }
-        public DataService() {
-            this.postRepository = new GenericReadableRepository<Post>(context);
-            this.commentRepository = new GenericReadableRepository<Comment>(context);
-        }
-        public void Save()
-        {
-            context.SaveChanges();
-        }
-
-        private bool disposed = false;
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!this.disposed)
-            {
-                if (disposing)
-                {
-                    context.Dispose();
-                }
-            }
-            this.disposed = true;
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
         }
     }
 }
