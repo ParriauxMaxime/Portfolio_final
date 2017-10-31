@@ -1,0 +1,7 @@
+.vscode
+DAL/obj
+DAL/bin
+Models/bin
+Models/obj
+WebService/bin
+WebService/obj
