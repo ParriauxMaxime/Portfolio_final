@@ -9,7 +9,7 @@ namespace WebService.Models
     public class LinkPost
     {
       [Key]
-      public int Id {get; set;}
+      public int Id {get;set;}
       public int PostId {get; set;}
       public int LinkPostId {get; set;}
       

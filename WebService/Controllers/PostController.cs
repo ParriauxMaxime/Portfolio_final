@@ -8,30 +8,30 @@ using WebService.Models;
 
 namespace WebService.Controllers
 {
-    [Route("api/comments")]
-    public class CommentsController : Controller
+    [Route("api/post")]
+    public class PostController : Controller
     {
         private readonly IDataService _dataService;
 
-        public CommentsController(IDataService dataService) {
+        public PostController(IDataService dataService) {
             this._dataService = dataService;
         }
-        // GET api/Comments
+        // GET api/post
         [HttpGet]
-        public IEnumerable<Comment> Get(int page = 0, int pageSize = 50)
+        public IEnumerable<Post> Get(int page = 0, int pageSize = 50)
         {
-            return _dataService.GetCommentRepository().Get(page, pageSize, orderBy: x => x.OrderBy(p => p.Id));
+            return _dataService.GetPostRepository().Get(page, pageSize, x => x.OrderBy(p => p.Id));
         }
 
-        // GET api/Comment/5
+        // GET api/post/5
         [HttpGet("{id}")]
-        public Comment Get(int id)
+        public Post Get(int id)
         {
-            return _dataService.GetCommentRepository().GetByID(id);
+            return _dataService.GetPostRepository().GetByID(id);
         }
 
         public int Count() {
-            return _dataService.GetCommentRepository().Count();
+            return _dataService.GetPostRepository().Count();
         }
 
         /**

@@ -36,10 +36,17 @@ namespace DataAccessLayer.Repository
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null)
         {
             IQueryable<TEntity> query = this.dbSet;
-            return orderBy(query)
-                    .Skip(page * pageSize)
-                    .Take(pageSize)
-                    .ToList();
+            if (orderBy != null)
+            {
+                return orderBy(query)
+                                    .Skip(page * pageSize)
+                                    .Take(pageSize)
+                                    .ToList();
+            }
+            else {
+                return query.Skip(page*pageSize).Take(pageSize).ToList();
+            }
+
         }
 
         public virtual TEntity GetByID(object id)
@@ -47,7 +54,8 @@ namespace DataAccessLayer.Repository
             return dbSet.Find(id);
         }
 
-        public virtual int Count() {
+        public virtual int Count()
+        {
             return dbSet.Count();
         }
     }

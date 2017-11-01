@@ -15,7 +15,13 @@ namespace DataAccessLayer
         {
             base.OnConfiguring(optionsBuilder);
             //We just say to Entity to get the stuff from the MySql database with a string connection
-            optionsBuilder.UseMySql("server=localhost;database=stackoverflow_sample_universal;uid=stackoverflow;pwd=password");
+            string connection = "server=localhost;database=stackoverflow_sample_universal;uid=stackoverflow;pwd=password";
+            try {
+                optionsBuilder.UseMySql(connection);            
+            }
+            catch (Exception) {
+                throw new Exception("Cannot join the Database.\nLook that your bdd accept this connection string :" + connection);
+            }
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -26,7 +32,7 @@ namespace DataAccessLayer
             modelBuilder.Entity<Comment>().ToTable("l_comments");
             modelBuilder.Entity<History>().ToTable("history");
             modelBuilder.Entity<LinkPost>().ToTable("linkPosts");
-            modelBuilder.Entity<LTagsPost>().ToTable("l_tags_Post");
+            modelBuilder.Entity<LTagsPost>().ToTable("l_tags_posts");
             modelBuilder.Entity<Post>().ToTable("l_posts");
             modelBuilder.Entity<PostType>().ToTable("postType");
             modelBuilder.Entity<QueryHistory>().ToTable("queryHistory");

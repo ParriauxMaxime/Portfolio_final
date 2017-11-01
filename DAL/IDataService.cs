@@ -6,7 +6,15 @@ namespace DataAccessLayer
     public interface IDataService
     {
         //The IDataService interface must provide a way to getRepository linked to a Table
-        GenericReadableRepository<Post> GetPostRepository();
+        GenericWritableRepository<Account> GetAccountRepository();
         GenericReadableRepository<Comment> GetCommentRepository();
+        GenericWritableRepository<History> GetHistoryRepository();
+        GenericReadableRepository<LinkPost> GetLinkPostRepository();
+        GenericReadableRepository<LTagsPost> GetLTagsPostRepository();
+        GenericReadableRepository<Post> GetPostRepository();
+        GenericReadableRepository<PostType> GetPostTypeRepository();
+        GenericWritableRepository<QueryHistory> GetQueryHistoryRepository();
+        GenericReadableRepository<Tag> GetTagRepository();
+        GenericReadableRepository<User> GetUserRepository();
     }
 }
