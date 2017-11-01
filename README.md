@@ -7,9 +7,28 @@ See PDF attached to this repository.
 
 <br/>
 <ol>
-<li> Architecture </li>  
-<li> The DataAccess Layer (DAL) </li>  
-<li> The WebService Layer (WSL)   </li>
+<li> 
+    <h3>Architecture</h3>   
+    <ul>
+        <li>
+            Repository design pattern
+        </li>
+        <li>
+            EntityFramework
+        </li>
+        <li>
+            ASP.Net
+        </li>
+    </ul>
+</li>
+<li> 
+<li> 
+    <h3>The DataAccess Layer (DAL)</h3>   
+    
+</li>  
+<li> 
+    <h3>The WebService Layer (WSL)</h3>
+</li>
 </ol>
 
 ## Contributor 

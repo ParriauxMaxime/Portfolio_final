@@ -22,8 +22,16 @@ namespace DataAccessLayer
             base.OnModelCreating(modelBuilder);
             //This is the best quickfix on human history
             //Just override the name of the table our class must represent
-            modelBuilder.Entity<Post>().ToTable("l_posts");
+            modelBuilder.Entity<Account>().ToTable("accounts");
             modelBuilder.Entity<Comment>().ToTable("l_comments");
+            modelBuilder.Entity<History>().ToTable("history");
+            modelBuilder.Entity<LinkPost>().ToTable("linkPosts");
+            modelBuilder.Entity<LTagsPost>().ToTable("l_tags_Post");
+            modelBuilder.Entity<Post>().ToTable("l_posts");
+            modelBuilder.Entity<PostType>().ToTable("postType");
+            modelBuilder.Entity<QueryHistory>().ToTable("queryHistory");
+            modelBuilder.Entity<Tag>().ToTable("tags");
+            modelBuilder.Entity<User>().ToTable("users");
         }
     }
 }

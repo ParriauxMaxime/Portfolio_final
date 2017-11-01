@@ -18,6 +18,7 @@ namespace Portfolio_Subproject2
             BuildWebHost(args).Run();
         }
 
+        //Build Server, See Startup.cs
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
