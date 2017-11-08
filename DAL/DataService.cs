@@ -19,7 +19,7 @@ namespace DataAccessLayer
         public GenericReadableRepository<Comment> commentRepository {get;}
         public GenericWritableRepository<History> historyRepository {get;}
         public GenericReadableRepository<LinkPost> linkPostRepository {get;}
-        public GenericReadableRepository<LTagsPost> ltagspostRepository {get;}
+        public GenericReadableRepository<LTagsPost> ltagsPostRepository {get;}
         public GenericReadableRepository<Post> postRepository {get;}
         public GenericReadableRepository<PostType> postTypeRepository {get;}
         public GenericWritableRepository<QueryHistory> queryHistoryRepository {get;}
@@ -33,7 +33,7 @@ namespace DataAccessLayer
             this.commentRepository = new GenericReadableRepository<Comment>(context);
             this.historyRepository = new GenericWritableRepository<History>(context);
             this.linkPostRepository = new GenericReadableRepository<LinkPost>(context);
-            this.ltagspostRepository = new GenericReadableRepository<LTagsPost>(context);
+            this.ltagsPostRepository = new GenericReadableRepository<LTagsPost>(context);
             this.postRepository = new GenericReadableRepository<Post>(context);
             this.postTypeRepository = new GenericReadableRepository<PostType>(context);
             this.queryHistoryRepository = new GenericWritableRepository<QueryHistory>(context);
@@ -59,7 +59,7 @@ namespace DataAccessLayer
         }
         public GenericReadableRepository<LTagsPost> GetLTagsPostRepository() {
             //At some point, you should read Models/LTagsPost.cs
-            return this.ltagspostRepository;
+            return this.ltagsPostRepository;
         }
         public GenericReadableRepository<Post> GetPostRepository() {
             //At some point, you should read Models/Post.cs
