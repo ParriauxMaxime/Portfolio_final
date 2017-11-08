@@ -17,30 +17,62 @@ namespace WebService.Controllers
     {
         protected readonly IDataService _dataService;
         protected readonly GenericRepository<TEntity> _repository;
+        private int count {get; set;}
         public GenericReadableController(IDataService dataService, GenericReadableRepository<TEntity> repository)
         {
             this._dataService = dataService;
             this._repository = repository as GenericReadableRepository<TEntity>;
+            this.count = this._repository.Count();
+        }
+
+        private string createUrl(int? id = null, int? page = null, int? pageSize = null) {
+            var host = Request.Host.ToUriComponent();
+            var controller = this.ControllerContext.RouteData?.Values["controller"].ToString().ToLower();
+            var url = "http://" + host + "/api/" + controller;
+            if (id == null) {
+                if (page < 0) {
+                    return "";
+                }
+                else if (page > (count / pageSize)) {
+                    return "";
+                }
+                else 
+                    return url + "?page=" + page + "&pageSize=" + pageSize;
+            }
+            else 
+                return url + "/" + id;
         }
 
         // GET api/[controller]
         [HttpGet]
         public IActionResult Get(int page = 0, int pageSize = 50)
         {
-            string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString().ToLower();
             if (pageSize > 200 || pageSize <= 0)
             {
                 pageSize = 50;
             }
-            if (page > this.Count() / pageSize)
+            if (page > count / pageSize)
             {
-                page = this.Count() / pageSize;
+                page = count / pageSize;
             }
             else if (page < 0)
             {
                 page = 0;
             }
-            List<TEntity> result = _repository.Get(page, pageSize, null) as List<TEntity>;
+            List<TEntity> data = _repository.Get(page, pageSize, null) as List<TEntity>;
+            List<object> tmp = new List<object>();
+            data.ForEach(e => {
+                tmp.Add(new {Url = createUrl(e.Id), Data = e});
+            });
+            var result = new {
+                Total = count,
+                Pages = count / pageSize,
+                Page = page,
+                Prev = createUrl(null, page, pageSize),
+                Next = createUrl(null, page, pageSize),
+                Url = createUrl(null, page, pageSize),
+                Data = tmp
+            };
             return Ok(result);
         }
 
@@ -58,16 +90,15 @@ namespace WebService.Controllers
         }
         // GET api/[controller]/5
         [HttpGet("{id}.{format?}")]
-        public IActionResult Get(int id)
+        public IActionResult GetByID(int id)
         {
-            string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString().ToLower();
+            string url = this.ControllerContext.RouteData?.Values["controller"].ToString();
             TEntity result = _repository.GetByID(id);
-            var enhancedData = this._repository.Get(0, this._repository.Count(), null) as List<TEntity>;
             if (result == null)
             {
                 return NotFound(new Error(_repository.GetType().ToString(), id));
             }
-            return Ok(result);
+            return Ok(new {Url = createUrl(result.Id), Data = result});
         }
 
         public int Count()
