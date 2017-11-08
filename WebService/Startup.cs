@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using DataAccessLayer;
 
 namespace Portfolio_Subproject2
@@ -26,8 +27,11 @@ namespace Portfolio_Subproject2
         {
             //The RespectBrowserAcceptHeader is set false by default.
             //We also set XMLFormatSerializer, default is only JSON
-            services.AddMvc(options => { options.RespectBrowserAcceptHeader = true; })
-                .AddXmlSerializerFormatters();
+            services.AddMvc(options => {
+                options.RespectBrowserAcceptHeader = true;
+                    options.OutputFormatters.Add(new XmlSerializerOutputFormatter());
+                    options.InputFormatters.Add(new XmlSerializerInputFormatter());
+                });
             //Add a DataService instance parameters to all Controllers constructors.
             //The DataService provided must be compliant with the IDataService interface.
             services.AddSingleton<IDataService, DataService>();
