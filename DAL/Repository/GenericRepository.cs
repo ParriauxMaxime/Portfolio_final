@@ -1,5 +1,6 @@
 using System;
 using Microsoft.EntityFrameworkCore;
+using WebService.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Data;
@@ -21,18 +22,22 @@ namespace DataAccessLayer.Repository
             this.context = context;
             this.dbSet = context.Set<TEntity>();
         }
+
+        public abstract TEntity GetByID(object id);
+        public abstract IEnumerable<TEntity> Get(int page, int pageSize, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy);
+        public abstract int Count();
     }
 
     //Class for Readable repository creation
     //Provide Get, GetById and Count function on a Repository;
-    public class GenericReadableRepository<TEntity> : GenericRepository<TEntity> where TEntity : class
+    public class GenericReadableRepository<TEntity> : GenericRepository<TEntity> where TEntity : GenericModel
     {
         public GenericReadableRepository(DatabaseContext context) : base(context)
         {
 
         }
 
-        public virtual IEnumerable<TEntity> Get(int page = 0, int pageSize = 50,
+        public override IEnumerable<TEntity> Get(int page = 0, int pageSize = 50,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null)
         {
             IQueryable<TEntity> query = this.dbSet;
@@ -49,12 +54,12 @@ namespace DataAccessLayer.Repository
 
         }
 
-        public virtual TEntity GetByID(object id)
+        public override TEntity GetByID(object id)
         {
             return dbSet.Find(id);
         }
 
-        public virtual int Count()
+        public override int Count()
         {
             return dbSet.Count();
         }
@@ -62,7 +67,7 @@ namespace DataAccessLayer.Repository
 
     //Class for Readable repository creation
     //Provide Insert, Update and Delete function on a Repository;
-    public class GenericWritableRepository<TEntity> : GenericReadableRepository<TEntity> where TEntity : class
+    public class GenericWritableRepository<TEntity> : GenericReadableRepository<TEntity> where TEntity : GenericModel
     {
         public GenericWritableRepository(DatabaseContext context) : base(context)
         {
@@ -72,12 +77,14 @@ namespace DataAccessLayer.Repository
         public virtual void Insert(TEntity entity)
         {
             dbSet.Add(entity);
+            this.context.SaveChanges();
         }
 
         public virtual void Delete(object id)
         {
             TEntity entityToDelete = dbSet.Find(id);
             Delete(entityToDelete);
+            this.context.SaveChanges();
         }
 
         public virtual void Delete(TEntity entityToDelete)
@@ -87,12 +94,18 @@ namespace DataAccessLayer.Repository
                 dbSet.Attach(entityToDelete);
             }
             dbSet.Remove(entityToDelete);
+            this.context.SaveChanges();
         }
 
         public virtual void Update(TEntity entityToUpdate)
         {
-            dbSet.Attach(entityToUpdate);
+            if (context.Entry(entityToUpdate).State == EntityState.Detached) {
+                dbSet.Attach(entityToUpdate);            
+            } 
             context.Entry(entityToUpdate).State = EntityState.Modified;
+            this.context.SaveChanges();
+            context.Entry(entityToUpdate).State = EntityState.Detached;
+            
         }
     }
 }

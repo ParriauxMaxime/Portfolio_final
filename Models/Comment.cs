@@ -5,11 +5,8 @@ namespace WebService.Models
 {
 
     //Entity will bind our class to the table l_comments in the database
-    public class Comment
+    public class Comment : GenericModel
     {
-        [Key]
-        public int Id {get; set;}
-
         public int PostId {get; set;}
         public System.DateTime creationDate { get; set; }
         public int score { get; set; }

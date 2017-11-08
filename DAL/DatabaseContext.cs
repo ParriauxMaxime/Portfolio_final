@@ -31,12 +31,12 @@ namespace DataAccessLayer
             modelBuilder.Entity<Account>().ToTable("accounts");
             modelBuilder.Entity<Comment>().ToTable("l_comments");
             modelBuilder.Entity<History>().ToTable("history");
-            modelBuilder.Entity<LinkPost>().ToTable("linkPosts");
+            modelBuilder.Entity<LinkPost>().ToTable("linkPosts").Property(p => p.Id).HasColumnName("TypeId");
             modelBuilder.Entity<LTagsPost>().ToTable("l_tags_posts");
             modelBuilder.Entity<Post>().ToTable("l_posts");
             modelBuilder.Entity<PostType>().ToTable("postType");
             modelBuilder.Entity<QueryHistory>().ToTable("queryHistory");
-            modelBuilder.Entity<Tag>().ToTable("tags");
+            modelBuilder.Entity<Tag>().ToTable("tags").Property(p => p.TagName).HasColumnName("tag");
             modelBuilder.Entity<User>().ToTable("users");
         }
     }

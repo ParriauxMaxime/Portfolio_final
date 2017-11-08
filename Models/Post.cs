@@ -6,10 +6,8 @@ namespace WebService.Models
 {
     //Entity will bind our class to the table l_posts in the database
     //Some value could be nullable (closedDate, parentId, acceptedAnswerId)
-    public class Post
+    public class Post : GenericModel
     {
-        [Key]
-        public int Id {get; set;}
         public System.DateTime creationDate { get; set; }
         public System.DateTime? closedDate { get; set; }
         public string title { get; set; }

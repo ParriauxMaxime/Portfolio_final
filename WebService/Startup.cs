@@ -24,7 +24,10 @@ namespace Portfolio_Subproject2
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            //The RespectBrowserAcceptHeader is set false by default.
+            //We also set XMLFormatSerializer, default is only JSON
+            services.AddMvc(options => { options.RespectBrowserAcceptHeader = true; })
+                .AddXmlSerializerFormatters();
             //Add a DataService instance parameters to all Controllers constructors.
             //The DataService provided must be compliant with the IDataService interface.
             services.AddSingleton<IDataService, DataService>();
