@@ -18,6 +18,21 @@ namespace WebService.Controllers
         protected readonly IDataService _dataService;
         protected readonly GenericRepository<TEntity> _repository;
         private int count {get; set;}
+        public class Encapsulation {
+            public string Url {get; set;}
+            public TEntity Data {get; set;}
+        }
+
+        public class ListEncapsulation {
+            public int Total {get; set;} 
+            public int Pages {get;set;}
+            public int Page {get;set;}
+            public string Prev {get;set;}
+            public string Url {get; set;}
+            public string Next {get;set;}
+            public List<Encapsulation> Data {get;set;}
+        }
+
         public GenericReadableController(IDataService dataService, GenericReadableRepository<TEntity> repository)
         {
             this._dataService = dataService;
@@ -60,11 +75,11 @@ namespace WebService.Controllers
                 page = 0;
             }
             List<TEntity> data = _repository.Get(page, pageSize, null) as List<TEntity>;
-            List<object> tmp = new List<object>();
+            List<Encapsulation> tmp = new List<Encapsulation>();
             data.ForEach(e => {
-                tmp.Add(new {Url = createUrl(e.Id), Data = e});
+                tmp.Add(new Encapsulation {Url = createUrl(e.Id), Data = e});
             });
-            var result = new {
+            var result = new ListEncapsulation {
                 Total = count,
                 Pages = count / pageSize,
                 Page = page,
@@ -98,7 +113,7 @@ namespace WebService.Controllers
             {
                 return NotFound(new Error(_repository.GetType().ToString(), id));
             }
-            return Ok(new {Url = createUrl(result.Id), Data = result});
+            return Ok(new Encapsulation{Url = createUrl(result.Id), Data = result});
         }
 
         public int Count()
