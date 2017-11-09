@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using DataAccessLayer.Repository;
-using WebService.Models;
+using Models;
 namespace DataAccessLayer
 {
     public interface IDataService

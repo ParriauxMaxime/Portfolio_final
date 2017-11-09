@@ -1,10 +1,10 @@
 using System;
 using Microsoft.EntityFrameworkCore;
-using WebService.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Data;
 using System.Linq.Expressions;
+using Models;
 
 namespace DataAccessLayer.Repository
 {
@@ -12,7 +12,7 @@ namespace DataAccessLayer.Repository
     //A repository is an container instance to old a Microsoft.EntityFrameworkCore.DbSet<TEntity>.
     //See documentation of https://docs.microsoft.com/en-us/aspnet/mvc/overview/older-versions/getting-started-with-ef-5-using-mvc-4/implementing-the-repository-and-unit-of-work-patterns-in-an-asp-net-mvc-application
     //Never use that, use GenericReadableRepository or GenericWritableRepository
-    public abstract class GenericRepository<TEntity> where TEntity : class
+    public abstract class GenericRepository<TEntity> where TEntity : GenericModel
     {
         internal DatabaseContext context;
         internal DbSet<TEntity> dbSet;

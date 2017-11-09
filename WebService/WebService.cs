@@ -13,9 +13,11 @@ namespace WebService
 {
     public class WebService
     {
+        private IWebHost _webHost;
         public WebService(string[] args)
         {
-            BuildWebHost(args).Run();
+            this._webHost = BuildWebHost(args);
+            this._webHost.Run();
         }
 
         //Build Server, See Startup.cs

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace WebService.Models
+namespace Models
 {
 
     //Entity will bind our class to the table l_comments in the database

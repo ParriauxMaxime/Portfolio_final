@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using DataAccessLayer;
-using WebService.Models;
+using Models;
 
 namespace WebService.Controllers
 {
