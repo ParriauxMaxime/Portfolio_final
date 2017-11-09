@@ -11,7 +11,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using DataAccessLayer;
 
-namespace Portfolio_Subproject2
+namespace WebService
 {
     public class Startup
     {
@@ -25,11 +25,11 @@ namespace Portfolio_Subproject2
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //The RespectBrowserAcceptHeader is set false by default.
+            //The RespectBrowserAcceptHeader is set false by default, we want to be true.
             //We also set XMLFormatSerializer, default is only JSON
             services.AddMvc(options => {
-                //options.RespectBrowserAcceptHeader = true;
-                }).AddXmlSerializerFormatters();
+                options.RespectBrowserAcceptHeader = true;
+            }).AddXmlSerializerFormatters();
 
             //Add a DataService instance parameters to all Controllers constructors.
             //The DataService provided must be compliant with the IDataService interface.

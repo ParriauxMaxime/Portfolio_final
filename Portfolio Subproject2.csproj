@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include=".\Program.cs" />
+      <ProjectReference Include="./WebService/WebService.csproj" />
+      <ProjectReference Include="./DAL/DataAccessLayer.csproj" />
+  </ItemGroup>
+</Project>

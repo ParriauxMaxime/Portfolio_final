@@ -16,6 +16,7 @@ namespace DataAccessLayer
             base.OnConfiguring(optionsBuilder);
             //We just say to Entity to get the stuff from the MySql database with a string connection
             string connection = "server=localhost;database=stackoverflow_sample_universal;uid=stackoverflow;pwd=password";
+            //string connection = "server=wt-220@ruc.dk;database=raw3;uid=raw3;pwd=raw3";
             try {
                 optionsBuilder.UseMySql(connection);            
             }

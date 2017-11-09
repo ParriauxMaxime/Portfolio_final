@@ -9,11 +9,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using WebService;
 
-namespace Portfolio_Subproject2
+namespace WebService
 {
-    public class Program
+    public class WebService
     {
-        public static void Main(string[] args)
+        public WebService(string[] args)
         {
             BuildWebHost(args).Run();
         }
