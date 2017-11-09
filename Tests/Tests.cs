@@ -25,13 +25,18 @@ namespace Tests
             Assert.Null(tag.TagName);
         }
 
+        // Database
+
         [Fact]
         public void GetTags_ReturnsAllTags()
         {
             var service = new DataService();
             var tags = service.GetTagRepository();
             Assert.Equal(1874, tags.Count());
+            Assert.Equal("vb.net", tags.GetByID(1).TagName);
         }
+
+        // Web Service
 
         [Fact]
         public void GetUser_ValidId_ReturnsOk()
@@ -87,6 +92,25 @@ namespace Tests
 
         }
 
+        // This test fails
+        [Fact]
+        public void PostAccount_ReturnsOk()
+        {
+            var dataServiceMock = new Mock<IDataService>();
+            dataServiceMock
+                .Setup(o => o.GetAccountRepository())
+                .Returns(new DataAccessLayer.Repository.GenericWritableRepository<Account>(new DatabaseContext()));
+            var urlHelperMock = new Mock<IUrlHelper>();
+
+            var ctrl = new AccountController(dataServiceMock.Object);
+            ctrl.Url = urlHelperMock.Object;
+
+            var response = ctrl.Post(1, "{ TagName : vsb.net }");
+
+            Assert.IsType<OkResult>(response);
+
+        }
+
         [Fact]
         public void PostAccount_ReturnsBadRequest()
         {
@@ -104,6 +128,7 @@ namespace Tests
             Assert.IsType<BadRequestResult>(response);
 
         }
+
 
     }
 }
