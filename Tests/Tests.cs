@@ -172,10 +172,10 @@ namespace Tests
 
             var responseCreate = ctrl.Put("{ \"Name\" : \"Account for Delete\", \"CreationDate\" : \"2017-10-15T15:30:25\" }");
 
-            Assert.IsType<OkObjectResult>(responseCreate);
+            Assert.IsType<CreatedResult>(responseCreate);
 
-            var okObjectResult = responseCreate as OkObjectResult;
-            var account = okObjectResult.Value as GenericModel;
+            var objectResult = responseCreate as CreatedResult;
+            var account = objectResult.Value as GenericModel;
 
             var responseDelete = ctrl.Delete(account.Id);
 

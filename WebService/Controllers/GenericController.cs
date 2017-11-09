@@ -186,14 +186,7 @@ namespace WebService.Controllers
             {
                 TEntity result = JsonConvert.DeserializeObject<TEntity>(jsonString);
                 writableRepository.Insert(result);
-                if (this.RouteData == null)
-                {
-                    return Ok(result);
-                }
-                else
-                {
-                    return Created("/api/" + this.ControllerContext.RouteData.Values["controller"].ToString().ToLower() + "/" + result, result);
-                }
+                return Created("/api/" + ControllerContext.RouteData?.Values["controller"].ToString().ToLower() + "/" + result, result);
             }
             catch (Exception)
             {
