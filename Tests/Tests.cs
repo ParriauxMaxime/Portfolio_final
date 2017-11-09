@@ -105,7 +105,7 @@ namespace Tests
             var ctrl = new AccountController(dataServiceMock.Object);
             ctrl.Url = urlHelperMock.Object;
 
-            var response = ctrl.Post(1, "{ TagName : vsb.net }");
+            var response = ctrl.Post(1, "{ \"name\" : \"newacc\", \"creationDate\" : \"2010-10-15T15:30:25\" }");
 
             Assert.IsType<OkResult>(response);
 
