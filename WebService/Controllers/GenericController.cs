@@ -17,20 +17,22 @@ namespace WebService.Controllers
     {
         protected readonly IDataService _dataService;
         protected readonly GenericRepository<TEntity> _repository;
-        private int count {get; set;}
-        public class Encapsulation {
-            public string Url {get; set;}
-            public TEntity Data {get; set;}
+        private int count { get; set; }
+        public class Encapsulation
+        {
+            public string Url { get; set; }
+            public TEntity Data { get; set; }
         }
 
-        public class ListEncapsulation {
-            public int Total {get; set;} 
-            public int Pages {get;set;}
-            public int Page {get;set;}
-            public string Prev {get;set;}
-            public string Url {get; set;}
-            public string Next {get;set;}
-            public List<Encapsulation> Data {get;set;}
+        public class ListEncapsulation
+        {
+            public int Total { get; set; }
+            public int Pages { get; set; }
+            public int Page { get; set; }
+            public string Prev { get; set; }
+            public string Url { get; set; }
+            public string Next { get; set; }
+            public List<Encapsulation> Data { get; set; }
         }
 
         public GenericReadableController(IDataService dataService, GenericReadableRepository<TEntity> repository)
@@ -40,28 +42,33 @@ namespace WebService.Controllers
             this.count = this._repository.Count();
         }
 
-        protected string createUrl(int? id = null, int? page = null, int? pageSize = null) {
+        private string createUrl(int? id = null, int? page = null, int? pageSize = null)
+        {
             var host = "";
             if (Request == null) // It's null while Unit Testing...
             {
                 host = "localhost:5001";
-            } else
+            }
+            else
             {
                 host = Request.Host.ToUriComponent();
             }
             var controller = ControllerContext.RouteData?.Values["controller"].ToString().ToLower();
             var url = "http://" + host + "/api/" + controller;
-            if (id == null) {
-                if (page < 0) {
+            if (id == null)
+            {
+                if (page < 0)
+                {
                     return "";
                 }
-                else if (page > (count / pageSize)) {
+                else if (page > (count / pageSize))
+                {
                     return "";
                 }
-                else 
+                else
                     return url + "?page=" + page + "&pageSize=" + pageSize;
             }
-            else 
+            else
                 return url + "/" + id;
         }
 
@@ -84,11 +91,12 @@ namespace WebService.Controllers
             List<TEntity> data = _repository.Get(page, pageSize, null) as List<TEntity>;
             List<Encapsulation> tmp = new List<Encapsulation>();
             data.ForEach(e => {
-                tmp.Add(new Encapsulation {Url = createUrl(e.Id), Data = e});
+                tmp.Add(new Encapsulation { Url = createUrl(e.Id), Data = e });
             });
-            var result = new ListEncapsulation {
+            var result = new ListEncapsulation
+            {
                 Total = count,
-                Pages = count / pageSize != 0 ? count / pageSize : 1,
+                Pages = count / pageSize,
                 Page = page,
                 Prev = createUrl(null, page - 1, pageSize),
                 Next = createUrl(null, page + 1, pageSize),
@@ -120,7 +128,7 @@ namespace WebService.Controllers
             {
                 return NotFound(new Error(_repository.GetType().ToString(), id));
             }
-            return Ok(new Encapsulation{Url = createUrl(result.Id), Data = result});
+            return Ok(new Encapsulation { Url = createUrl(result.Id), Data = result });
         }
 
         public int Count()
@@ -139,23 +147,16 @@ namespace WebService.Controllers
         public IActionResult Post([FromBody]string jsonString)
         {
             GenericWritableRepository<TEntity> writableRepository = this._repository as GenericWritableRepository<TEntity>;
-            int code;
-            TEntity result;
             try
             {
-                result = JsonConvert.DeserializeObject<TEntity>(jsonString);
-                code = writableRepository.Update(result);
+                TEntity result = JsonConvert.DeserializeObject<TEntity>(jsonString);
+                writableRepository.Update(result);
             }
             catch (Exception)
             {
                 return BadRequest();
             }
-            if (code == 200)
-                return Ok();
-            else {
-                var url = createUrl(result.Id);
-                return Created(url, new Encapsulation { Data = result, Url = url});
-            }
+            return Ok();
         }
 
         // POST api/[controller]/{id}
@@ -163,24 +164,17 @@ namespace WebService.Controllers
         public IActionResult Post(int id, [FromBody]string jsonString)
         {
             GenericWritableRepository<TEntity> writableRepository = this._repository as GenericWritableRepository<TEntity>;
-            int code;
-            TEntity result = null;
             try
             {
-                result = JsonConvert.DeserializeObject<TEntity>(jsonString);
+                TEntity result = JsonConvert.DeserializeObject<TEntity>(jsonString);
                 result.Id = id;
-                code = writableRepository.Update(result);
+                writableRepository.Update(result);
             }
             catch (Exception)
             {
                 return BadRequest();
             }
-            if (code == 200)
-                return Ok();
-            else {
-                var url = createUrl(result.Id);
-                return Created(url, new Encapsulation { Data = result, Url = url});
-            }
+            return Ok();
         }
 
         // PUT api/[controller]
@@ -191,9 +185,15 @@ namespace WebService.Controllers
             try
             {
                 TEntity result = JsonConvert.DeserializeObject<TEntity>(jsonString);
-                int id = writableRepository.Insert(result);
-                var url = createUrl(id);
-                return Created(url, new Encapsulation { Data = result, Url = url} );
+                writableRepository.Insert(result);
+                if (this.RouteData == null)
+                {
+                    return Ok(result);
+                }
+                else
+                {
+                    return Created("/api/" + this.ControllerContext.RouteData.Values["controller"].ToString().ToLower() + "/" + result, result);
+                }
             }
             catch (Exception)
             {
@@ -210,11 +210,12 @@ namespace WebService.Controllers
             {
                 TEntity result = writableRepository.GetByID(id);
                 writableRepository.Delete(result);
-                return Ok();
+                return Ok(result);
             }
-            catch (Exception) {
+            catch (Exception)
+            {
                 return NotFound();
-            } 
+            }
         }
     }
 }

@@ -1,14 +1,10 @@
-using System;
 using Xunit;
 using DataAccessLayer;
 using WebService.Controllers;
 using Moq;
 using Microsoft.AspNetCore.Mvc;
 using Models;
-using System.Net.Http;
-using Newtonsoft.Json.Linq;
-using System.Net;
-using Newtonsoft.Json;
+using System;
 
 namespace Tests
 {
@@ -25,7 +21,17 @@ namespace Tests
             Assert.Null(tag.TagName);
         }
 
-        // Database
+        [Fact]
+        public void Comment_Object_HasFields()
+        {
+            var comment = new Comment();
+            Assert.Equal(0, comment.Id);
+            Assert.Equal(0, comment.score);
+            Assert.Null(comment.text);
+            Assert.Equal(0, comment.userId);
+        }
+
+        // Database (without Mock)
 
         [Fact]
         public void GetTags_ReturnsAllTags()
@@ -36,7 +42,9 @@ namespace Tests
             Assert.Equal("vb.net", tags.GetByID(1).TagName);
         }
 
-        // Web Service
+        // Web Service (with Mock)
+
+        // GET
 
         [Fact]
         public void GetUser_ValidId_ReturnsOk()
@@ -92,9 +100,10 @@ namespace Tests
 
         }
 
-        // This test fails
+        // POST
+
         [Fact]
-        public void PostAccount_ReturnsOk()
+        public void PostAccount_UpdateWithGivenId_ReturnsOk()
         {
             var dataServiceMock = new Mock<IDataService>();
             dataServiceMock
@@ -112,7 +121,7 @@ namespace Tests
         }
 
         [Fact]
-        public void PostAccount_ReturnsBadRequest()
+        public void PostAccount_Update_ReturnsBadRequest()
         {
             var dataServiceMock = new Mock<IDataService>();
             dataServiceMock
@@ -126,6 +135,86 @@ namespace Tests
             var response = ctrl.Post("{ null }");
 
             Assert.IsType<BadRequestResult>(response);
+
+        }
+
+        [Fact]
+        public void PostAccount_Update_ReturnsOk()
+        {
+            var dataServiceMock = new Mock<IDataService>();
+            dataServiceMock
+                .Setup(o => o.GetAccountRepository())
+                .Returns(new DataAccessLayer.Repository.GenericWritableRepository<Account>(new DatabaseContext()));
+            var urlHelperMock = new Mock<IUrlHelper>();
+
+            var ctrl = new AccountController(dataServiceMock.Object);
+            ctrl.Url = urlHelperMock.Object;
+
+            var response = ctrl.Post("{ \"id\" : 1 ,\"name\" : \"newaccname\", \"creationDate\" : \"2010-10-15T15:30:25\" }");
+
+            Assert.IsType<OkResult>(response);
+
+        }
+
+        // PUT and DELETE
+
+        [Fact]
+        public void PostAccount_CreateAndDelete_ReturnsOk()
+        {
+            var dataServiceMock = new Mock<IDataService>();
+            dataServiceMock
+                .Setup(o => o.GetAccountRepository())
+                .Returns(new DataAccessLayer.Repository.GenericWritableRepository<Account>(new DatabaseContext()));
+            var urlHelperMock = new Mock<IUrlHelper>();
+
+            var ctrl = new AccountController(dataServiceMock.Object);
+            ctrl.Url = urlHelperMock.Object;
+
+            var responseCreate = ctrl.Put("{ \"Name\" : \"Account for Delete\", \"CreationDate\" : \"2017-10-15T15:30:25\" }");
+
+            Assert.IsType<OkObjectResult>(responseCreate);
+
+            var okObjectResult = responseCreate as OkObjectResult;
+            var account = okObjectResult.Value as GenericModel;
+
+            var responseDelete = ctrl.Delete(account.Id);
+
+            Assert.IsType<OkObjectResult>(responseDelete);
+        }
+
+        [Fact]
+        public void PostAccount_Create_ReturnsBadRequest()
+        {
+            var dataServiceMock = new Mock<IDataService>();
+            dataServiceMock
+                .Setup(o => o.GetAccountRepository())
+                .Returns(new DataAccessLayer.Repository.GenericWritableRepository<Account>(new DatabaseContext()));
+            var urlHelperMock = new Mock<IUrlHelper>();
+
+            var ctrl = new AccountController(dataServiceMock.Object);
+            ctrl.Url = urlHelperMock.Object;
+
+            // incorrect json string (therefor BadRequestResult)
+            var response = ctrl.Put("{ null }");
+
+            Assert.IsType<BadRequestResult>(response);
+        }
+
+        [Fact]
+        public void PostAccount_Delete_ReturnsNotFound()
+        {
+            var dataServiceMock = new Mock<IDataService>();
+            dataServiceMock
+                .Setup(o => o.GetAccountRepository())
+                .Returns(new DataAccessLayer.Repository.GenericWritableRepository<Account>(new DatabaseContext()));
+            var urlHelperMock = new Mock<IUrlHelper>();
+
+            var ctrl = new AccountController(dataServiceMock.Object);
+            ctrl.Url = urlHelperMock.Object;
+
+            var response = ctrl.Delete(1000);
+
+            Assert.IsType<NotFoundResult>(response);
 
         }
 
