@@ -19,5 +19,17 @@ namespace WebService.Controllers
         {
             return Ok(_dataService.SearchInPosts(query, questionOnly, numberLimit));
         }
+        
+        [HttpGet("getPostsByUser")]
+        public IActionResult GetPostsByUser(string user = "")
+        {
+            return Ok(_dataService.GetPostsByUser(user));
+        }
+        
+        [HttpGet("getPostsByTag")]
+        public IActionResult GetPostsByTag(string tag = "")
+        {
+            return Ok(_dataService.GetPostsByTag(tag));
+        }
     }
 }

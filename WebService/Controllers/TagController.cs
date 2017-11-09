@@ -15,10 +15,6 @@ namespace WebService.Controllers
         {
         }
         
-        [HttpGet("getPostsByTag")]
-        public IActionResult GetPostsByTag(string tag = "")
-        {
-            return Ok(_dataService.GetPostsByTag(tag));
-        }
+     
     }
 }
