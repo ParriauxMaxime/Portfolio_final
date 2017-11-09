@@ -16,7 +16,10 @@ namespace WebService
 
         private static IWebHost _webHost;
 
-        public static void Main(string[] args)
+        public static void Main(string[] args) {
+            new WebService(args);
+        }
+        public WebService(string[] args)
         {
             _webHost = BuildWebHost(args);
             _webHost.Run();

@@ -49,7 +49,7 @@ namespace DataAccessLayer.Repository
                                     .ToList();
             }
             else {
-                return query.Skip(page*pageSize).Take(pageSize).ToList();
+                return query.Skip(page * pageSize).Take(pageSize - 1).ToList();
             }
 
         }
@@ -74,10 +74,13 @@ namespace DataAccessLayer.Repository
 
         }
 
-        public virtual void Insert(TEntity entity)
+        public virtual int Insert(TEntity entity)
         {
+            int count = dbSet.Count();
+            entity.Id = dbSet.Skip(count - 1).Take(1).ToList()[0].Id + 1;
             dbSet.Add(entity);
             this.context.SaveChanges();
+            return entity.Id;
         }
 
         public virtual void Delete(object id)
@@ -97,15 +100,24 @@ namespace DataAccessLayer.Repository
             this.context.SaveChanges();
         }
 
-        public virtual void Update(TEntity entityToUpdate)
+        public virtual int Update(TEntity entityToUpdate)
         {
+            int code = 200;
             if (context.Entry(entityToUpdate).State == EntityState.Detached) {
                 dbSet.Attach(entityToUpdate);            
+            }
+
+            if (GetByID(entityToUpdate.Id) == null) {
+                dbSet.Add(entityToUpdate);
+                context.Entry(entityToUpdate).State = EntityState.Added;
+                code = 201;
             } 
-            context.Entry(entityToUpdate).State = EntityState.Modified;
+            else {
+                context.Entry(entityToUpdate).State = EntityState.Modified;
+            }
             this.context.SaveChanges();
             context.Entry(entityToUpdate).State = EntityState.Detached;
-            
+            return code;            
         }
     }
 }
