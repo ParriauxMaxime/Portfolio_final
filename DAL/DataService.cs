@@ -96,5 +96,15 @@ namespace DataAccessLayer
         {
             return Procedures.GetPostsByTag(tag);
         }
+
+        public List<int> SearchHistoryForAccount(string user, int limitNumber)
+        {
+            return Procedures.SearchHistoryForAccount(user, limitNumber);
+        }
+        
+        public List<int> SearchQueryHistoryForAccount(string user, int limitNumber)
+        {
+            return Procedures.SearchQueryHistoryForAccount(user, limitNumber);
+        }
     }
 }

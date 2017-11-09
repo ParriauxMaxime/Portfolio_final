@@ -17,7 +17,7 @@ namespace WebService.Controllers
         
         
         [HttpGet("getPostsByUser")]
-        public IActionResult GetPostsByUser(string user)
+        public IActionResult GetPostsByUser(string user = "")
         {
             return Ok(_dataService.GetPostsByUser(user));
         }

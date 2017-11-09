@@ -19,5 +19,7 @@ namespace DataAccessLayer
         List<int> SearchInPosts(string query, int questionOnly, int numberLimit);
         List<int> GetPostsByUser(string user);
         List<int> GetPostsByTag(string tag);
+        List<int> SearchQueryHistoryForAccount(string user, int limitNumber);
+        List<int> SearchHistoryForAccount(string user, int limitNumber);
     }
 }

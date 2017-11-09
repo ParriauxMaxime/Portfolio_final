@@ -14,5 +14,11 @@ namespace WebService.Controllers
         public QueryHistoryController(IDataService dataService) : base(dataService, dataService.GetQueryHistoryRepository())
         {
         }
+
+        [HttpGet("searchQueryHistoryForAccount")]
+        public IActionResult SearchQueryHistoryForAccount(string user = "", int limitNumber = 10)
+        {
+            return Ok(_dataService.SearchQueryHistoryForAccount(user, limitNumber));
+        }
     }
 }

@@ -90,5 +90,61 @@ namespace DataAccessLayer
                 return result;
             }
         }
+        
+        public static List<int> SearchHistoryForAccount(string user, int limitNumber)
+        {
+            using (var db = new DatabaseContext())
+            {
+                var conn = (MySqlConnection) db.Database.GetDbConnection();
+                conn.Open();
+                var cmd = new MySqlCommand();
+                cmd.Connection = conn;
+
+                cmd.Parameters.Add("@1", DbType.String);
+                cmd.Parameters.Add("@2", DbType.Int32);
+
+                cmd.Parameters["@1"].Value = user;
+                cmd.Parameters["@2"].Value = limitNumber;
+
+                cmd.CommandText = "call searchHistoryForAccount(@1, @2)";
+
+                var reader = cmd.ExecuteReader();
+
+                var result = new List<int>();
+                while (reader.Read())
+                {
+                    result.Add(reader.GetInt32(0));
+                }
+                return result;
+            }
+        }
+        
+        public static List<int> SearchQueryHistoryForAccount(string user, int limitNumber)
+        {
+            using (var db = new DatabaseContext())
+            {
+                var conn = (MySqlConnection) db.Database.GetDbConnection();
+                conn.Open();
+                var cmd = new MySqlCommand();
+                cmd.Connection = conn;
+
+                cmd.Parameters.Add("@1", DbType.String);
+                cmd.Parameters.Add("@2", DbType.Int32);
+
+                cmd.Parameters["@1"].Value = user;
+                cmd.Parameters["@2"].Value = limitNumber;
+
+                cmd.CommandText = "call searchQueryHistoryForAccount(@1, @2)";
+
+                var reader = cmd.ExecuteReader();
+
+                var result = new List<int>();
+                while (reader.Read())
+                {
+                    result.Add(reader.GetInt32(0));
+                }
+                return result;
+            }
+        }
     }
 }
