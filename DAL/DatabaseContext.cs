@@ -35,7 +35,7 @@ namespace DataAccessLayer
             modelBuilder.Entity<LinkPost>().ToTable("linkPosts");
             modelBuilder.Entity<LTagsPost>().ToTable("l_tags_posts");
             modelBuilder.Entity<Post>().ToTable("l_posts");
-            modelBuilder.Entity<PostType>().ToTable("postType");
+            modelBuilder.Entity<PostType>().ToTable("postTypeId");
             modelBuilder.Entity<QueryHistory>().ToTable("queryHistory");
             modelBuilder.Entity<Tag>().ToTable("tags").Property(p => p.TagName).HasColumnName("tag");
             modelBuilder.Entity<User>().ToTable("users");
