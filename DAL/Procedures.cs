@@ -76,7 +76,7 @@ namespace DataAccessLayer
 
                 cmd.Parameters.Add("@1", DbType.String);
 
-                cmd.Parameters["@1"].Value = user;
+                cmd.Parameters["@1"].Value = tag;
 
                 cmd.CommandText = "call getPostsByTag(@1)";
 
