@@ -14,5 +14,12 @@ namespace WebService.Controllers
         public UserController(IDataService dataService) : base(dataService, dataService.GetUserRepository())
         {
         }
+        
+        
+        [HttpGet("getPostsByUser")]
+        public IActionResult GetPostsByUser(string user)
+        {
+            return Ok(_dataService.GetPostsByUser(user));
+        }
     }
 }

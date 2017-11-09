@@ -86,5 +86,15 @@ namespace DataAccessLayer
         public List<int> SearchInPosts(string query, int questionOnly, int numberLimit) {
             return Procedures.SearchInPosts(query, questionOnly, numberLimit);
         }
+
+        public List<int> GetPostsByUser(string user)
+        {
+            return Procedures.GetPostsByUser(user);
+        }
+
+        public List<int> GetPostsByTag(string tag)
+        {
+            return Procedures.GetPostsByTag(tag);
+        }
     }
 }

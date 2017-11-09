@@ -17,5 +17,7 @@ namespace DataAccessLayer
         GenericReadableRepository<Tag> GetTagRepository();
         GenericReadableRepository<User> GetUserRepository();
         List<int> SearchInPosts(string query, int questionOnly, int numberLimit);
+        List<int> GetPostsByUser(string user);
+        List<int> GetPostsByTag(string tag);
     }
 }

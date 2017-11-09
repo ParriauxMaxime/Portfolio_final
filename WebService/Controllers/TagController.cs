@@ -14,5 +14,11 @@ namespace WebService.Controllers
         public TagController(IDataService dataService) : base(dataService, dataService.GetTagRepository())
         {
         }
+        
+        [HttpGet("getPostsByTag")]
+        public IActionResult GetPostsByTag(string tag)
+        {
+            return Ok(_dataService.GetPostsByTag(tag));
+        }
     }
 }

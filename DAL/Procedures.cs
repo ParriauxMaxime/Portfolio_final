@@ -64,5 +64,31 @@ namespace DataAccessLayer
                 return result;
             }
         }
+        
+        public static List<int> GetPostsByTag(string tag)
+        {
+            using (var db = new DatabaseContext())
+            {
+                var conn = (MySqlConnection) db.Database.GetDbConnection();
+                conn.Open();
+                var cmd = new MySqlCommand();
+                cmd.Connection = conn;
+
+                cmd.Parameters.Add("@1", DbType.String);
+
+                cmd.Parameters["@1"].Value = user;
+
+                cmd.CommandText = "call getPostsByTag(@1)";
+
+                var reader = cmd.ExecuteReader();
+
+                var result = new List<int>();
+                while (reader.Read())
+                {
+                    result.Add(reader.GetInt32(0));
+                }
+                return result;
+            }
+        }
     }
 }
