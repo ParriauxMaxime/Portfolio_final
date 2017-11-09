@@ -41,8 +41,15 @@ namespace WebService.Controllers
         }
 
         private string createUrl(int? id = null, int? page = null, int? pageSize = null) {
-            var host = Request.Host.ToUriComponent();
-            var controller = this.ControllerContext.RouteData?.Values["controller"].ToString().ToLower();
+            var host = "";
+            if (Request == null) // It's null while Unit Testing...
+            {
+                host = "localhost:5001";
+            } else
+            {
+                host = Request.Host.ToUriComponent();
+            }
+            var controller = ControllerContext.RouteData?.Values["controller"].ToString().ToLower();
             var url = "http://" + host + "/api/" + controller;
             if (id == null) {
                 if (page < 0) {

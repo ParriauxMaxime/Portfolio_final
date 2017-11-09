@@ -13,18 +13,20 @@ namespace WebService
 {
     public class WebService
     {
-        private IWebHost _webHost;
-        public WebService(string[] args)
+
+        private static IWebHost _webHost;
+
+        public static void Main(string[] args)
         {
-            this._webHost = BuildWebHost(args);
-            this._webHost.Run();
+            _webHost = BuildWebHost(args);
+            _webHost.Run();
         }
 
         //Build Server, See Startup.cs
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
-                .UseUrls("http://localhost:5001")
+                //.UseUrls("http://localhost:5001")
                 .Build();
     }
 }
