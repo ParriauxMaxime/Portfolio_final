@@ -15,8 +15,8 @@ namespace DataAccessLayer
         {
             base.OnConfiguring(optionsBuilder);
             //We just say to Entity to get the stuff from the MySql database with a string connection
-            string connection = "server=localhost;database=stackoverflow_sample_universal;uid=stackoverflow;pwd=password";
-            //string connection = "server=wt-220@ruc.dk;database=raw3;uid=raw3;pwd=raw3";
+            //string connection = "server=localhost;database=stackoverflow_sample_universal;uid=stackoverflow;pwd=password";
+            string connection = "server=wt-220.ruc.dk;database=raw3;uid=raw3;pwd=raw3";
             try {
                 optionsBuilder.UseMySql(connection);            
             }
@@ -32,7 +32,7 @@ namespace DataAccessLayer
             modelBuilder.Entity<Account>().ToTable("accounts");
             modelBuilder.Entity<Comment>().ToTable("l_comments");
             modelBuilder.Entity<History>().ToTable("history");
-            modelBuilder.Entity<LinkPost>().ToTable("linkPosts").Property(p => p.Id).HasColumnName("TypeId");
+            modelBuilder.Entity<LinkPost>().ToTable("linkPosts");
             modelBuilder.Entity<LTagsPost>().ToTable("l_tags_posts");
             modelBuilder.Entity<Post>().ToTable("l_posts");
             modelBuilder.Entity<PostType>().ToTable("postType");
