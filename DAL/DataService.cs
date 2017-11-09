@@ -82,6 +82,9 @@ namespace DataAccessLayer
             //At some point, you should read Models/User.cs
             return this.userRepository;
         }
-        
+
+        public List<int> SearchInPosts(string query, int questionOnly, int numberLimit) {
+            return Procedures.SearchInPosts(query, questionOnly, numberLimit);
+        }
     }
 }

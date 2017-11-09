@@ -16,5 +16,6 @@ namespace DataAccessLayer
         GenericWritableRepository<QueryHistory> GetQueryHistoryRepository();
         GenericReadableRepository<Tag> GetTagRepository();
         GenericReadableRepository<User> GetUserRepository();
+        List<int> SearchInPosts(string query, int questionOnly, int numberLimit);
     }
 }

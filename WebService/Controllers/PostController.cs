@@ -13,5 +13,11 @@ namespace WebService.Controllers
     {
         public PostController(IDataService dataService) : base(dataService, dataService.GetPostRepository()) {
         }
+
+        [HttpGet("searchInPosts")]
+        public IActionResult SearchInPosts(string query = "", int questionOnly = 0, int numberLimit = 10)
+        {
+            return Ok(_dataService.SearchInPosts(query, questionOnly, numberLimit));
+        }
     }
 }
