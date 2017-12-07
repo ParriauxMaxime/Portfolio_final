@@ -46,6 +46,7 @@ namespace WebService
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseFileServer();
             app.UseMvc();
         }
     }

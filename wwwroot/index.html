@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Bower Example</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="./styles.css">
+    <script data-main="scripts/main" src="scripts/require.js"></script>
+</head>
+
+<body class="flex full">
+    <header class="flex fw">
+        <h1>Knockout exercise !</h1>
+    </header>
+    <main class="flex">
+        <div class="container">
+            <div data-bind="template: { name: 'navigation-template' }"></div>
+            <div data-bind="template: { name: 'posts-template' }"></div>
+        </div>
+        <div class="container">
+            <div data-bind="template: { name: 'post-template' }"></div>
+        </div>
+    </main>
+    <footer class="flex fw">
+        <p>Footer</p>
+    </footer>
+</body>
+
+
+<script type="text/html" id="navigation-template">
+    <section class="navigation flex fw">
+        <div id="prev-link">
+            <button type="button" class="btn btn-outline-secondary" data-bind="click: clickPrev, enable: prev">
+                Previous
+            </button>
+        </div>
+        <div id="info-navigation">
+            <div>
+                <span data-bind="text: total"></span>
+                <span>posts found</span>
+            </div>
+            <div>
+                <span>Pages: </span>
+                <span data-bind="text: page"></span>
+                <span> / </span>
+                <span data-bind="text: pages"></span>
+            </div>
+            <div class="form-group">
+                <label for="pageSize">pageSize : </label>
+                <input id="PageSize" data-bind="value: pageSize" type="number" class="form-control" id="pageSize">
+            </div>
+        </div>
+        <div id="next-link">
+            <button type="button" class="btn btn-outline-secondary" data-bind="click: clickNext, enable: next">
+                Next
+            </button>
+        </div>
+    </section>
+</script>
+
+<script type="text/html" id="posts-template">
+    <section id="PostList">
+        <ul data-bind="foreach: posts()">
+            <li>
+                <a data-bind="text: data.body, attr: { href: url, title: data.body }, click: () => $parent.clickPost(url)"></a>
+                <br/>
+            </li>
+        </ul>
+    </section>
+</script>
+
+<script type="text/html" id="answers-template">
+    <section id="Answer">
+        <h4>Answers</h4>
+        <div data-bind="if: answersFetched() !== []">
+            <ul data-bind="foreach: answersFetched()">
+                <li class="AnswerDetail">
+                    <hr/>
+                    <code data-bind="text: creationDate"></code>
+                    <br/>
+                    <section data-bind="html: body"></section>
+                    <br/>
+                    <section data-bind="text: 'Score : ' + score">
+                    </section>
+                    <a data-bind="text: 'Link', attr: {href: link}">
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </section>
+</script>
+
+<script type="text/html" id="post-template">
+    <section id="PostDetail">
+        <div data-bind="if: postFetched() !== null">
+            <h3 data-bind="text: postFetched().title"></h3>
+            <br/>
+            <code data-bind="text: postFetched().creationDate"></code>
+            <br/>
+            <code data-bind="html: postFetched().body"></code>
+            <br/>
+            <section data-bind="text: 'Score : ' + postFetched().score">
+            </section>
+            <a data-bind="text: 'Link', attr: {href: postFetched().link}">
+            </a>
+            <div data-bind="template: { name: 'answers-template' }"></div>
+            <br/>
+        </div>
+    </section>
+</script>
+
+
+</html>
