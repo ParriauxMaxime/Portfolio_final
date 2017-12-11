@@ -15,11 +15,14 @@ namespace DataAccessLayer
         GenericReadableRepository<PostType> GetPostTypeRepository();
         GenericWritableRepository<QueryHistory> GetQueryHistoryRepository();
         GenericReadableRepository<Tag> GetTagRepository();
+        QuestionRepository GetQuestionRepository();
+        AnswerRepository GetAnswerRepository();
         GenericReadableRepository<User> GetUserRepository();
         List<int> SearchInPosts(string query, int questionOnly, int numberLimit);
         List<int> GetPostsByUser(string user);
         List<int> GetPostsByTag(string tag);
         List<int> SearchQueryHistoryForAccount(string user, int limitNumber);
         List<int> SearchHistoryForAccount(string user, int limitNumber);
+
     }
 }

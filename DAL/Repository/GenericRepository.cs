@@ -44,9 +44,10 @@ namespace DataAccessLayer.Repository
             if (orderBy != null)
             {
                 return orderBy(query)
-                                    .Skip(page * pageSize)
-                                    .Take(pageSize - 1)
-                                    .ToList();
+                        .Distinct()
+                        .Skip(page * pageSize)
+                        .Take(pageSize - 1)
+                        .ToList();
             }
             else {
                 return query.Skip(page * pageSize).Take(pageSize - 1).ToList();

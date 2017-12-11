@@ -17,7 +17,7 @@ namespace WebService.Controllers
     {
         protected readonly IDataService _dataService;
         protected readonly GenericRepository<TEntity> _repository;
-        private int count { get; set; }
+        protected int count { get; set; }
         public class Encapsulation
         {
             public string Url { get; set; }
@@ -42,7 +42,7 @@ namespace WebService.Controllers
             this.count = this._repository.Count();
         }
 
-        private string createUrl(int? id = null, int? page = null, int? pageSize = null)
+        protected string createUrl(int? id = null, int? page = null, int? pageSize = null, string appendix = "")
         {
             var host = "";
             if (Request == null) // It's null while Unit Testing...
@@ -54,7 +54,7 @@ namespace WebService.Controllers
                 host = Request.Host.ToUriComponent();
             }
             var controller = ControllerContext.RouteData?.Values["controller"].ToString().ToLower();
-            var url = "http://" + host + "/api/" + controller;
+            var url = "http://" + host + "/api/" + controller + (appendix != "" ? "/" : "") + appendix;
             if (id == null)
             {
                 if (page < 0)
@@ -106,7 +106,7 @@ namespace WebService.Controllers
             return Ok(result);
         }
 
-        private class Error
+        protected class Error
         {
             public readonly string Description;
             public readonly string Repository;

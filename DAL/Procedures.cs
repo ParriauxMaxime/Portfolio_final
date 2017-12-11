@@ -146,5 +146,47 @@ namespace DataAccessLayer
                 return result;
             }
         }
+
+          public static List<Post> getQuestions(uint page, uint pageSize)
+        {
+            using (var db = new DatabaseContext())
+            {
+                var conn = (MySqlConnection) db.Database.GetDbConnection();
+                conn.Open();
+                var cmd = new MySqlCommand();
+                cmd.Connection = conn;
+
+                cmd.Parameters.Add("@1", DbType.UInt32);
+                cmd.Parameters.Add("@2", DbType.UInt32);
+
+                cmd.Parameters["@1"].Value = page;
+                cmd.Parameters["@2"].Value = pageSize;
+
+                cmd.CommandText = "call getQuestion(@1, @2)";
+
+                var reader = cmd.ExecuteReader();
+
+                var result = new List<Post>();
+                while (reader.Read())
+                {
+                    var post = new Post();
+                    post.Id = reader.GetInt32(0);
+                    try {post.parentId = reader.GetInt32(1);}
+                    catch (Exception) {post.parentId = null;}
+                    try {post.acceptedAnswerId = reader.GetInt32(2);}
+                    catch (Exception) {post.acceptedAnswerId = null;}
+                    post.creationDate = reader.GetDateTime(3);
+                    try {post.closedDate = reader.GetDateTime(4);}
+                    catch (Exception) {post.closedDate = null;}
+                    try {post.title = reader.GetString(5);}
+                    catch (Exception) {post.title = null;}
+                    post.score = reader.GetInt32(6);
+                    post.postTypeId = reader.GetInt32(7);
+                    post.body = reader.GetString(8);
+                    result.Add(post);
+                }
+                return result;
+            }
+        }
     }
 }

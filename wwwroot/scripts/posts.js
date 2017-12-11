@@ -74,7 +74,7 @@ define(['jquery', 'lib/knockout'], function ($, ko) {
     function getPosts(page = Posts.page(), pageSize = Posts.pageSize()) {
         const {protocol, hostname, port} = document.location;
         url = `${protocol}//${hostname}:${port}`
-        url += `/api/post?page=${page}&pageSize=${pageSize}`
+        url += `/api/question?page=${page}&pageSize=${pageSize}`
         fetch(url, {
                 method: "GET"
             })

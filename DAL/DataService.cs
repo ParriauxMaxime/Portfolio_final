@@ -21,6 +21,8 @@ namespace DataAccessLayer
         public GenericReadableRepository<LinkPost> linkPostRepository {get;}
         public GenericReadableRepository<LTagsPost> ltagsPostRepository {get;}
         public GenericReadableRepository<Post> postRepository {get;}
+        public QuestionRepository questionRepository {get;}
+        public AnswerRepository answerRepository {get;}
         public GenericReadableRepository<PostType> postTypeRepository {get;}
         public GenericWritableRepository<QueryHistory> queryHistoryRepository {get;}
         public GenericReadableRepository<Tag> tagRepository {get;}
@@ -35,6 +37,8 @@ namespace DataAccessLayer
             this.linkPostRepository = new GenericReadableRepository<LinkPost>(context);
             this.ltagsPostRepository = new GenericReadableRepository<LTagsPost>(context);
             this.postRepository = new GenericReadableRepository<Post>(context);
+            this.questionRepository = new QuestionRepository(context, this);
+            this.answerRepository = new AnswerRepository(context, this);
             this.postTypeRepository = new GenericReadableRepository<PostType>(context);
             this.queryHistoryRepository = new GenericWritableRepository<QueryHistory>(context);
             this.tagRepository = new GenericReadableRepository<Tag>(context);
@@ -82,6 +86,13 @@ namespace DataAccessLayer
             //At some point, you should read Models/User.cs
             return this.userRepository;
         }
+        public QuestionRepository GetQuestionRepository() {
+            return this.questionRepository;
+        }
+
+        public AnswerRepository GetAnswerRepository() {
+            return this.answerRepository;
+        }
 
         public List<int> SearchInPosts(string query, int questionOnly, int numberLimit) {
             return Procedures.SearchInPosts(query, questionOnly, numberLimit);
@@ -106,5 +117,8 @@ namespace DataAccessLayer
         {
             return Procedures.SearchQueryHistoryForAccount(user, limitNumber);
         }
+
+        
+
     }
 }

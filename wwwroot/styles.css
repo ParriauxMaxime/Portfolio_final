@@ -7,7 +7,7 @@ body {
     flex-direction: column;
     justify-content: space-between;
 }
-
+/*
 header {
     min-height: 100px;
     max-height: 200px;
@@ -16,6 +16,15 @@ header {
     color: white;
     font-weight: bold;
     background-color: rgb(49, 49, 155);
+}
+*/
+
+header {
+    padding: 1em;
+}
+
+#so-logo {
+    max-width: 300px;
 }
 
 .flex {
