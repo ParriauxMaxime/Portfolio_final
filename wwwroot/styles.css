@@ -18,15 +18,11 @@ header {
     background-color: rgb(49, 49, 155);
 }
 */
-
+/*
 header {
     padding: 1em;
 }
-
-#so-logo {
-    max-width: 300px;
-}
-
+*/
 .flex {
     display: flex;
 }

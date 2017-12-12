@@ -1,4 +1,4 @@
-define(['jquery', 'lib/knockout'], function ($, ko) {
+define(['jquery', 'knockout'], function ($, ko) {
     function Post(Id, PostType, ParentId, CreationDate, Score, Body, Title) {
         this.Id = Id;
         this.PostType = PostType;
