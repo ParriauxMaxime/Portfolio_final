@@ -11,8 +11,8 @@
         crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
         crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"
-        integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
+        crossorigin="anonymous">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
         crossorigin="anonymous"></script>
 
@@ -21,8 +21,7 @@
 
 <body class="flex full">
     <div data-bind="template: { name: 'header-template', data: navigation }"></div>
-    <main class="container">
-        <div data-bind="component: navigation.active"></home>
+    <div class="main" data-bind="component: { name: navigation.active, params: {} }">
         <!--div class="container">
             <div data-bind="template: { name: 'paging-template' }"></div>
             <div data-bind="template: { name: 'posts-template' }"></div>
@@ -34,7 +33,7 @@
 </body>
 
 <script type="text/html" id="header-template">
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="#">
             <img id="so-logo" height="42" src="https://cdn.sstatic.net/Sites/stackoverflow/company/img/logos/so/so-logo.png" style="filter: invert()"
             />
@@ -47,18 +46,16 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto" data-bind="foreach: routes">
-                    <li class="nav-item active" data-bind="if: $data !== 'Search'">
+                <li class="nav-item active">
                     <a class="nav-link" data-bind="text: $data, attr: { href: '#' + $data, title: $data }, click: $parent.goTo">
                         <span data-bind="if: $parent.active === $data" class="sr-only">(current)</span>
                     </a>
                 </li>
-                <li data-bind="if: $data === 'Search'">
-                    <form class="form-inline my-2 my-lg-0">
-                            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-success my-2 my-sm-0" type="submit" style="margin-left: auto">Search</button>
-                    </form>
-                </li>
             </ul>
+            <form id="searchForm">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit" style="margin-left: auto">Search</button>
+            </form>
         </div>
     </nav>
 </script>

@@ -8,37 +8,60 @@ requirejs.config({
     }
 })
 
-const routes = ['Home', 'Dashboard', 'Random', 'Favorites', 'Search']
+const routes = ['Home', 'Dashboard', 'Random', 'Favorites']
 
 
 
-define(['knockout'], function(ko) {
-    ko.components.register('Home', {
-        viewModel: { require: 'viewmodels/home' },
-        template: { require: 'text!views/home.html' }
-    });
-
-    ko.components.register('404', {
-        viewModel: () => ({}),
+define(['knockout'], function (ko) {
+    const NotFound = {
+        viewModel: null,
         template: `<div>Sorry, not working for the moment</div>`
-    });
+    };
 
-    function Navigation() {
+    routes.forEach((elem, i) => {
+        const file = elem.toLowerCase();
+        const Component = {
+            viewModel: {
+                require: `viewmodels/${file}`
+            },
+            template: {
+                require: `text!views/${file}.html`
+            }
+        }
+        ko.components.register(elem, Component);
+    })
+
+    ko.components.register('Users', NotFound)
+
+    ko.components.register('NotFound', NotFound);
+
+    function Navigation({
+        location
+    }) {
         this.routes = routes;
-        this.active = ko.observable(this.routes[0]);
-        this.goTo = (e) => {this.active(e); location.assign(`#${e}`); return false;}
+        this.active = ko.observable(location.hash === "" ? 'Home' : location.hash.slice('1'));
+        this.goTo = (e) => {
+            this.active(e);
+            location.assign(`#${e}`);
+            return false;
+        }
     }
 
     function App() {
-        this.navigation = new Navigation();
+        this.navigation = new Navigation({
+            location
+        });
         window.onhashchange = () => {
             const hash = location.hash.slice(1);
             console.log("New location:", hash)
-            this.navigation.active(hash)
+            if (routes.indexOf(hash) < 0) {
+                this.navigation.active("NotFound");
+            } else {
+                this.navigation.active(hash)
+            }
         };
-        //this.Home = new Home();
     };
-    
+
     ko.applyBindings(new App());
 })
 

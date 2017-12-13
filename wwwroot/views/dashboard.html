@@ -1,3 +1,62 @@
-<div>
-    hello world
+<div class="container-fluid" style="background-color: #e9ecef" id="Dashboard">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-lg-6">
+                <div data-bind="template: { name: 'template-users' }"></div>
+            </div>
+            <div class="col-12 col-lg-6">
+                <div data-bind="template: { name: 'template-best-posts' }"></div>
+            </div>
+            <div class="col-12 col-lg-6">
+                <div data-bind="template: { name: 'template-charts' }"></div>
+            </div>
+            <div class="col-12 col-lg-6">
+                <div data-bind="template: { name: 'template-history' }"></div>
+            </div>
+        </div>
+    </div>
 </div>
+
+<script type="text/html" id="template-users">
+    <div class="card">
+        <div class="card-header">
+            Users
+        </div>
+        <div class="card-body">
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Neque voluptatem nihil velit cumque qui atque, eligendi natus ipsa aliquam non in molestiae aliquid mollitia perspiciatis sequi doloribus asperiores explicabo provident.
+        </div>
+    </div>
+</script>
+
+<script type="text/html" id="template-best-posts">
+    <div class="card">
+            <div class="card-header">
+                Top score
+            </div>
+            <div class="card-body">
+                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Neque voluptatem nihil velit cumque qui atque, eligendi natus ipsa aliquam non in molestiae aliquid mollitia perspiciatis sequi doloribus asperiores explicabo provident.
+            </div>
+        </div>
+</script>
+
+<script type="text/html" id="template-charts">
+    <div class="card">
+            <div class="card-header">
+                Charts
+            </div>
+            <div class="card-body">
+                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Neque voluptatem nihil velit cumque qui atque, eligendi natus ipsa aliquam non in molestiae aliquid mollitia perspiciatis sequi doloribus asperiores explicabo provident.
+            </div>
+        </div>
+</script>
+
+<script type="text/html" id="template-history">
+    <div class="card">
+            <div class="card-header">
+                History
+            </div>
+            <div class="card-body">
+                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Neque voluptatem nihil velit cumque qui atque, eligendi natus ipsa aliquam non in molestiae aliquid mollitia perspiciatis sequi doloribus asperiores explicabo provident.
+            </div>
+        </div>
+</script>
