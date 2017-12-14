@@ -18,7 +18,7 @@ namespace WebService.Controllers
         [HttpGet("searchQueryHistoryForAccount")]
         public IActionResult SearchQueryHistoryForAccount(string user = "", int limitNumber = 10)
         {
-            return Ok(_dataService.SearchQueryHistoryForAccount(user, limitNumber));
+            return Ok(_dataService.GetProcedures().SearchQueryHistoryForAccount(user, limitNumber));
         }
     }
 }

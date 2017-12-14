@@ -7,7 +7,7 @@ namespace DataAccessLayer
     {
         //The IDataService interface must provide a way to getRepository linked to a Table
         GenericWritableRepository<Account> GetAccountRepository();
-        GenericReadableRepository<Comment> GetCommentRepository();
+        CommentRepository GetCommentRepository();
         GenericWritableRepository<History> GetHistoryRepository();
         GenericReadableRepository<LinkPost> GetLinkPostRepository();
         GenericReadableRepository<LTagsPost> GetLTagsPostRepository();
@@ -18,11 +18,6 @@ namespace DataAccessLayer
         QuestionRepository GetQuestionRepository();
         AnswerRepository GetAnswerRepository();
         GenericReadableRepository<User> GetUserRepository();
-        List<int> SearchInPosts(string query, int questionOnly, int numberLimit);
-        List<int> GetPostsByUser(string user);
-        List<int> GetPostsByTag(string tag);
-        List<int> SearchQueryHistoryForAccount(string user, int limitNumber);
-        List<int> SearchHistoryForAccount(string user, int limitNumber);
-
+        Procedures GetProcedures();
     }
 }

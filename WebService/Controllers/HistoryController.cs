@@ -20,7 +20,7 @@ namespace WebService.Controllers
         [HttpGet("searchHistoryForAccount")]
         public IActionResult SearchHistoryForAccount(string user = "", int limitNumber = 10)
         {
-            return Ok(_dataService.SearchHistoryForAccount(user, limitNumber));
+            return Ok(_dataService.GetProcedures().SearchHistoryForAccount(user, limitNumber));
         }
     }
 }

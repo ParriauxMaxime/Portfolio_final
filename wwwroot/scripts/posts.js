@@ -76,13 +76,13 @@ define(['jquery', 'knockout'], function ($, ko) {
         url = `${protocol}//${hostname}:${port}`
         url += `/api/question?page=${page}&pageSize=${pageSize}`
         fetch(url, {
-                method: "GET"
-            })
-            .then(response => response.json())
-            .then(response => {
-                updatePosts(page, pageSize, response)
-            })
-            .catch(error => console.error(error))
+            method: "GET"
+        })
+        .then(response => response.json())
+        .then(response => {
+            updatePosts(page, pageSize, response)
+        })
+        .catch(error => console.error(error))
     }
 
 

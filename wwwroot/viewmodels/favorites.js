@@ -3,5 +3,5 @@ define(['jquery', 'knockout'], function ($, ko) {
 
     }
 
-    return Favorites;
+    return Favorites ;
 })
