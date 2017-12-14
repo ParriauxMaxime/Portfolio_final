@@ -10,7 +10,10 @@ requirejs.config({
 
 const routes = ['Home', 'Dashboard', 'Random', 'Favorites']
 
-
+// TODO: this is supposed to navigate to the search part
+const search = function(formElement) {
+    console.log(formElement);
+}
 
 define(['knockout'], function (ko) {
     const NotFound = {
@@ -18,7 +21,7 @@ define(['knockout'], function (ko) {
         template: `<div>Sorry, not working for the moment</div>`
     };
 
-    routes.forEach((elem, i) => {
+    [...routes, 'Search'].forEach((elem, i) => {
         const file = elem.toLowerCase();
         const Component = {
             viewModel: {
@@ -54,7 +57,7 @@ define(['knockout'], function (ko) {
         window.onhashchange = () => {
             const hash = location.hash.slice(1);
             console.log("New location:", hash)
-            if (routes.indexOf(hash) < 0) {
+            if (hash !== 'Search' && routes.indexOf(hash) < 0) {
                 this.navigation.active("NotFound");
             } else {
                 this.navigation.active(hash)
