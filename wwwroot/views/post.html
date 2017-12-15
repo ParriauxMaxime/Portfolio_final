@@ -3,7 +3,7 @@
     <div class="container">
         <div class="row">
             <div class="col-10 order-2 col-sm-12 order-sm-1">
-                <h1 class="display-3 title" data-bind="text: post().title"></h1>
+              <a class="display-3 title" data-bind="text: post().title, click: goToQuestion"></a>
             </div>
             <div class="col-12 order-3 order-sm-1">
                 <hr />
@@ -23,7 +23,12 @@
             </div>
             <!--body-->
             <div class="col-12 col-sm-8 order-3">
+                <!-- ko if: post().lightView -->
+                <p data-bind="html: post().lightBody" />
+                <!-- /ko -->
+                <!-- ko if: !post().lightView -->
                 <p data-bind="html: post().body" />
+                <!-- /ko -->
             </div>
             <!--tag-->
             <div class="col-6 offset-sm-1 col-sm-8 order-5">
