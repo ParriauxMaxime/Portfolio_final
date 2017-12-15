@@ -1,11 +1,11 @@
-define(['./api', 'jquery', 'knockout'], function (api, $, ko) {
+define(['api', 'jquery', 'knockout'], function (api, $, ko) {
   function Question(props) {
       this.question = ko.observable({});
       this.answers = ko.observableArray([]);
       this.updateQuestion = () => {
-          let postId = +window.location.hash.substring(1);
-
-          if (postId === NaN) return;
+          let hash = window.location.hash.substring(1).split('/');
+          if (hash.length !== 2) return;
+          let postId = hash[1];
 
           api.getPostById(postId, e => {
             this.question(e.data);

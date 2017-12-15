@@ -85,7 +85,7 @@ define(['api', 'jquery', 'knockout'], function (api, $, ko) {
         // Gets Post object from post.js
         this.goToQuestion = (post) => {
             let postId = post.post().id; // this is the Post() object, it has a post property
-            document.location.assign(`#Question/postId`);
+            document.location.assign(`#Question/${postId}`);
         }
     }
 
