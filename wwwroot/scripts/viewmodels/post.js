@@ -31,7 +31,7 @@ define(['api', 'jquery', 'knockout'], function (api, $, ko) {
         this.numberComments = ko.computed(() => this.comments().length)
 
         this.updatePost = () => {
-            api.getTagforPost(this.post().id, (e) => {
+            false && api.getTagforPost(this.post().id, (e) => {
                 this.tags(e)
             })
             api.getUserById(this.post().userId, e => {
@@ -39,7 +39,7 @@ define(['api', 'jquery', 'knockout'], function (api, $, ko) {
             })
 
             // Don't load comments in search view
-            if (!this.lightView) {
+            if (false && !this.lightView) {
                 api.getCommentsForPost(this.post().id, e => {
                     const userIdArray = e.map(e => e.userId);
                     const t = (c) => c.map(e => ({
