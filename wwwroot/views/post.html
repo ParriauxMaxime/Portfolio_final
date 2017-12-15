@@ -53,7 +53,11 @@
                     <h5 class="display-5">Comments</h3>
                         <button type="button" class="btn btn-link" data-bind="click: changeComment()">
                             See all
+<<<<<<< HEAD
                             <span data-bind="text: numberComments()" /> comments
+=======
+                            <span data-bind="text: comments().lenght" /> comments
+>>>>>>> 88d9467... maybe working
                         </button>
                         <div class="container comments" data-bind="template: { name: 'comment-template', foreach: !condensedComment() ? commentsShowed : comments }"
                         />
@@ -73,8 +77,13 @@
 
         </div>
         <!--text-->
+<<<<<<< HEAD
         <div class="col-7 flex align-items-center">
             <div class="comment-body" data-bind="text: displayText()" />
+=======
+        <div class="col-7">
+            <p data-bind="text: displayText" />
+>>>>>>> 88d9467... maybe working
         </div>
         <!--user-->
         <div class="d-none d-md-block col-4 container-fluid">

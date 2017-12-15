@@ -65,7 +65,11 @@ body {
 }
 
 .container.comments>.row>div {
+<<<<<<< HEAD
     font-size: 0.6em;
+=======
+    font-size: 0.7rem;
+>>>>>>> 88d9467... maybe working
     word-break: break-word;
     max-height: inherit;
 }
