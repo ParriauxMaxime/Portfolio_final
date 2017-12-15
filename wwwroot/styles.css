@@ -310,3 +310,49 @@ footer {
 footer>p {
     color: white;
 }
+
+
+.center-auto {
+    position: absolute;
+    margin: auto;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+/* loading animation */
+.loading {
+  animation: loadingAnim 1.25s infinite;
+  outline: 1px solid transparent;
+  width: 20vmin;
+  height: 20vmin;
+}
+
+#smallBox {
+    height: 20vmin;
+    width: 20vmin;
+    background-color: rgba(11, 127, 220, 0.3);
+    position: fixed;
+    z-index: 1;
+    outline: 1px solid transparent;
+    animation: smallBoxAnim 1.25s alternate infinite ease-in-out;
+  }
+
+#largeBox {
+    height: 20vmin;
+    width: 20vmin;
+    background-color: rgba(11, 127, 220, 0.1);
+    outline: 1px solid transparent;
+    position: fixed;
+  }
+
+@keyframes smallBoxAnim {
+  0% {transform: scale(0.0);}
+  100% {transform: scale(0.75);}
+}
+
+@keyframes loadingAnim {
+  0% {transform: rotate(0deg);}
+  100% {transform: rotate(90deg);}
+}
