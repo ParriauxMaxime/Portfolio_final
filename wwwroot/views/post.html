@@ -53,7 +53,7 @@
                     <h5 class="display-5">Comments</h3>
                         <button type="button" class="btn btn-link" data-bind="click: changeComment()">
                             See all
-                            <span data-bind="text: comments().lenght" /> comments
+                            <span data-bind="text: numberComments()" /> comments
                         </button>
                         <div class="container comments" data-bind="template: { name: 'comment-template', foreach: !condensedComment() ? commentsShowed : comments }"
                         />
@@ -67,22 +67,33 @@
 </div>
 
 <script type="text/html" id="comment-template">
-    <div class="row align-items-center">
+    <div class="row align-items-center comment justify-content-center">
         <!--score-->
         <div class="col-1" data-bind="text: score">
 
         </div>
         <!--text-->
-        <div class="col-7">
-            <p data-bind="text: displayText" />
+        <div class="col-7 flex align-items-center">
+            <div class="comment-body" data-bind="text: displayText()" />
         </div>
         <!--user-->
-        <div class="col-2" data-bind="if: $data.hasOwnProperty('user')">
-            <a data-bind="text: user.data.displayName, attr: { href: user.url }" />
-        </div>
-        <!--date-->
-        <div class="col-2" data-bind="text: new Date(creationDate).toLocaleDateString('en-GB')">
+        <div class="d-none d-md-block col-4 container-fluid">
+            <div class="row">
+                <div class="col-6 " data-bind="if: $data.hasOwnProperty('user')">
+                    <a data-bind="text: user.data.displayName, attr: { href: user.url }" />
+                </div>
+                <!--date-->
+                <div class="col-6" data-bind="text: new Date(creationDate).toLocaleDateString('en-GB')">
 
+                </div>
+            </div>
+        </div>
+        <div class="d-md-none col-4">
+            <div data-bind="if: $data.hasOwnProperty('user')">
+                <a data-bind="text: user.data.displayName, attr: { href: user.url }" />
+                <span data-bind="text: new Date(creationDate).toLocaleDateString('en-GB')">
+                </div>
+            </div>
         </div>
     </div>
 </script>

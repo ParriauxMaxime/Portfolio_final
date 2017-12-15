@@ -11,6 +11,7 @@ define(['api', 'jquery', 'knockout'], function (api, $, ko) {
             this.condensedComment(!this.condensedComment()); 
             return false;
         }
+        this.numberComments = ko.computed(() => this.comments().length)
         this.updatePost = () => {
             api.getTagforPost(this.post().id, (e) => {
                 this.tags(e)
@@ -22,19 +23,18 @@ define(['api', 'jquery', 'knockout'], function (api, $, ko) {
                 const userIdArray = e.map(e => e.userId);
                 const t = (c) => c.map(e => ({
                     ...e,
-                    displayText: e.text//() => e.text.lenght > 100 ? e.text.slice(0, 100) + '...' : e.text,
+                    displayText: ko.computed(() => { 
+                        return e.text.length > 100 ? e.text.slice(0, 50) + ' ...' : e.text
+                    }),
                 }));
                 this.comments(t(e));
-                console.log(this.comments());
-                
+                this.numberComments = ko.computed(() => this.comments.length)
                 this.commentsShowed(t(e.slice(0, 3)));                
                 api.getUsersForComments(userIdArray, u => {
                     const userMap = e.map((e, i) => ({
                         ...e,
                         user: u[i]
                     }))
-                    console.log(this.comments());
-                
                     this.comments(t(userMap));
                     this.commentsShowed(t(userMap.slice(0, 3)));
                 })

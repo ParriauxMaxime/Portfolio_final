@@ -57,7 +57,7 @@ define(['knockout', 'api'], function (ko, api) {
         const file = elem.toLowerCase();
         const Component = {
             viewModel: {
-                require: `viewmodels/${file}`
+                require: `scripts/viewmodels/${file}`
             },
             template: {
                 require: `text!views/${file}.html`

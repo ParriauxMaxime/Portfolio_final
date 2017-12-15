@@ -1,4 +1,4 @@
-define(['api', 'post', 'jquery', 'knockout'], function (api, Post, $, ko) {
+define(['api', 'jquery', 'knockout'], function (api, $, ko) {
     function Random(props) {
         this.post = ko.observable({})
         api.getRandomQuestion((e) => {
