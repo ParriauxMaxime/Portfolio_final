@@ -59,6 +59,7 @@ define([], function () {
         getTagforPost,
         getUserById,
         getCommentsForPost,
-        getUsersForComments
+        getUsersForComments,
+        getPostById,
     }
 });

@@ -30,6 +30,7 @@ body {
 }
 
 .container.comments>.row {
+    transition: 0.4ms;
     max-height: 3em;
     text-overflow: ellipsis;
     overflow: hidden;
@@ -45,7 +46,7 @@ body {
 
 .container.comments>.row>div {
     font-size: 0.7rem;
-    word-break: break-all;
+    word-break: break-word;
     max-height: inherit;
 }
 
@@ -78,6 +79,13 @@ button {
     min-width: 100px;
 }
 
+.moreComments {
+    padding-top: 1em;
+}
+
+.moreComments.extended .container.comments > .row {
+    max-height: 100%;
+}
 
 #searchForm>input {
     margin: 0;

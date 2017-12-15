@@ -1,10 +1,16 @@
-define(['./api', 'jquery', 'knockout'], function (api, $, ko) {
+define(['api', 'jquery', 'knockout'], function (api, $, ko) {
     function Post(post) {
+        console.log(post);
         this.post = ko.observable(post)
         this.tags = ko.observableArray([]);
         this.user = ko.observable({})
         this.comments = ko.observableArray([]);
         this.commentsShowed = ko.observableArray([]);
+        this.condensedComment = ko.observable(true);
+        this.changeComment = () => {
+            this.condensedComment(!this.condensedComment()); 
+            return false;
+        }
         this.updatePost = () => {
             api.getTagforPost(this.post().id, (e) => {
                 this.tags(e)
@@ -14,15 +20,23 @@ define(['./api', 'jquery', 'knockout'], function (api, $, ko) {
             })
             api.getCommentsForPost(this.post().id, e => {
                 const userIdArray = e.map(e => e.userId);
-                this.comments(e);
-                this.commentsShowed(e);                
+                const t = (c) => c.map(e => ({
+                    ...e,
+                    displayText: e.text//() => e.text.lenght > 100 ? e.text.slice(0, 100) + '...' : e.text,
+                }));
+                this.comments(t(e));
+                console.log(this.comments());
+                
+                this.commentsShowed(t(e.slice(0, 3)));                
                 api.getUsersForComments(userIdArray, u => {
                     const userMap = e.map((e, i) => ({
                         ...e,
                         user: u[i]
                     }))
-                    this.comments(userMap);
-                    this.commentsShowed(userMap.slice(0, 3));
+                    console.log(this.comments());
+                
+                    this.comments(t(userMap));
+                    this.commentsShowed(t(userMap.slice(0, 3)));
                 })
             })
 

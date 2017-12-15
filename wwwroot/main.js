@@ -2,9 +2,11 @@ requirejs.config({
     baseUrl: '',
     paths: {
         jquery: 'scripts/lib/jquery',
+        api: 'scripts/api',
         bootstrap: 'scripts/lib/bootstrap',
         knockout: 'scripts/lib/knockout',
         text: 'scripts/lib/text',
+        post: 'scripts/viewmodels/post'
     }
 })
 
@@ -15,7 +17,7 @@ const search = function (formElement) {
     console.log(formElement);
 }
 
-define(['knockout'], function (ko) {
+define(['knockout', 'api'], function (ko, api) {
     const NotFound = {
         viewModel: null,
         template: `<div>Sorry, not working for the moment</div>`
@@ -23,14 +25,35 @@ define(['knockout'], function (ko) {
 
     ko.components.register('Post', {
         viewModel: {
-            require: `viewmodels/post`
+            require: 'scripts/viewmodels/post'
         },
         template: {
             require: 'text!views/post.html'
         }
     });
 
-    [ ...routes, 'Search'].forEach((elem, i) => {
+    ko.components.register('PostView', {
+        viewModel: function PostView(props) {
+            this.post = ko.observable({});
+            const [hash, id] = location.hash.slice(1).split('/')
+            if (id) {
+                api.getPostById(id, (e) => {
+                    console.log(e);
+                    this.post(e.data);
+                    return (e);
+                })
+            }
+        },
+        template: `
+            <div class="no-gutters grey-bc min-fh" id="Random">
+            <div data-bind="text: console.log(post())"/>
+            <div data-bind="component: { name: 'Post', params: post() }">        
+            </div>    
+            `
+
+    });
+
+    [...routes, 'Search'].forEach((elem, i) => {
         const file = elem.toLowerCase();
         const Component = {
             viewModel: {
@@ -60,15 +83,34 @@ define(['knockout'], function (ko) {
 
     function App() {
         this.navigation = new Navigation();
-        window.onhashchange = () => {
+        const navigationOG = () => {
             const hash = location.hash.slice(1);
-            console.log("New location:", hash)
-            if (hash !== 'Search' && routes.indexOf(hash) < 0) {
-                this.navigation.active("NotFound");
+            if (routes.indexOf(hash) < 0) {
+                switch (hash.split('/')[0]) {
+                    case 'Search':
+                        {
+                            break;
+                        }
+                    case 'Post':
+                        {
+                            return 'PostView'
+                            break;
+                        }
+                    default:
+                        {
+                            return ("NotFound");
+                            break;
+                        }
+                }
             } else {
-                this.navigation.active(hash)
+                return (hash.split('/')[0])
             }
-        };
+        }
+        this.navigation.active(navigationOG())
+        window.onhashchange = () => {
+            this.navigation.active(navigationOG())
+        }
+
     };
 
     ko.applyBindings(new App());

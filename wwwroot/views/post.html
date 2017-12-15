@@ -49,9 +49,18 @@
             </div>
             <!--comments-->
             <div class="col-12 offset-sm-1 col-sm-8 order-6">
-                <div class="moreComments" data-bind="if: comments.length > commentsShowed.length">
+                <div class="moreComments" data-bind="if: comments().length > 3, css: {'extended': condensedComment() }">
+                    <h5 class="display-5">Comments</h3>
+                        <button type="button" class="btn btn-link" data-bind="click: changeComment()">
+                            See all
+                            <span data-bind="text: comments().lenght" /> comments
+                        </button>
+                        <div class="container comments" data-bind="template: { name: 'comment-template', foreach: !condensedComment() ? commentsShowed : comments }"
+                        />
                 </div>
-                <div class="container comments" data-bind="template: { name: 'comment-template', foreach: commentsShowed }" />
+                <div data-bind="if: comments().length <= 3">
+                    <div class="container comments" data-bind="template: { name: 'comment-template', foreach: comments }" />
+                </div>
             </div>
         </div>
     </div>
@@ -65,7 +74,7 @@
         </div>
         <!--text-->
         <div class="col-7">
-            <p data-bind="html: text" />
+            <p data-bind="text: displayText" />
         </div>
         <!--user-->
         <div class="col-2" data-bind="if: $data.hasOwnProperty('user')">
