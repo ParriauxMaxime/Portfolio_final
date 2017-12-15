@@ -53,6 +53,29 @@ define([], function () {
             }).catch(e => console.error(e));
     }
 
+    function getSearchResults(query, questionOnly = true, cb) {
+        let url = base + `/api/post/searchInPosts?questionOnly=${+questionOnly}&query=${query}`
+        return jfetch(url, null, cb);
+    }
+
+    function getPostsByIds(postIds, cb) {
+        return Promise.all(postIds.map(e => getPostById(e)))
+            .then(e => {
+                cb(e);
+                return e;
+            }).catch(e => console.error(e));
+    }
+
+    function getSearchQuery() {
+        let query = document.querySelector('#searchForm > #query').value;
+        return query;
+    }
+
+    function getAnswersToPost(postId, cb) {
+        let url = base + `/api/post/parentId/${postId}`
+        return jfetch(url, null, cb);
+    }
+
     return {
         jfetch,
         getRandomQuestion,
@@ -60,6 +83,10 @@ define([], function () {
         getUserById,
         getCommentsForPost,
         getUsersForComments,
-        getPostById,
+        getSearchResults,
+        getPostsByIds,
+        getSearchQuery,
+        getAnswersToPost,
+        getPostById
     }
 });

@@ -1,0 +1,11 @@
+<div class="no-gutters grey-bc min-fh" id="Question">
+    <div data-bind="component: { name: 'Post', params: question }">        
+</div>
+<div class="container noOfAnswers">
+  <span data-bind="text: answers().length"></span>
+  <span data-bind="text: answers().length == 1 ? 'Answer' : 'Answers'"></span>
+</div>
+<div class="no-gutters grey-bc min-fh" id="Answers" data-bind='foreach: answers()'>
+    <div data-bind="component: { name: 'Post', params: $data.data }">        
+</div>
+

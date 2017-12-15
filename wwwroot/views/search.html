@@ -1,3 +1,12 @@
-<div>
-    hello world
+<div class="no-gutters grey-bc min-fh" id="Search">
+    <div data-bind="if: loading()">
+        <div class='loading center-auto'>
+            <div id='largeBox'/>
+            <div id='smallBox'/>  
+        </div>
+    </div>
+    <div data-bind="foreach: searchResults()">
+        <div data-bind="component: { name: 'Post', params: $data.data }">
+    </div>    
 </div>
+
