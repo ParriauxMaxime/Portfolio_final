@@ -356,3 +356,11 @@ footer>p {
   0% {transform: rotate(0deg);}
   100% {transform: rotate(90deg);}
 }
+
+.title {
+    cursor: pointer;
+    transition: ease-in 0.3s;
+}
+.title:hover {
+    color: #007bff !important;
+}
