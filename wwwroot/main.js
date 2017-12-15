@@ -11,7 +11,7 @@ requirejs.config({
 const routes = ['Home', 'Dashboard', 'Random', 'Favorites']
 
 // TODO: this is supposed to navigate to the search part
-const search = function(formElement) {
+const search = function (formElement) {
     console.log(formElement);
 }
 
@@ -21,7 +21,16 @@ define(['knockout'], function (ko) {
         template: `<div>Sorry, not working for the moment</div>`
     };
 
-    [...routes, 'Search'].forEach((elem, i) => {
+    ko.components.register('Post', {
+        viewModel: {
+            require: `viewmodels/post`
+        },
+        template: {
+            require: 'text!views/post.html'
+        }
+    });
+
+    [ ...routes, 'Search'].forEach((elem, i) => {
         const file = elem.toLowerCase();
         const Component = {
             viewModel: {
@@ -38,11 +47,10 @@ define(['knockout'], function (ko) {
 
     ko.components.register('NotFound', NotFound);
 
-    function Navigation({
-        location
-    }) {
+    function Navigation() {
         this.routes = routes;
-        this.active = ko.observable(location.hash === "" ? 'Home' : location.hash.slice('1'));
+        const hash = location.hash.slice(1);
+        this.active = ko.observable(hash === "" ? 'Home' : hash);
         this.goTo = (e) => {
             this.active(e);
             location.assign(`#${e}`);
@@ -51,9 +59,7 @@ define(['knockout'], function (ko) {
     }
 
     function App() {
-        this.navigation = new Navigation({
-            location
-        });
+        this.navigation = new Navigation();
         window.onhashchange = () => {
             const hash = location.hash.slice(1);
             console.log("New location:", hash)

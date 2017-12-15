@@ -17,10 +17,7 @@ namespace WebService.Controllers
         [HttpGet("random")]
         public IActionResult getRandom()
         {
-            int count = _dataService.GetQuestionRepository().Count();
-            Random md = new Random();
-            int rand = md.Next(0, count);
-            Post randomPost = _dataService.GetQuestionRepository().Get(0, count).ToList()[rand];
+            Post randomPost = _dataService.GetQuestionRepository().GetRandom().Result;
             return Ok(randomPost);
         }
     }

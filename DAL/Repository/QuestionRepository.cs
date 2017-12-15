@@ -1,5 +1,6 @@
 using System;
 using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
 using System.Data;
@@ -12,7 +13,7 @@ namespace DataAccessLayer.Repository
     {
         DataService ds;
         int count;
-        public QuestionRepository(DatabaseContext context, DataService ds) : base(context)
+        public QuestionRepository(DataService ds)
         {
             this.ds = ds;
             this.count = this.dbSet.Distinct().Where(e => e.postTypeId == 1).Count();
@@ -31,13 +32,19 @@ namespace DataAccessLayer.Repository
             return res;
         }
 
-        public override Post GetByID(object id)
+        public Task<Post> GetRandom()
         {
-            return dbSet.Find(id);
+            Random md = new Random();
+            int rand = md.Next(0, this.count);
+            return this.dbSet.Distinct()
+                        .Where(e => e.postTypeId == 1)            
+                        .OrderBy(o => o.Id)
+                        .Skip(rand)
+                        .Take(1)
+                        .FirstAsync();
         }
-
-
-        public override int Count() {
+        public new int Count()
+        {
             return (this.count);
         }
     }

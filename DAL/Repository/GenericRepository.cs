@@ -2,6 +2,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Data;
 using System.Linq.Expressions;
 using Models;
@@ -14,25 +15,24 @@ namespace DataAccessLayer.Repository
     //Never use that, use GenericReadableRepository or GenericWritableRepository
     public abstract class GenericRepository<TEntity> where TEntity : GenericModel
     {
-        internal DatabaseContext context;
+        internal DatabaseContext context = new DatabaseContext() ;
         internal DbSet<TEntity> dbSet;
 
-        public GenericRepository(DatabaseContext context)
+        public GenericRepository()
         {
-            this.context = context;
-            this.dbSet = context.Set<TEntity>();
+            this.dbSet = this.context.Set<TEntity>();
         }
 
-        public abstract TEntity GetByID(object id);
+        public abstract Task<TEntity> GetByID(object id);
         public abstract IEnumerable<TEntity> Get(int page, int pageSize, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy);
-        public abstract int Count();
+        public abstract Task<int> Count();
     }
 
     //Class for Readable repository creation
     //Provide Get, GetById and Count function on a Repository;
     public class GenericReadableRepository<TEntity> : GenericRepository<TEntity> where TEntity : GenericModel
     {
-        public GenericReadableRepository(DatabaseContext context) : base(context)
+        public GenericReadableRepository()
         {
 
         }
@@ -55,14 +55,14 @@ namespace DataAccessLayer.Repository
 
         }
 
-        public override TEntity GetByID(object id)
+        public override Task<TEntity> GetByID(object id)
         {
-            return dbSet.Find(id);
+            return dbSet.FindAsync(id);
         }
 
-        public override int Count()
+        public override Task<int> Count()
         {
-            return dbSet.Count();
+            return dbSet.CountAsync();
         }
     }
 
@@ -70,7 +70,7 @@ namespace DataAccessLayer.Repository
     //Provide Insert, Update and Delete function on a Repository;
     public class GenericWritableRepository<TEntity> : GenericReadableRepository<TEntity> where TEntity : GenericModel
     {
-        public GenericWritableRepository(DatabaseContext context) : base(context)
+        public GenericWritableRepository()
         {
 
         }

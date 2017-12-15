@@ -30,7 +30,7 @@ body {
 }
 
 .container.comments>.row {
-    max-height: 5em;
+    max-height: 3em;
     text-overflow: ellipsis;
     overflow: hidden;
 }
@@ -45,6 +45,8 @@ body {
 
 .container.comments>.row>div {
     font-size: 0.7rem;
+    word-break: break-all;
+    max-height: inherit;
 }
 
 .container.comments>.row>div:nth-child(1) {
@@ -76,6 +78,7 @@ button {
     min-width: 100px;
 }
 
+
 #searchForm>input {
     margin: 0;
     margin-right: 8px;
@@ -87,6 +90,11 @@ button {
 
 .min-fh {
     min-height: 100%;
+}
+
+div.post > img {
+    max-height: 100%;
+    max-width: 100%;
 }
 
 div.score {

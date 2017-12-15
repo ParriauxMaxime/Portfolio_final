@@ -12,7 +12,7 @@ namespace DataAccessLayer.Repository
     {
         DataService ds;
         int count;
-        public AnswerRepository(DatabaseContext context, DataService ds) : base(context)
+        public AnswerRepository(DataService ds)
         {
             this.ds = ds;
             this.count = this.dbSet.Distinct().Where(e => e.postTypeId == 1).Count();
@@ -31,13 +31,7 @@ namespace DataAccessLayer.Repository
             return res;
         }
 
-        public override Post GetByID(object id)
-        {
-            return dbSet.Find(id);
-        }
-
-
-        public override int Count() {
+        public new int Count() {
             return (this.count);
         }
     }

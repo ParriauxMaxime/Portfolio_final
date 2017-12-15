@@ -11,7 +11,7 @@ namespace DataAccessLayer.Repository
     public class CommentRepository : GenericReadableRepository<Comment>
     {
         DataService ds;
-        public CommentRepository(DatabaseContext context, DataService ds) : base(context)
+        public CommentRepository(DataService ds)
         {
             this.ds = ds;
         }

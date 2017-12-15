@@ -10,11 +10,10 @@ namespace DataAccessLayer
 {
     public class Procedures
     {
-        internal DatabaseContext db;
+        internal DatabaseContext db = new DatabaseContext();
         internal MySqlConnection conn;
-        public Procedures(DatabaseContext db)
+        public Procedures()
         {
-            this.db = db;
             this.conn = conn = (MySqlConnection)db.Database.GetDbConnection();
             if (conn.State == ConnectionState.Closed)
                 conn.Open();
@@ -50,9 +49,6 @@ namespace DataAccessLayer
             var result = new List<string>();
             using (var cmd = new MySqlCommand())
             {
-                Console.WriteLine(db != null);
-                Console.WriteLine(conn != null);
-                Console.WriteLine(cmd != null);
                 cmd.Connection = conn;
                 cmd.Parameters.Add("@1", DbType.Int32);
                 cmd.Parameters["@1"].Value = postId;

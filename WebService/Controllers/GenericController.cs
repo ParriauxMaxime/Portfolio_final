@@ -39,7 +39,7 @@ namespace WebService.Controllers
         {
             this._dataService = dataService;
             this._repository = repository as GenericReadableRepository<TEntity>;
-            this.count = this._repository.Count();
+            this.count = this.Count();
         }
 
         protected string createUrl(int? id = null, int? page = null, int? pageSize = null, string appendix = "")
@@ -120,10 +120,10 @@ namespace WebService.Controllers
         }
         // GET api/[controller]/5
         [HttpGet("{id}.{format?}")]
-        public IActionResult GetByID(int id)
+        public virtual IActionResult GetByID(int id)
         {
             string url = this.ControllerContext.RouteData?.Values["controller"].ToString();
-            TEntity result = _repository.GetByID(id);
+            TEntity result = _repository.GetByID(id).Result;
             if (result == null)
             {
                 return NotFound(new Error(_repository.GetType().ToString(), id));
@@ -133,7 +133,7 @@ namespace WebService.Controllers
 
         public int Count()
         {
-            return _repository.Count();
+            return _repository.Count().Result;
         }
     }
 
@@ -201,7 +201,7 @@ namespace WebService.Controllers
             GenericWritableRepository<TEntity> writableRepository = this._repository as GenericWritableRepository<TEntity>;
             try
             {
-                TEntity result = writableRepository.GetByID(id);
+                TEntity result = writableRepository.GetByID(id).Result;
                 writableRepository.Delete(result);
                 return Ok(result);
             }

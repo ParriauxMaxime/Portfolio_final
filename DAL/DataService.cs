@@ -32,19 +32,19 @@ namespace DataAccessLayer
         public DataService()
         {
             //The constructor must instanciate everyRepository
-            this.accountRepository = new GenericWritableRepository<Account>(context);
-            this.commentRepository = new CommentRepository(context, this);
-            this.historyRepository = new GenericWritableRepository<History>(context);
-            this.linkPostRepository = new GenericReadableRepository<LinkPost>(context);
-            this.ltagsPostRepository = new GenericReadableRepository<LTagsPost>(context);
-            this.postRepository = new GenericReadableRepository<Post>(context);
-            this.questionRepository = new QuestionRepository(context, this);
-            this.answerRepository = new AnswerRepository(context, this);
-            this.postTypeRepository = new GenericReadableRepository<PostType>(context);
-            this.queryHistoryRepository = new GenericWritableRepository<QueryHistory>(context);
-            this.tagRepository = new GenericReadableRepository<Tag>(context);
-            this.userRepository = new GenericReadableRepository<User>(context);
-            this.procedures = new Procedures(context);
+            this.accountRepository = new GenericWritableRepository<Account>();
+            this.commentRepository = new CommentRepository(this);
+            this.historyRepository = new GenericWritableRepository<History>();
+            this.linkPostRepository = new GenericReadableRepository<LinkPost>();
+            this.ltagsPostRepository = new GenericReadableRepository<LTagsPost>();
+            this.postRepository = new GenericReadableRepository<Post>();
+            this.questionRepository = new QuestionRepository(this);
+            this.answerRepository = new AnswerRepository(this);
+            this.postTypeRepository = new GenericReadableRepository<PostType>();
+            this.queryHistoryRepository = new GenericWritableRepository<QueryHistory>();
+            this.tagRepository = new GenericReadableRepository<Tag>();
+            this.userRepository = new GenericReadableRepository<User>();
+            this.procedures = new Procedures();
             //See DAL/GenericRepository.cs for more explanation
         }
         public GenericWritableRepository<Account> GetAccountRepository()
