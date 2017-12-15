@@ -11,7 +11,7 @@ namespace DataAccessLayer
         GenericWritableRepository<History> GetHistoryRepository();
         GenericReadableRepository<LinkPost> GetLinkPostRepository();
         GenericReadableRepository<LTagsPost> GetLTagsPostRepository();
-        GenericReadableRepository<Post> GetPostRepository();
+        PostRepository GetPostRepository();
         GenericReadableRepository<PostType> GetPostTypeRepository();
         GenericWritableRepository<QueryHistory> GetQueryHistoryRepository();
         GenericReadableRepository<Tag> GetTagRepository();

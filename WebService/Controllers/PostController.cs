@@ -33,9 +33,15 @@ namespace WebService.Controllers
         }
         
         [HttpGet("getTagsForPost")]
-        public IActionResult getTagsForPost(int postId)
+        public IActionResult GetTagsForPost(int postId)
         {
             return Ok(_dataService.GetProcedures().getTagsForPost(postId));
+        }
+
+        [HttpGet("parentId/{parentId}")]
+        public IActionResult GetAnswersForPost(int parentId)
+        {
+            return Ok(_dataService.GetPostRepository().GetAnswersToPost(parentId));
         }
     }
 }
