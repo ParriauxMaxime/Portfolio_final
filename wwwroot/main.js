@@ -10,14 +10,10 @@ requirejs.config({
     }
 })
 
-const routes = ['Home', 'Dashboard', 'Random', 'Favorites']
+const routes = ['Home', 'Dashboard', 'Random', 'Favorites'];
+const hiddenPages = ['Search', 'Question'];
 
-// TODO: this is supposed to navigate to the search part
-const search = function (formElement) {
-    console.log(formElement);
-}
-
-define(['knockout', 'api'], function (ko, api) {
+define(['knockout'], function (ko) {
     const NotFound = {
         viewModel: null,
         template: `<div>Sorry, not working for the moment</div>`
@@ -25,35 +21,14 @@ define(['knockout', 'api'], function (ko, api) {
 
     ko.components.register('Post', {
         viewModel: {
-            require: 'scripts/viewmodels/post'
+            require: `scripts/viewmodels/post`
         },
         template: {
             require: 'text!views/post.html'
         }
     });
 
-    ko.components.register('PostView', {
-        viewModel: function PostView(props) {
-            this.post = ko.observable({});
-            const [hash, id] = location.hash.slice(1).split('/')
-            if (id) {
-                api.getPostById(id, (e) => {
-                    console.log(e);
-                    this.post(e.data);
-                    return (e);
-                })
-            }
-        },
-        template: `
-            <div class="no-gutters grey-bc min-fh" id="Random">
-            <div data-bind="text: console.log(post())"/>
-            <div data-bind="component: { name: 'Post', params: post() }">        
-            </div>    
-            `
-
-    });
-
-    [...routes, 'Search'].forEach((elem, i) => {
+    [ ...routes, ...hiddenPages].forEach((elem, i) => {
         const file = elem.toLowerCase();
         const Component = {
             viewModel: {
@@ -79,38 +54,24 @@ define(['knockout', 'api'], function (ko, api) {
             location.assign(`#${e}`);
             return false;
         }
+        this.search = (formElement) => {
+            this.active("Search");
+            // This is needed when we are already in the search page
+            // Otherwise observable doesn't trigger
+            this.active.valueHasMutated();
+        }
     }
 
     function App() {
         this.navigation = new Navigation();
-        const navigationOG = () => {
-            const hash = location.hash.slice(1);
-            if (routes.indexOf(hash) < 0) {
-                switch (hash.split('/')[0]) {
-                    case 'Search':
-                        {
-                            break;
-                        }
-                    case 'Post':
-                        {
-                            return 'PostView'
-                            break;
-                        }
-                    default:
-                        {
-                            return ("NotFound");
-                            break;
-                        }
-                }
-            } else {
-                return (hash.split('/')[0])
-            }
-        }
-        this.navigation.active(navigationOG())
         window.onhashchange = () => {
-            this.navigation.active(navigationOG())
-        }
-
+            const hash = location.hash.slice(1).split('/')[0];
+            if (hiddenPages.indexOf(hash) < 0 && routes.indexOf(hash) < 0) {
+                this.navigation.active("NotFound");
+            } else {
+                this.navigation.active(hash);
+            }
+        };
     };
 
     ko.applyBindings(new App());
