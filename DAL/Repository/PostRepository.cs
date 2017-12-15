@@ -24,6 +24,7 @@ namespace DataAccessLayer.Repository
             var res = query
                 .Distinct()
                 .Where(e => e.parentId == id)
+                .OrderByDescending(e => e.score)
                 .Select(e => e.Id)
                 .ToList();
             return res;
