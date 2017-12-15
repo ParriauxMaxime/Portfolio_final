@@ -15,7 +15,7 @@ namespace DataAccessLayer.Repository
         public AnswerRepository(DataService ds)
         {
             this.ds = ds;
-            this.count = this.dbSet.Distinct().Where(e => e.postTypeId == 1).Count();
+            this.count = this.dbSet.Distinct().Count(e => e.postTypeId == 2);
         }
         public override IEnumerable<Post> Get(int page = 0, int pageSize = 50,
             Func<IQueryable<Post>, IOrderedQueryable<Post>> orderBy = null)
@@ -30,6 +30,7 @@ namespace DataAccessLayer.Repository
                         .ToList();
             return res;
         }
+        
 
         public new int Count() {
             return (this.count);
