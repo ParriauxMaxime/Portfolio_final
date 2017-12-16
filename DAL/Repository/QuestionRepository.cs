@@ -18,7 +18,7 @@ namespace DataAccessLayer.Repository
             this.ds = ds;
             this.count = this.dbSet.Distinct().Where(e => e.postTypeId == 1).Count();
         }
-        public override IEnumerable<Post> Get(int page = 0, int pageSize = 50,
+        public override Task<List<Post>> Get(int page = 0, int pageSize = 50,
             Func<IQueryable<Post>, IOrderedQueryable<Post>> orderBy = null)
         {
             IQueryable<Post> query = this.dbSet;
@@ -28,7 +28,7 @@ namespace DataAccessLayer.Repository
                         .Where(e => e.postTypeId == 1)
                         .Skip(page * pageSize)
                         .Take(pageSize - 1)
-                        .ToList();
+                        .ToListAsync();
             return res;
         }
 

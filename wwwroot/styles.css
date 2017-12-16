@@ -12,13 +12,12 @@ h1.display-3 {
     font-size: 2rem;
 }
 
-
 @media (min-width: 1200px) {
     body {
-        font-size: 1.5rem!important;
+        font-size: 1.1rem!important;
     }
     .container {
-        max-width: 1600px!important;
+        max-width: 1200px!important;
     }
 }
 
@@ -39,7 +38,7 @@ body {
     margin: 1em 0;
 }
 
-.comment > div {
+.comment>div {
     padding: 15px 4px;
     display: flex;
     justify-content: center;
@@ -104,7 +103,7 @@ button {
     padding-top: 1em;
 }
 
-.moreComments.extended .container.comments > .row {
+.moreComments.extended .container.comments>.row {
     max-height: 100%;
 }
 
@@ -121,7 +120,7 @@ button {
     min-height: 100%;
 }
 
-div.post > img {
+div.post>img {
     max-height: 100%;
     max-width: 100%;
 }
@@ -197,8 +196,9 @@ i.material-icons:hover {
         max-height: 300px;
         max-width: -webkit-fill-available;
     }
-    #Random .title {
-        font-size: 2rem;
+    #Random .title,
+    #Search .title {
+        font-size: 2rem!important;
     }
 }
 
@@ -215,9 +215,9 @@ i.material-icons:hover {
     height: 100%;
 }
 
-#Random .title {
+.title {
     line-height: 1em;
-    font-weight: 400;
+    font-weight: 600;
     font-size: 1.5rem;
 }
 
@@ -294,6 +294,20 @@ label {
     padding: 8px
 }
 
+#User > .container {
+    background-color: white;
+    padding-top: 2em;
+}
+
+#Answers div.container.post {
+    padding: 0;
+    margin-bottom: 0;
+}
+
+#User > .container > .row {
+    padding: 1em 0; 
+}    
+
 .form-control {
     margin-left: 8px;
     width: 50px;
@@ -301,20 +315,7 @@ label {
     padding: 0;
 }
 
-footer {
-    height: 100px;
-    background-color: #333333;
-    align-items: center;
-    padding: 8px;
-}
-
-footer>p {
-    color: white;
-}
-
-
 .center-auto {
-    position: absolute;
     margin: auto;
     top: 0;
     right: 0;
@@ -322,45 +323,71 @@ footer>p {
     left: 0;
 }
 
+
 /* loading animation */
+
 .loading {
-  animation: loadingAnim 1.25s infinite;
-  outline: 1px solid transparent;
-  width: 20vmin;
-  height: 20vmin;
+    animation: loadingAnim 1.25s infinite;
+    outline: 1px solid transparent;
+    width: 20vmin;
+    height: 20vmin;
+}
+
+.comment img.avatar-user {
+    width: 2em;
+    height: 2em;
+    border: 1px solid rgba(44, 44, 44, 0.2);
+    box-shadow: 1px 1px 1px 1px rgba(44, 44, 44, 0.5);
+}
+
+
+img.avatar-user {
+    margin-right: 8px;
+    width: 100px;
+    height: 100px;
+    border: 8px solid rgba(44, 44, 44, 0.2);
+    box-shadow: 1px 1px 3px 3px rgba(44, 44, 44, 0.5);
 }
 
 #smallBox {
     height: 20vmin;
     width: 20vmin;
     background-color: rgba(11, 127, 220, 0.3);
-    position: fixed;
     z-index: 1;
     outline: 1px solid transparent;
     animation: smallBoxAnim 1.25s alternate infinite ease-in-out;
-  }
+}
 
 #largeBox {
     height: 20vmin;
     width: 20vmin;
     background-color: rgba(11, 127, 220, 0.1);
     outline: 1px solid transparent;
-    position: fixed;
-  }
+}
 
 @keyframes smallBoxAnim {
-  0% {transform: scale(0.0);}
-  100% {transform: scale(0.75);}
+    0% {
+        transform: scale(0.0);
+    }
+    100% {
+        transform: scale(0.75);
+    }
 }
 
 @keyframes loadingAnim {
-  0% {transform: rotate(0deg);}
-  100% {transform: rotate(90deg);}
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(90deg);
+    }
 }
-.title {
+
+
+/*.title {
     cursor: pointer;
     transition: ease-in 0.3s;
 }
 .title:hover {
     color: #007bff !important;
-}
+}*/

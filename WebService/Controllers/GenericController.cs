@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using DataAccessLayer;
+using System.Net;
 using Models;
 using DataAccessLayer.Repository;
 using Newtonsoft.Json;
@@ -18,6 +19,16 @@ namespace WebService.Controllers
         protected readonly IDataService _dataService;
         protected readonly GenericRepository<TEntity> _repository;
         protected int count { get; set; }
+
+        [HttpGet("fetch")]
+        public IActionResult fetchServer(string url)
+        {
+            using (WebClient client = new WebClient())
+            {
+                string s = client.DownloadString(url);
+                return Ok(s);
+            }
+        }
         public class Encapsulation
         {
             public string Url { get; set; }
@@ -47,6 +58,7 @@ namespace WebService.Controllers
             var host = "";
             if (Request == null) // It's null while Unit Testing...
             {
+                //WTF
                 host = "localhost:5001";
             }
             else
@@ -88,9 +100,10 @@ namespace WebService.Controllers
             {
                 page = 0;
             }
-            List<TEntity> data = _repository.Get(page, pageSize, null) as List<TEntity>;
+            Task<List<TEntity>> data = _repository.Get(page, pageSize, null) as Task<List<TEntity>>;
             List<Encapsulation> tmp = new List<Encapsulation>();
-            data.ForEach(e => {
+            data.Result.ForEach(e =>
+            {
                 tmp.Add(new Encapsulation { Url = createUrl(e.Id), Data = e });
             });
             var result = new ListEncapsulation

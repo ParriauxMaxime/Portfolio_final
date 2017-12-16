@@ -1,6 +1,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Linq;
 using System.Data;
 using System.Linq.Expressions;
@@ -17,7 +18,7 @@ namespace DataAccessLayer.Repository
             this.ds = ds;
             this.count = this.dbSet.Distinct().Count(e => e.postTypeId == 2);
         }
-        public override IEnumerable<Post> Get(int page = 0, int pageSize = 50,
+        public override Task<List<Post>> Get(int page = 0, int pageSize = 50,
             Func<IQueryable<Post>, IOrderedQueryable<Post>> orderBy = null)
         {
             IQueryable<Post> query = this.dbSet;
@@ -27,7 +28,7 @@ namespace DataAccessLayer.Repository
                         .Where(e => e.postTypeId == 2)
                         .Skip(page * pageSize)
                         .Take(pageSize - 1)
-                        .ToList();
+                        .ToListAsync();
             return res;
         }
         

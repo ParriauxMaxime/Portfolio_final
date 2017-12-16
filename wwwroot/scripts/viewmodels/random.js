@@ -1,8 +1,10 @@
 define(['api', 'jquery', 'knockout'], function (api, $, ko) {
     function Random(props) {
-        this.post = ko.observable({})
+        this.loading = ko.observable(true);      
+        this.postId = ko.observable(undefined);
         api.getRandomQuestion((e) => {
-            this.post(e);
+            this.postId(e.id);
+            this.loading(false);            
             return e;
         });
     }

@@ -3,7 +3,12 @@
     <div class="container">
         <div class="row">
             <div class="col-10 order-2 col-sm-12 order-sm-1">
-              <a class="display-3 title" data-bind="text: post().title, click: goToQuestion"></a>
+                <!-- ko if: post().lightView -->
+                <a class="display-3 title" data-bind="attr: { href: '#Post/' + post().id, title: post().title }"></a>
+                <!-- /ko -->
+                <!-- ko if: !post().lightView -->
+                <a class="display-3 title" data-bind="text: post().title"></a>
+                <!-- /ko -->
             </div>
             <div class="col-12 order-3 order-sm-1">
                 <hr />
@@ -44,15 +49,19 @@
                         <span data-bind="text: new Date(post().creationDate).toLocaleDateString('en-GB')" />
                     </b>
                 </div>
-                <div>
+                <div style="margin-bottom: 1em;">
                     By
+                </div>
+                <div>
                     <b data-bind="if: user().data">
-                        <a data-bind="text: user().data.displayName, attr: { href: user().url, title: user().data.displayName }">
-                        </a>
+                        <div data-bind="template: {name: 'user-link', data: {data: user().data, img: authorAvatar()} }">
+
+                        </div>
                     </b>
                 </div>
             </div>
             <!--comments-->
+            <!-- ko if: !post().lightView -->
             <div class="col-12 offset-sm-1 col-sm-8 order-6">
                 <div class="moreComments" data-bind="if: comments().length > 3, css: {'extended': condensedComment() }">
                     <h5 class="display-5">Comments</h3>
@@ -67,6 +76,7 @@
                     <div class="container comments" data-bind="template: { name: 'comment-template', foreach: comments }" />
                 </div>
             </div>
+            <!-- /ko -->
         </div>
     </div>
 </div>
@@ -85,7 +95,7 @@
         <div class="d-none d-md-block col-4 container-fluid">
             <div class="row">
                 <div class="col-6 " data-bind="if: $data.hasOwnProperty('user')">
-                    <a data-bind="text: user.data.displayName, attr: { href: user.url }" />
+                    <div data-bind="template: {name: 'user-link', data: { data: user.data, img: user.data.avatar }}" />
                 </div>
                 <!--date-->
                 <div class="col-6" data-bind="text: new Date(creationDate).toLocaleDateString('en-GB')">
@@ -95,10 +105,16 @@
         </div>
         <div class="d-md-none col-4">
             <div data-bind="if: $data.hasOwnProperty('user')">
-                <a data-bind="text: user.data.displayName, attr: { href: user.url }" />
-                <span data-bind="text: new Date(creationDate).toLocaleDateString('en-GB')">
+                <div data-bind="template: {name: 'user-link', data: {data: user.data, img: user.data.avatar}">
+                    <span data-bind="text: new Date(creationDate).toLocaleDateString('en-GB')" />
                 </div>
             </div>
         </div>
     </div>
+</script>
+
+<script type="text/html" id="user-link">
+    <img class="avatar-user" data-bind="attr: { src: img }" />
+    <a data-bind="text: data.displayName, attr: { href: '#User/' + data.id, title: data.displayName }">
+    </a>
 </script>

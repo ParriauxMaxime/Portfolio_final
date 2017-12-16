@@ -22,7 +22,7 @@ namespace WebService.Controllers
         public IActionResult GetByPost(int id)
         {
             string url = this.ControllerContext.RouteData?.Values["controller"].ToString();
-            IEnumerable<Comment> result = _repository.getByPosts(id);
+            IEnumerable<Comment> result = _repository.getByPosts(id).Result;
             return Ok(result);
         }
     }

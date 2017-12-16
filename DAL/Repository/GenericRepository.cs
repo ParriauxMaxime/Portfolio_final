@@ -24,7 +24,7 @@ namespace DataAccessLayer.Repository
         }
 
         public abstract Task<TEntity> GetByID(object id);
-        public abstract IEnumerable<TEntity> Get(int page, int pageSize, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy);
+        public abstract Task<List<TEntity>> Get(int page, int pageSize, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy);
         public abstract Task<int> Count();
     }
 
@@ -37,7 +37,7 @@ namespace DataAccessLayer.Repository
 
         }
 
-        public override IEnumerable<TEntity> Get(int page = 0, int pageSize = 50,
+        public override Task<List<TEntity>> Get(int page = 0, int pageSize = 50,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null)
         {
             IQueryable<TEntity> query = this.dbSet;
@@ -47,10 +47,10 @@ namespace DataAccessLayer.Repository
                         .Distinct()
                         .Skip(page * pageSize)
                         .Take(pageSize - 1)
-                        .ToList();
+                        .ToListAsync();
             }
             else {
-                return query.Skip(page * pageSize).Take(pageSize - 1).ToList();
+                return query.Skip(page * pageSize).Take(pageSize - 1).ToListAsync();
             }
 
         }

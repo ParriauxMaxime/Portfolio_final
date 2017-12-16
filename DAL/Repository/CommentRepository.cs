@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Data;
+using System.Threading.Tasks;
 using System.Linq.Expressions;
 using Models;
 
@@ -15,14 +16,14 @@ namespace DataAccessLayer.Repository
         {
             this.ds = ds;
         }
-        public IEnumerable<Comment> getByPosts(int id)
+        public Task<List<Comment>> getByPosts(int id)
         {
             IQueryable<Comment> query = this.dbSet;
 
             var res = query
                         .Distinct()
                         .Where(e => e.PostId == id)
-                        .ToList();
+                        .ToListAsync();
                 return res;
         }
     }

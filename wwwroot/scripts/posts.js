@@ -59,7 +59,6 @@ define(['jquery', 'knockout'], function ($, ko) {
     })
 
     function updatePosts(page, pageSize, response) {
-        console.log(response.data);
         Posts.posts(response.data)
         Posts.total(response.total)
         Posts.pages(response.pages - 1)

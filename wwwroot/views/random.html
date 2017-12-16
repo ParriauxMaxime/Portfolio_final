@@ -1,4 +1,13 @@
 <div class="no-gutters grey-bc min-fh" id="Random">
-    <div data-bind="component: { name: 'Post', params: post() }">        
+    <div style="overflow: hidden;" data-bind="if: loading()">
+        <div class='container flex justify-content-center align-items-center loading center-auto'
+            style="min-height: 80vmin;">
+            <div class="flex justify-content-center" id='largeBox'>
+                <div class="flex justify-content-center" id='smallBox' />
+            </div>
+        </div>
+    </div>
+    <!-- ko if: postId() !== undefined -->
+    <div data-bind="component: { name: 'Question', params: {id: postId()} }" />
+    <!-- /ko -->
 </div>
-

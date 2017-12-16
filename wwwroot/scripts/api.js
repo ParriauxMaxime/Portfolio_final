@@ -15,9 +15,9 @@ define([], function () {
         method: "GET"
     }, cb = e => e) {
         return fetch(url, options)
-        .then(response => response.json())
-        .then(response => cb(response))        
-        .catch(error => console.error(error));
+            .then(response => response.json())
+            .then(response => cb(response))
+            .catch(error => console.error(error));
     }
 
     function getPostById(postId, cb) {
@@ -28,6 +28,27 @@ define([], function () {
     function getRandomQuestion(cb) {
         let url = base + `/api/question/random`
         return jfetch(url, null, cb);
+    }
+
+    function fetchServer(urlToFetch, cb) {
+        let url = base + `/api/post/fetch?url=${encodeURI(urlToFetch)}`
+        return fetch(url).then(response => {
+                let str = '';
+                const dec = new TextDecoder("utf-8");
+                const reader = response.body.getReader();
+                return reader.read().then(function t({
+                    done,
+                    value
+                }) {
+                    if (done) {
+                        cb(str)
+                        return str;
+                    }
+                    str += dec.decode(value)
+                    reader.read().then(t);
+                })
+            })
+            .catch(err => console.error(err));
     }
 
     function getTagforPost(postId, cb) {
@@ -87,6 +108,7 @@ define([], function () {
         getPostsByIds,
         getSearchQuery,
         getAnswersToPost,
-        getPostById
+        getPostById,
+        fetchServer
     }
 });

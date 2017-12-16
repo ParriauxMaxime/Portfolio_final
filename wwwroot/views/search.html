@@ -5,8 +5,9 @@
             <div id='smallBox'/>  
         </div>
     </div>
-    <div data-bind="foreach: searchResults()">
-        <div data-bind="component: { name: 'Post', params: $data.data }">
+    <div data-bind="if: !haveResult()">There is no results</div>
+    <div data-bind="foreach: searchResults">
+        <div data-bind="component: { name: 'Post', params: data }">
     </div>    
 </div>
 

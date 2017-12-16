@@ -1,11 +1,19 @@
 <div class="no-gutters grey-bc min-fh" id="Question">
-    <div data-bind="component: { name: 'Post', params: question }">        
+    <div data-bind="component: { name: 'Post', params: question }" />
+    <div class="container noOfAnswers">
+        <h3 class="display-5">
+            <span data-bind="text: answerText()"></span>
+        </h3>
+    </div>
+    <div style="overflow: hidden;" data-bind="if: loadingAnswers()">
+        <div class='container flex justify-content-center loading center-auto'>
+            <div class="flex justify-content-center" id='largeBox'>
+                <div class="flex justify-content-center" id='smallBox' />
+            </div>
+        </div>
+    </div>
+    <div class="no-gutters grey-bc min-fh" id="Answers" data-bind='foreach: answers'>
+        <div data-bind="component: { name: 'Post', params: $data.data }">
+        </div>
+    </div>
 </div>
-<div class="container noOfAnswers">
-  <span data-bind="text: answers().length"></span>
-  <span data-bind="text: answers().length == 1 ? 'Answer' : 'Answers'"></span>
-</div>
-<div class="no-gutters grey-bc min-fh" id="Answers" data-bind='foreach: answers()'>
-    <div data-bind="component: { name: 'Post', params: $data.data }">        
-</div>
-

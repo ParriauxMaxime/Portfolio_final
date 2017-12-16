@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Data;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 using Models;
 
 namespace DataAccessLayer.Repository
@@ -17,7 +18,7 @@ namespace DataAccessLayer.Repository
             this.ds = ds;
         }
 
-        public IEnumerable<int> GetAnswersToPost(int id)
+        public Task<List<int>> GetAnswersToPost(int id)
         {
             var query = this.dbSet;
 
@@ -26,7 +27,7 @@ namespace DataAccessLayer.Repository
                 .Where(e => e.parentId == id)
                 .OrderByDescending(e => e.score)
                 .Select(e => e.Id)
-                .ToList();
+                .ToListAsync();
             return res;
         }
     }

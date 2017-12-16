@@ -11,9 +11,11 @@ requirejs.config({
 })
 
 const routes = ['Home', 'Dashboard', 'Random', 'Favorites'];
-const hiddenPages = ['Search', 'Question'];
+const hiddenPages = ['Search', 'Question', 'User'];
 
-define(['knockout'], function (ko) {
+define(['knockout', 'api'], function (ko, api) {
+    if (location.hash === "")
+        location.assign('#Home');
     const NotFound = {
         viewModel: null,
         template: `<div>Sorry, not working for the moment</div>`
@@ -28,7 +30,34 @@ define(['knockout'], function (ko) {
         }
     });
 
-    [ ...routes, ...hiddenPages].forEach((elem, i) => {
+    ko.components.register('PostView', {
+        viewModel: function PostView(props) {
+            this.post = ko.observable({});
+            const [hash, id] = location.hash.slice(1).split('/')
+            if (id) {
+                api.getPostById(id, (e) => {
+                    this.post(e.data);
+                    return (e);
+                })
+            }
+            else if (props.id) {
+                api.getPostById(props.id, (e) => {
+                    this.post(e.data);
+                    return (e);
+                })
+            }
+            else {
+                location.assign('#Home');
+            }
+        },
+        template: `<div class="no-gutters grey-bc min-fh" id="Random">
+        <div data-bind="component: { name: 'Post', params: post() }">        
+        </div>`
+
+    });
+
+
+    [...hiddenPages,...routes].forEach((elem, i) => {
         const file = elem.toLowerCase();
         const Component = {
             viewModel: {
@@ -54,24 +83,33 @@ define(['knockout'], function (ko) {
             location.assign(`#${e}`);
             return false;
         }
-        this.search = (formElement) => {
-            this.active("Search");
-            // This is needed when we are already in the search page
-            // Otherwise observable doesn't trigger
-            this.active.valueHasMutated();
-        }
     }
 
     function App() {
         this.navigation = new Navigation();
-        window.onhashchange = () => {
+        const navigationOG = () => {
             const hash = location.hash.slice(1).split('/')[0];
-            if (hiddenPages.indexOf(hash) < 0 && routes.indexOf(hash) < 0) {
-                this.navigation.active("NotFound");
+            if ([...routes, ...hiddenPages].indexOf(hash) < 0) {
+                switch (hash) {
+                    case 'Post':
+                        {
+                            return 'PostView'
+                            break;
+                        }
+                    default:
+                        {
+                            return ("NotFound");
+                            break;
+                        }
+                }
             } else {
-                this.navigation.active(hash);
+                return (hash)
             }
-        };
+        }
+        this.navigation.active(navigationOG())
+        window.onhashchange = () => {
+            this.navigation.active(navigationOG())
+        }
     };
 
     ko.applyBindings(new App());
