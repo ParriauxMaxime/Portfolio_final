@@ -194,9 +194,9 @@ namespace DataAccessLayer
 
                     using (var reader = cmd.ExecuteReader())
                     {
-                        if (reader.Read())
+                        while (reader.Read())
                         {
-                            result = reader.GetString(0);
+                            result += reader.GetString(0);
                         }
                     }
                     cmd.Connection.Close();
