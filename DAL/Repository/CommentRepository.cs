@@ -26,5 +26,17 @@ namespace DataAccessLayer.Repository
                         .ToListAsync();
                 return res;
         }
+
+        public Task<List<Comment>> GetByUser(int userId,
+                    Func<IQueryable<Comment>, IOrderedQueryable<Comment>> orderBy = null)
+        {
+            IQueryable<Comment> query = this.dbSet;
+
+            var res = (orderBy != null ? orderBy(query) : query)
+                        .Distinct()
+                        .Where(e => e.userId == userId)
+                        .ToListAsync();
+            return res;
+        }
     }
 }

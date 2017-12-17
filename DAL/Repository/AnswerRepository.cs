@@ -31,8 +31,19 @@ namespace DataAccessLayer.Repository
                         .ToListAsync();
             return res;
         }
-        
 
+        public Task<List<Post>> GetByUser(int userId,
+                    Func<IQueryable<Post>, IOrderedQueryable<Post>> orderBy = null)
+        {
+            IQueryable<Post> query = this.dbSet;
+
+            var res = (orderBy != null ? orderBy(query) : query)
+                        .Distinct()
+                        .Where(e => e.postTypeId == 2 && e.userId == userId)
+                        .ToListAsync();
+            return res;
+        }
+        
         public new int Count() {
             return (this.count);
         }

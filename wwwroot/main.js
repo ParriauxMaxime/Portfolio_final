@@ -11,7 +11,7 @@ requirejs.config({
 })
 
 const routes = ['Home', 'Dashboard', 'Random', 'Favorites'];
-const hiddenPages = ['Search', 'Question', 'User'];
+const hiddenPages = ['Search', 'Question', 'User', 'List'];
 
 define(['knockout', 'api'], function (ko, api) {
     if (location.hash === "")

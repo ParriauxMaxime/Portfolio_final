@@ -32,12 +32,24 @@ namespace DataAccessLayer.Repository
             return res;
         }
 
+        public Task<List<Post>> GetByUser(int userId,
+                    Func<IQueryable<Post>, IOrderedQueryable<Post>> orderBy = null)
+        {
+            IQueryable<Post> query = this.dbSet;
+
+            var res = (orderBy != null ? orderBy(query) : query)
+                        .Distinct()
+                        .Where(e => e.postTypeId == 1 && e.userId == userId)
+                        .ToListAsync();
+            return res;
+        }
+
         public Task<Post> GetRandom()
         {
             Random md = new Random();
             int rand = md.Next(0, this.count);
             return this.dbSet.Distinct()
-                        .Where(e => e.postTypeId == 1)            
+                        .Where(e => e.postTypeId == 1)
                         .OrderBy(o => o.Id)
                         .Skip(rand)
                         .Take(1)

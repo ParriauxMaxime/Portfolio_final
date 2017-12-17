@@ -12,9 +12,6 @@ define(['api', 'jquery', 'knockout'], function (api, $, ko) {
             this.query(query)
             api.getSearchResults(query, true, postIds => {
                 api.getPostsByIds(postIds, e => {
-                    for (let k of e)
-                        k.data.lightView = true;
-                    
                     this.searchResults(e);
                     this.loading(false);
                     return e;

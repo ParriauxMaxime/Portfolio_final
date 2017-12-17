@@ -30,6 +30,16 @@ define([], function () {
         return jfetch(url, null, cb);
     }
 
+    function getPostsForUser(userId, cb) {
+        let url = base + `/api/user/post?userId=${userId}`
+        return jfetch(url, null, cb);
+    }
+
+    function getCommentsForUser(userId, cb) {
+        let url = base + `/api/user/comment?userId=${userId}`
+        return jfetch(url, null, cb);
+    }
+
     function fetchServer(urlToFetch, cb) {
         let url = base + `/api/post/fetch?url=${encodeURI(urlToFetch)}`
         return fetch(url).then(response => {
@@ -109,6 +119,8 @@ define([], function () {
         getSearchQuery,
         getAnswersToPost,
         getPostById,
-        fetchServer
+        fetchServer,
+        getCommentsForUser,
+        getPostsForUser,
     }
 });

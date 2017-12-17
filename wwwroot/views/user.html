@@ -1,6 +1,12 @@
 <div class="no-gutters grey-bc min-fh" id="User">
     <div class="container" data-bind="if: user().hasOwnProperty('data')">
         <div class="row">
+            <div class="offset-1">
+                <h1 class="title">User</h1>
+            </div>
+        </div>
+        <hr/>
+        <div class="row">
             <!-- avatar -->
             <div class="col-4 flex justify-content-center">
                 <img class="avatar-user" width="200" height="200" data-bind="attr: {src: icon()}" />
@@ -9,22 +15,46 @@
             <div class="col-8 flex justify-content-center align-items-center">
                 <div class="container">
                     <div class="row align-items-center">
-                        <p class="col-3"><b>Name :</b></p>
+                        <p class="col-6 col-sm-3">
+                            <b>Name :</b>
+                        </p>
                         <p class="col-6" data-bind="text: user().data.displayName"></p>
                     </div>
                     <div class="row align-items-center">
-                        <p class="col-3">
+                        <p class="col-6 col-sm-3">
                             <b>Creation date :</b>
                         </p>
                         <p class="col-6" data-bind="text: new Date(user().data.creationDate).toLocaleDateString('en-GB')"></p>
                     </div>
                     <div class="row align-items-center">
-                        <p class="col-3"><b>Location :</b></p>
+                        <p class="col-6 col-sm-3">
+                            <b>Location :</b>
+                        </p>
                         <p class="col-6" data-bind="text: user().data.location()"></p>
                     </div>
                     <div class="row align-items-center">
-                        <p class="col-3"><b>Age :</b></p>
+                        <p class="col-6 col-sm-3">
+                            <b>Age :</b>
+                        </p>
                         <p class="col-6" data-bind="text: user().data.age()"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr/>
+        <div class="row row justify-content-center">
+            <div class="col-12 col-sm-5">
+                <div class="container">
+                    <div class="row" data-bind="component: {name: 'List', params: listPosts('Post') } ">
+                    </div>
+                </div>
+            </div>
+            <div class="d-md-none col-12">
+                <hr />
+            </div>
+            <div class="col-12 col-sm-5 ">
+                <div class="container">
+                    <div class="row" data-bind="component: {name: 'List', params: listComments('Comments') } ">
                     </div>
                 </div>
             </div>

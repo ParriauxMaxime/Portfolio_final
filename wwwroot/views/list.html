@@ -1,0 +1,13 @@
+<div class="container">
+    <h3 class="display-6" data-bind="text: title()"></h3>
+    <div class="container-fluid List" data-bind="foreach: list">
+        <div class="row">
+            <div class="col-2 score" data-bind="text: score">
+            </div>
+            <div class="col-7 no-overflow text" data-bind="html: text()">
+            </div>
+            <div class="col-3 date" data-bind="text: new Date(creationDate).toLocaleDateString('en-GB')">
+            </div>
+        </div>
+    </div>
+</div>

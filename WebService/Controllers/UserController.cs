@@ -27,5 +27,18 @@ namespace WebService.Controllers
             }
             return Ok(new Encapsulation { Url = createUrl(result.Id), Data = result });
         }
+
+        [HttpGet("post")]
+        public IActionResult getPosts(int userId) {
+            List<Post> result = _dataService.GetPostRepository().GetByUser(userId).Result;
+            return Ok(result);
+        } 
+
+        [HttpGet("comment")]
+        public IActionResult getComments(int userId) {
+            List<Comment> result = _dataService.GetCommentRepository().GetByUser(userId).Result;
+            return Ok(result);
+        } 
+
     }
 }
