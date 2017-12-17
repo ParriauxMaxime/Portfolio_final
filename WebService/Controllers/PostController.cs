@@ -15,9 +15,9 @@ namespace WebService.Controllers
         }
 
         [HttpGet("searchInPosts")]
-        public IActionResult SearchInPosts(string query = "", int questionOnly = 0, int numberLimit = 10)
+        public IActionResult SearchInPosts(string query = "")
         {
-            return Ok(_dataService.GetProcedures().SearchInPosts(query, questionOnly, numberLimit));
+            return Ok(_dataService.GetProcedures().SearchInPosts(query));
         }
         
         [HttpGet("getPostsByUser")]
@@ -42,6 +42,12 @@ namespace WebService.Controllers
         public IActionResult GetAnswersForPost(int parentId)
         {
             return Ok(_dataService.GetPostRepository().GetAnswersToPost(parentId));
+        }
+        
+        [HttpGet("termNetwork")]
+        public IActionResult TermNetwork(string query = "")
+        {
+            return Ok(_dataService.GetProcedures().TermNetwork(query));
         }
     }
 }

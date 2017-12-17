@@ -14,7 +14,7 @@ namespace DataAccessLayer
         {
         }
 
-        public List<int> SearchInPosts(string query, int questionOnly, int numberLimit)
+        public List<int> SearchInPosts(string query)
         {
             using (DatabaseContext db = new DatabaseContext())
             {
@@ -24,18 +24,15 @@ namespace DataAccessLayer
                     cmd.Connection = (MySqlConnection)db.Database.GetDbConnection();
                     cmd.Connection.Open();
                     cmd.Parameters.Add("@1", DbType.String);
-                    cmd.Parameters.Add("@2", DbType.Int32);
-                    cmd.Parameters.Add("@3", DbType.Int32);
                     cmd.Parameters["@1"].Value = query;
-                    cmd.Parameters["@2"].Value = questionOnly;
-                    cmd.Parameters["@3"].Value = numberLimit;
-                    cmd.CommandText = "CALL searchInPosts(@1, @2, @3)";
+                    cmd.CommandText = "CALL getPostsWithWeighting(@1)";
 
                     using (var reader = cmd.ExecuteReader())
                     {
                         while (reader.Read())
                         {
                             result.Add(reader.GetInt32(0));
+                            // skip rank and post body
                         }
                     }
                     cmd.Connection.Close();
@@ -174,6 +171,32 @@ namespace DataAccessLayer
                         while (reader.Read())
                         {
                             result.Add(reader.GetInt32(0));
+                        }
+                    }
+                    cmd.Connection.Close();
+                }
+                return result;
+            }
+        }
+        
+        public string TermNetwork(string query)
+        {
+            using (DatabaseContext db = new DatabaseContext())
+            {
+                string result = "";
+                using (var cmd = new MySqlCommand())
+                {
+                    cmd.Connection = (MySqlConnection)db.Database.GetDbConnection();
+                    cmd.Connection.Open();
+                    cmd.Parameters.Add("@1", DbType.String);
+                    cmd.Parameters["@1"].Value = query;
+                    cmd.CommandText = "CALL term_network(@1)";
+
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            result = reader.GetString(0);
                         }
                     }
                     cmd.Connection.Close();
