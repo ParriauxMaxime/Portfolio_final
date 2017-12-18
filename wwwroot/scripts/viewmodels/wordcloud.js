@@ -5,7 +5,10 @@ define(['api', 'jquery', 'jqcloud', 'knockout'], function (api, $, jQCloud, ko) 
       // e.g 'sql injection' becomes 'sql,injection'
       let sqlQuery = query.replace(/\s+/g, ',');
 
+      console.log(sqlQuery);
+
       api.getWordCloud(sqlQuery, wordArray => {
+        console.log(wordArray);
         $('.wordcloud').jQCloud(wordArray, {
           autoResize: true
         });
@@ -25,11 +28,17 @@ define(['api', 'jquery', 'jqcloud', 'knockout'], function (api, $, jQCloud, ko) 
       })
     }
 
+    this.onSubmit = (element) => {
+      let query = document.querySelector('#wordCloudForm > #query').value;
+      location.assign(`#WordCloud/${encodeURIComponent(query)}`);
+      this.updateWordCloud(query);
+    };
+
     const [hash, query] = window.location.hash.slice(1).split('/');
 
     if (query) {
       this.updateWordCloud(query)
-    } else {
+    } else if (hash == 'Dashboard') {
       this.createWordCloud(0, 50, (e) => {
         $('.wordcloud').jQCloud(e, {
           autoResize: true,
@@ -42,6 +51,7 @@ define(['api', 'jquery', 'jqcloud', 'knockout'], function (api, $, jQCloud, ko) 
         })
       }, 15000)
     }
+    
   }
   return WordCloud;
 });

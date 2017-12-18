@@ -11,8 +11,8 @@ requirejs.config({
     }
 })
 
-const routes = ['Home', 'Dashboard', 'Random', 'Favorites'];
-const hiddenPages = ['Search', 'Question', 'User', 'List', 'WordCloud'];
+const routes = ['Home', 'Dashboard', 'Random', 'Favorites', 'WordCloud'];
+const hiddenPages = ['Search', 'Question', 'User', 'List',];
 
 define(['knockout', 'api'], function (ko, api) {
     if (location.hash === "")
@@ -30,8 +30,6 @@ define(['knockout', 'api'], function (ko, api) {
             require: 'text!views/post.html'
         }
     });
-
-
 
     ko.components.register('PostView', {
         viewModel: function PostView(props) {
