@@ -10,7 +10,8 @@ define(['api', 'jquery', 'knockout'], function (api, $, ko) {
 
         this.updateSearch = (query = query()) => {
             this.query(query)
-            api.getSearchResults(query, true, postIds => {
+            console.log(query.replace(/\s+/g, ','));
+            api.getSearchResults(query.replace(/\s+/g, ','), true, postIds => {
                 api.getPostsByIds(postIds, e => {
                     this.searchResults(e);
                     this.loading(false);

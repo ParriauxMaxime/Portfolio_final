@@ -3,7 +3,7 @@ define(['api', 'jquery', 'jqcloud', 'knockout'], function (api, $, jQCloud, ko) 
     this.updateWordCloud = (query) => {
       // Convert http encoded query to sql query
       // e.g 'sql injection' becomes 'sql,injection'
-      let sqlQuery = query.replace(/\s+/, ',');
+      let sqlQuery = query.replace(/\s+/g, ',');
 
       api.getWordCloud(sqlQuery, wordArray => {
         console.log(wordArray);
