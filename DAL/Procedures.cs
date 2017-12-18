@@ -207,13 +207,13 @@ namespace DataAccessLayer
         
         public class WeightedList
         {
-            public string word { get;  }
-            public double rank { get; }
+            public string text { get;  }
+            public double weight { get; }
             
-            public WeightedList(string word, double rank)
+            public WeightedList(string text, double weight)
             {
-                this.word = word;
-                this.rank = rank;
+                this.text = text;
+                this.weight = weight;
             }
         }
         

@@ -107,6 +107,11 @@ define([], function () {
         return jfetch(url, null, cb);
     }
 
+    function getWordCloud(query, cb) {
+        let url = base + `/api/post/wordCloud?query=${query}`
+        return jfetch(url, null, cb);
+    }
+
     return {
         jfetch,
         getRandomQuestion,
@@ -122,5 +127,6 @@ define([], function () {
         fetchServer,
         getCommentsForUser,
         getPostsForUser,
+        getWordCloud,
     }
 });

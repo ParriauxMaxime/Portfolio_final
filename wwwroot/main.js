@@ -6,12 +6,13 @@ requirejs.config({
         bootstrap: 'scripts/lib/bootstrap',
         knockout: 'scripts/lib/knockout',
         text: 'scripts/lib/text',
-        post: 'scripts/viewmodels/post'
+        post: 'scripts/viewmodels/post',
+        jqcloud: 'scripts/lib/jqcloud.min'
     }
 })
 
 const routes = ['Home', 'Dashboard', 'Random', 'Favorites'];
-const hiddenPages = ['Search', 'Question', 'User', 'List'];
+const hiddenPages = ['Search', 'Question', 'User', 'List', 'WordCloud'];
 
 define(['knockout', 'api'], function (ko, api) {
     if (location.hash === "")
