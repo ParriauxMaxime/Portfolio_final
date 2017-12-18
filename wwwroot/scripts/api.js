@@ -30,12 +30,22 @@ define([], function () {
         return jfetch(url, null, cb);
     }
 
-    function getPostsForUser(userId, cb) {
+    function getUsers(page = 0, pageSize = 50, cb) {
+        const url = base + `/api/user?page=${page}&pageSize=${pageSize}`
+        return jfetch(url, null, cb); 
+    }
+
+    function getQuestionsByScore(page = 0, pageSize = 50, cb) {
+        const url = base + `/api/question?page=${page}&pageSize=${pageSize}&byScore=1`
+        return jfetch(url, null, cb); 
+    }
+
+    function getPostsForUser(userId, cb, page=0, pageSize=50) {
         let url = base + `/api/user/post?userId=${userId}`
         return jfetch(url, null, cb);
     }
 
-    function getCommentsForUser(userId, cb) {
+    function getCommentsForUser(userId, cb, page=0, pageSize=50) {
         let url = base + `/api/user/comment?userId=${userId}`
         return jfetch(url, null, cb);
     }
@@ -114,6 +124,7 @@ define([], function () {
         getUserById,
         getCommentsForPost,
         getUsersForComments,
+        getQuestionsByScore,
         getSearchResults,
         getPostsByIds,
         getSearchQuery,
@@ -122,5 +133,6 @@ define([], function () {
         fetchServer,
         getCommentsForUser,
         getPostsForUser,
+        getUsers,
     }
 });

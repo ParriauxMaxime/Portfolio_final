@@ -31,7 +31,6 @@ namespace DataAccessLayer.Repository
                         .ToListAsync();
             return res;
         }
-
         public Task<List<Post>> GetByUser(int userId,
                     Func<IQueryable<Post>, IOrderedQueryable<Post>> orderBy = null)
         {

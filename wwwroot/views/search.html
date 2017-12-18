@@ -1,13 +1,14 @@
 <div class="no-gutters grey-bc min-fh" id="Search">
-    <div data-bind="if: loading()">
-        <div class='loading center-auto'>
-            <div id='largeBox'/>
-            <div id='smallBox'/>  
+    <div style="overflow: hidden; padding-top:2em;" data-bind="if: loading()">
+        <div class='container flex justify-content-center loading center-auto'>
+            <div class="flex justify-content-center" id='largeBox'>
+                <div class="flex justify-content-center" id='smallBox' />
+            </div>
         </div>
     </div>
     <div data-bind="if: !haveResult()">There is no results</div>
     <div data-bind="foreach: searchResults">
         <div data-bind="component: { name: 'Post', params: data }">
-    </div>    
+        </div>
+    </div>
 </div>
-

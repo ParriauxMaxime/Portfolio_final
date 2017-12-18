@@ -4,13 +4,29 @@ define(['api', 'jquery', 'knockout'], function (api, $, ko) {
         this.icon = ko.observable('');
         this.posts = ko.observableArray([]);
         this.comments = ko.observableArray([]);
+        this.commentPage = ko.observable(0);
+        this.commentPageSize = ko.observable(10);
+        this.postPage = ko.observable(0);
+        this.postPageSize = ko.observable(10);
         const sliceMe = (t, size = 100) => {
             const l = t.length;
             return l > size ? t.slice(0, size) + ' ...' : t;
         } 
+
+        const canPrev = (page) => {
+            if (page !== 0) 
+                return true;
+            return false;
+        }
+
+        const canNext = (page, pageSize, length) => {
+            if ((page + 1) * pageSize < length)
+                return true;
+            return false;
+        }
         
         this.listPosts = ((link) => ({
-            list: this.posts().map((e, i) => {
+            mapping: (e, i) => {
                 return {
                     ...e,
                     text: ko.computed(() => {
@@ -24,18 +40,20 @@ define(['api', 'jquery', 'knockout'], function (api, $, ko) {
                         return sliceMe(t);
                     })
                 }
-            }),
+            },
+            list: this.posts(),
             title: 'Posts',
             link,
         }))
       
         this.listComments = ((link) => ({
-            list: this.comments().map((e,i) => {
+            mapping: (e,i) => {
                 return {
                     ...e,
                     text: ko.computed(() => sliceMe(e.text))
                 }
-            }),
+            },
+            list: this.comments(),
             title: 'Comments',            
             link,
         }))
@@ -51,10 +69,10 @@ define(['api', 'jquery', 'knockout'], function (api, $, ko) {
                 });
                 api.getPostsForUser(id, p => {
                     this.posts(p);
-                }); 
+                }, this.postPage, this.postPageSize); 
                 api.getCommentsForUser(id, c => {
                     this.comments(c);
-                });
+                }, this.commentPage(), this.commentPageSize());
                 api.fetchServer(`https://stackoverflow.com/users/${e.data.id}/${e.data.displayName}`, (e) => {
                     const html = $.parseHTML(e);
                     $.each(html, (i, el) => {

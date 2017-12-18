@@ -12,7 +12,8 @@ define(['api', 'jquery', 'knockout'], function (api, $, ko) {
             this.query(query)
             api.getSearchResults(query, true, postIds => {
                 api.getPostsByIds(postIds, e => {
-                    this.searchResults(e);
+                    const hoc = e.map(e => ({...e, data: {...e.data, lightView: true}}))
+                    this.searchResults(hoc);
                     this.loading(false);
                     return e;
                 });
