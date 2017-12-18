@@ -1,4 +1,5 @@
 const MAX_BODY_LENGTH = 500;
+const MAX_COMMENT_LENGTH = 100;
 
 define(['api', 'jquery', 'knockout'], function (api, $, ko) {
     function Post(post) {
@@ -63,7 +64,9 @@ define(['api', 'jquery', 'knockout'], function (api, $, ko) {
                         displayText: ko.computed(() => {
                             if (this.condensedComment())
                                 return e.text;
-                            return e.text.length > 100 ? e.text.slice(0, 50) + ' ...' : e.text
+                            return e.text.length > MAX_COMMENT_LENGTH ?
+                             e.text.slice(0, MAX_COMMENT_LENGTH) + ' ...' :
+                              e.text
                         }),
                     }));
                     this.comments(t(e));
@@ -109,7 +112,7 @@ define(['api', 'jquery', 'knockout'], function (api, $, ko) {
                                 return {
                                     ...e
                                 }
-                            }).slice(3))
+                            }).slice(0, 3))
                         })))
                     })
                 })
@@ -137,7 +140,7 @@ define(['api', 'jquery', 'knockout'], function (api, $, ko) {
 
         // Gets Post object from post.js
         this.goToQuestion = (post) => {
-            let postId = post.post().id; // this is the Post() object, it has a post property
+            const postId = post.post().id; // this is the Post() object, it has a post property
             document.location.assign(`#Question/${postId}`);
         }
     }

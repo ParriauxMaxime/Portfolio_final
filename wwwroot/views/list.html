@@ -1,13 +1,42 @@
 <div class="container">
     <h3 class="display-6" data-bind="text: title()"></h3>
     <div class="container-fluid List" data-bind="foreach: list">
-        <div class="row">
+        <div class="row" data-bind="click: $parent.goTo" style="cursor: pointer;">
+            <!-- ko if: score !== -1 -->
             <div class="col-2 score" data-bind="text: score">
             </div>
+            <!-- /ko -->
+            <!-- ko if: score === -1 -->
+            <div class="col-2 score" data-bind="">
+            </div>
+                <!-- /ko -->
             <div class="col-7 no-overflow text" data-bind="html: text()">
             </div>
             <div class="col-3 date" data-bind="text: new Date(creationDate).toLocaleDateString('en-GB')">
             </div>
         </div>
     </div>
+    <!-- ko if: pagination() -->
+    <div class="container-fluid">
+        <div class="row">
+            <nav aria-label="..." style="width: 100%;">
+                <ul class="pagination" style="align-items: center; justify-content: space-between; width: 100%">
+                    <li class="page-item" data-bind="click: goPrev, css: { disabled: !prev() }">
+                        <span class="page-link">Previous</span>
+                    </li>
+                    <li>
+                        page: <span data-bind="text: page()"></span>
+                    </li>
+                    <li>
+                            show: <select class="pageSize" data-bind="options: sizeAviable, event: { change: changePageSize }, value: pageSize()">
+                            </select>
+                        </li>
+                    <li class="page-item" data-bind="click: goNext, css: { disabled: !next() }">
+                        <span class="page-link">Next</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <!-- /ko -->
 </div>

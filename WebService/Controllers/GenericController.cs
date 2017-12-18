@@ -86,7 +86,7 @@ namespace WebService.Controllers
 
         // GET api/[controller]
         [HttpGet]
-        public IActionResult Get(int page = 0, int pageSize = 50)
+        public virtual IActionResult Get(int page = 0, int pageSize = 50, int order = 0)
         {
             if (pageSize > 200 || pageSize <= 0)
             {

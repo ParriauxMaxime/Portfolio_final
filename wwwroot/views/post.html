@@ -3,8 +3,14 @@
     <div class="container">
         <div class="row">
             <div class="col-10 order-2 col-sm-12 order-sm-1">
+                <!-- ko if: post().parentId && location.hash.slice(1).split('/')[0] === 'Post' -->
+                <a class="display-3 title" data-bind="attr: { href: '#Question/' + post().parentId, title: 'Go to question' }">
+                    Go to Parent
+                </a>
+                <!-- /ko -->
+                
                 <!-- ko if: post().lightView -->
-                <a class="display-3 title" data-bind="attr: { href: '#Post/' + post().id, title: post().title }"></a>
+                <a class="display-3 title" data-bind="attr: { href: '#Question/' + post().id, title: post().title }, text: post().title"></a>
                 <!-- /ko -->
                 <!-- ko if: !post().lightView -->
                 <a class="display-3 title" data-bind="text: post().title"></a>

@@ -13,7 +13,8 @@ define(['api', 'jquery', 'knockout'], function (api, $, ko) {
             console.log(query.replace(/\s+/g, ','));
             api.getSearchResults(query.replace(/\s+/g, ','), true, postIds => {
                 api.getPostsByIds(postIds, e => {
-                    this.searchResults(e);
+                    const hoc = e.map(e => ({...e, data: {...e.data, lightView: true}}))
+                    this.searchResults(hoc);
                     this.loading(false);
                     return e;
                 });

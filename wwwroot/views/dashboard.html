@@ -23,40 +23,42 @@
             Users
         </div>
         <div class="card-body">
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Neque voluptatem nihil velit cumque qui atque, eligendi natus ipsa aliquam non in molestiae aliquid mollitia perspiciatis sequi doloribus asperiores explicabo provident.
+            <div data-bind="component: {name: 'List', params: userCard()}" />
         </div>
     </div>
 </script>
 
 <script type="text/html" id="template-best-posts">
     <div class="card">
-            <div class="card-header">
-                Top score
-            </div>
-            <div class="card-body">
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Neque voluptatem nihil velit cumque qui atque, eligendi natus ipsa aliquam non in molestiae aliquid mollitia perspiciatis sequi doloribus asperiores explicabo provident.
-            </div>
+        <div class="card-header">
+            Top score
         </div>
+        <div class="card-body">
+            <div data-bind="component: {name: 'List', params: topScoreCard()}" />
+        </div>
+    </div>
 </script>
 
 <script type="text/html" id="template-charts">
     <div class="card">
-            <div class="card-header">
-                Charts
-            </div>
-            <div class="card-body">
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Neque voluptatem nihil velit cumque qui atque, eligendi natus ipsa aliquam non in molestiae aliquid mollitia perspiciatis sequi doloribus asperiores explicabo provident.
-            </div>
+        <div class="card-header">
+            Charts
         </div>
+        <div class="card-body">
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Neque voluptatem nihil velit cumque qui atque, eligendi natus ipsa
+            aliquam non in molestiae aliquid mollitia perspiciatis sequi doloribus asperiores explicabo provident.
+        </div>
+    </div>
 </script>
 
 <script type="text/html" id="template-history">
     <div class="card">
-            <div class="card-header">
-                History
-            </div>
-            <div class="card-body">
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Neque voluptatem nihil velit cumque qui atque, eligendi natus ipsa aliquam non in molestiae aliquid mollitia perspiciatis sequi doloribus asperiores explicabo provident.
-            </div>
+        <div class="card-header">
+            History
         </div>
+        <div class="card-body">
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Neque voluptatem nihil velit cumque qui atque, eligendi natus ipsa
+            aliquam non in molestiae aliquid mollitia perspiciatis sequi doloribus asperiores explicabo provident.
+        </div>
+    </div>
 </script>
