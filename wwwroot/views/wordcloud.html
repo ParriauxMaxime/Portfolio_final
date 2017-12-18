@@ -1,12 +1,19 @@
+<!-- ko if: location.hash.indexOf('WordCloud') !== -1 -->
 <div class="no-gutters grey-bc min-fh">
-<div class="wordCloudForm" data-bind="if: location.hash.indexOf('WordCloud') !== -1">
-  <form id="wordCloudForm" data-bind="submit: onSubmit">
-    <input style="display:inline-block;width:auto;" class="form-control mr-sm-2" id='query' type="search" placeholder="Tags..." aria-label="Tags...">
-    <button class="btn btn-outline-success my-2 my-sm-0" type="submit" style="margin-left: auto">Submit</button>
-  </form>
-</div>
-<div class="container post">
-  <div class="wordcloud">
+  <div class="wordCloudForm">
+    <form id="wordCloudForm" data-bind="submit: onSubmit">
+      <input style="display:inline-block;width:auto;" class="form-control mr-sm-2" id='query' type="search" placeholder="Tags..." aria-label="Tags...">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit" style="margin-left: auto">Submit</button>
+    </form>
+  </div>
+  <div class="container post">
+    <div class="wordcloud">
+    </div>
   </div>
 </div>
+<!-- /ko -->
+
+<!-- ko if: location.hash.indexOf('WordCloud') === -1 -->
+<div class="wordcloud">
 </div>
+<!-- /ko -->
