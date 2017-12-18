@@ -12,8 +12,8 @@ define(['api', 'jquery', 'knockout'], function (api, $, ko) {
 
     this.answerText = ko.computed(
       () => this.answers().length === 0 ?
-      'Fetching answer..' :
-      `${this.totalAnswer()} Answer${this.totalAnswer() > 1 ? 's' : ''}`)
+      'Fetching answer...' :
+      `${this.totalAnswer()} Answer${this.totalAnswer() != 1 ? 's' : ''}`)
 
     this.getAnswers = (id, page = this.answersPage(), pageSize = this.answersPageSize()) => {
       api.getAnswersToPost(page, pageSize, id, answerIds => {
