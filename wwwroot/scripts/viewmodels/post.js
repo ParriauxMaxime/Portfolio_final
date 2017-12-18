@@ -13,7 +13,7 @@ define(['api', 'jquery', 'knockout'], function (api, $, ko) {
 
             // Highlight matches with surrounding characters
             // Can lead to false-positives
-            let query = api.getSearchQuery();
+            //let query = api.getSearchQuery();
             //   for (let word of query.split(/\s/)) {
             //     post.lightBody = post.lightBody.replace(new RegExp(`(\\w*${word}\\w*)`, 'ig'), '<b>$1</b>');
             // }

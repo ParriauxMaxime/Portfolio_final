@@ -99,8 +99,8 @@ define([], function () {
         return jfetch(url, null, cb);        
     }
 
-    function getSearchResults(query, questionOnly = true, cb) {
-        let url = base + `/api/post/searchInPosts?questionOnly=${+questionOnly}&query=${query}`
+    function getSearchResults(page, pageSize, query, questionOnly = true, cb) {
+        let url = base + `/api/post/searchInPosts?questionOnly=${+questionOnly}&query=${query}&page=${page}&pageSize=${pageSize}`
         return jfetch(url, null, cb);
     }
 
@@ -115,11 +115,6 @@ define([], function () {
     function getSearchHistory(page, pageSize, cb) {
         let url = `/api/queryhistory?page${page}&pageSize${pageSize}`
         return jfetch(url, null, cb)
-    } 
-
-    function getSearchQuery() {
-        let query = document.querySelector('#searchForm > #query').value;
-        return query;
     }
 
     function addToSearchHistory(search, cb) {
@@ -198,7 +193,6 @@ define([], function () {
         getQuestionsByScore,
         getSearchResults,
         getPostsByIds,
-        getSearchQuery,
         getSearchHistory,
         getAnswersToPost,
         getPostById,

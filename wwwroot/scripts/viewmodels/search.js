@@ -1,22 +1,26 @@
 define(['api', 'jquery', 'knockout'], function (api, $, ko) {
     function Search(props) {
-        const query = api.getSearchQuery;
-
+        this.query = ko.observable("");
         this.searchResults = ko.observableArray([]);
         this.loading = ko.observable(true);
-        this.query = ko.observable(query());
         this.haveResult = ko.computed(() => this.searchResults().length > 0 || this.loading())
-        this.encodedQuery = ko.computed(() => encodeURIComponent(this.query()));
         this.page = ko.observable(0);
         this.prev = ko.observable("");
         this.next = ko.observable("");
         this.pageSize = ko.observable(10);
         this.sizeAviable = ko.observableArray([10, 20, 50])
-
-        this.updateSearch = (page = this.page(), pageSize = this.pageSize(), query = this.query()) => {
-            this.query(query)
+        this.totalResult = ko.observable(0);
+        this.searchText = ko.computed(
+            () => this.searchResults().length === 0 ?
+            'Fetching results...' :
+            `${this.totalResult()} Result${this.totalResult() != 1 ? 's' : ''}`)
+      
+        this.updateSearch = (query = this.query(), page = this.page(), pageSize = this.pageSize()) => {
             api.getSearchResults(page, pageSize, query.replace(/\s+/g, ','), true, postIds => {
-                api.getPostsByIds(postIds, e => {
+                this.next(postIds.next)
+                this.totalResult(postIds.total)
+                this.prev(postIds.prev)
+                api.getPostsByIds(postIds.data.map(e => e.data.id), e => {
                     const hoc = e.map(e => ({...e, data: {...e.data, lightView: true}}))
                     this.searchResults(hoc);
                     this.loading(false);
@@ -24,10 +28,37 @@ define(['api', 'jquery', 'knockout'], function (api, $, ko) {
                 });
             });
         }
-        const t = location.hash.slice(1).split('/')
-        if (t.length > 1) {
-            this.updateSearch(t[1]);
+
+        const [hash, query] = location.hash.slice(1).split('/');
+        
+        if (query) {
+            this.query(query);
+            this.updateSearch();
+        } else {
+            location.assign('#Home');
         }
+
+        this.goPrev = () => {
+            if (this.prev() !== "") {
+              this.page(this.page() - 1);
+              this.loading(true)
+              this.updateSearch();
+            }
+          }
+      
+          this.goNext = () => {
+            if (this.next()) {
+              this.page(this.page() + 1);
+              this.loading(true)
+              this.updateSearch();
+            }
+          }
+
+          this.changePageSize = (d, e) => {
+            this.pageSize(event.target.value);
+            this.loading(true)
+            this.updateSearch();
+          }
     }
 
     return Search;

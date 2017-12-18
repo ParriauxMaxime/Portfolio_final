@@ -15,9 +15,40 @@ namespace WebService.Controllers
         }
 
         [HttpGet("searchInPosts")]
-        public IActionResult SearchInPosts(string query = "")
+        public IActionResult SearchInPosts(string query = "", int page = 0, int pageSize = 50)
         {
-            return Ok(_dataService.GetProcedures().SearchInPosts(query));
+            var data = _dataService.GetProcedures().SearchInPosts(query);
+            
+            if (pageSize > 200 || pageSize <= 0)
+            {
+                pageSize = 50;
+            }
+            if (page > data.Count / pageSize)
+            {
+                page = data.Count / pageSize;
+            }
+            else if (page < 0)
+            {
+                page = 0;
+            }
+
+            List<Encapsulation> tmp = data
+                .Skip(page * pageSize)
+                .Take(pageSize)
+                .Select(e => new Encapsulation { Url = "", Data = new Post {Id = e} })
+                .ToList();
+            
+            var result = new ListEncapsulation
+            {
+                Total = data.Count,
+                Pages = data.Count / pageSize,
+                Page = page,
+                Prev = makeURL(null, page - 1, pageSize, $"searchInPosts/{query}", data.Count),
+                Next = makeURL(null, page + 1, pageSize, $"searchInPosts/{query}", data.Count),
+                Url = makeURL(null, page, pageSize, $"searchInPosts/{query}", data.Count),
+                Data = tmp
+            };
+            return Ok(result);
         }
         
         [HttpGet("getPostsByUser")]
