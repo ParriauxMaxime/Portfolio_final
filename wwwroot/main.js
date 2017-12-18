@@ -31,6 +31,8 @@ define(['knockout', 'api'], function (ko, api) {
         }
     });
 
+
+
     ko.components.register('PostView', {
         viewModel: function PostView(props) {
             this.post = ko.observable({});
@@ -40,14 +42,12 @@ define(['knockout', 'api'], function (ko, api) {
                     this.post(e.data);
                     return (e);
                 })
-            }
-            else if (props.id) {
+            } else if (props.id) {
                 api.getPostById(props.id, (e) => {
                     this.post(e.data);
                     return (e);
                 })
-            }
-            else {
+            } else {
                 location.assign('#Home');
             }
         },
@@ -58,7 +58,7 @@ define(['knockout', 'api'], function (ko, api) {
     });
 
 
-    [...hiddenPages,...routes].forEach((elem, i) => {
+    [...hiddenPages, ...routes].forEach((elem, i) => {
         const file = elem.toLowerCase();
         const Component = {
             viewModel: {
@@ -83,6 +83,11 @@ define(['knockout', 'api'], function (ko, api) {
             this.active(e);
             location.assign(`#${e}`);
             return false;
+        }
+        this.onSubmit = (e) => {
+            const value = $(e).find('input')[0].value;
+            api.addToSearchHistory(value)
+            this.goTo('Search/' + value);
         }
     }
 

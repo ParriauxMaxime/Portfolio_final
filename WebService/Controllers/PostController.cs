@@ -39,9 +39,38 @@ namespace WebService.Controllers
         }
 
         [HttpGet("parentId/{parentId}")]
-        public IActionResult GetAnswersForPost(int parentId)
+        public IActionResult GetAnswersForPost(int parentId, int page = 0, int pageSize = 50)
         {
-            return Ok(_dataService.GetPostRepository().GetAnswersToPost(parentId));
+            int count = this._dataService.GetPostRepository().GetNumberAnswerToPost(parentId).Result;
+              if (pageSize > 200 || pageSize <= 0)
+            {
+                pageSize = 50;
+            }
+            if (page > count / pageSize)
+            {
+                page = count / pageSize;
+            }
+            else if (page < 0)
+            {
+                page = 0;
+            }
+            List<int> data = _dataService.GetPostRepository().GetAnswersToPost(parentId, page, pageSize).Result;
+            List<Encapsulation> tmp = new List<Encapsulation>();
+            data.ForEach(e =>
+            {
+                tmp.Add(new Encapsulation { Url = "", Data = new Post {Id = e} });
+            });
+            var result = new ListEncapsulation
+            {
+                Total = count,
+                Pages = count / pageSize,
+                Page = page,
+                Prev = createUrl(null, page - 1, pageSize, "parentId/" + parentId.ToString()),
+                Next = createUrl(null, page + 1, pageSize, "parentId/" + parentId.ToString()),
+                Url = createUrl(null, page, pageSize, "/parentId/" + parentId.ToString()),
+                Data = tmp
+            };
+            return Ok(result);
         }
         
         [HttpGet("termNetwork")]

@@ -8,7 +8,7 @@
                     Go to Parent
                 </a>
                 <!-- /ko -->
-                
+
                 <!-- ko if: post().lightView -->
                 <a class="display-3 title" data-bind="attr: { href: '#Question/' + post().id, title: post().title }, text: post().title"></a>
                 <!-- /ko -->
@@ -27,10 +27,51 @@
                             <div class="score" data-bind="text: post().score"></div>
                         </div>
                         <div class="col-12 flex justify-content-center">
-                            <i class="material-icons md-48">star_border</i>
+                            <!-- ko if: marked() !== false -->
+                            <i data-toggle="modal" data-target="#deleteModal" data-bind="text: 'star'" class="material-icons md-48"></i>
+                            <!-- /ko -->
+                            <!-- ko if: marked() === false -->
+                            <i data-toggle="modal" data-target="#favoriteModal" data-bind="text: 'star_border'" class="material-icons md-48"></i>
+                            <!-- /ko -->
+                            
                         </div>
                     </div>
                 </div>
+                <div class="modal fade" id="favoriteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Add to favorites ?</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <textarea placeholder="Leave a note..." id="modal-textarea" style="width: 100%; min-height: 8em;"/>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary" data-dismiss="modal" data-bind="click: addFavorite">Save changes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Delete ?</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary" data-dismiss="modal" data-bind="click: deleteFavorite">Delete</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
             </div>
             <!--body-->
             <div class="col-12 col-sm-8 order-3">
@@ -65,6 +106,13 @@
                         </div>
                     </b>
                 </div>
+                <!-- ko if: marked() !== false && marked().note !== undefined -->
+                <div>
+                    <br/>
+                    Your note:
+                    <textarea placeholder="Leave a note..." data-bind="value: marked().note, event: {change: noteChanged}"/>
+                </div>
+                <!-- /ko -->
             </div>
             <!--comments-->
             <!-- ko if: !post().lightView -->

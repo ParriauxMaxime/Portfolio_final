@@ -18,7 +18,7 @@ namespace DataAccessLayer.Repository
             this.ds = ds;
         }
 
-        public Task<List<int>> GetAnswersToPost(int id)
+        public Task<List<int>> GetAnswersToPost(int id, int page = 0, int pageSize = 50)
         {
             var query = this.dbSet;
 
@@ -27,7 +27,17 @@ namespace DataAccessLayer.Repository
                 .Where(e => e.parentId == id)
                 .OrderByDescending(e => e.score)
                 .Select(e => e.Id)
+                .Skip(page * pageSize)
+                .Take(pageSize)
                 .ToListAsync();
+            return res;
+        }
+
+        public Task<int> GetNumberAnswerToPost(int id) {
+            var res = this.dbSet
+                .Distinct()
+                .Where(e => e.parentId == id)
+                .CountAsync();
             return res;
         }
 

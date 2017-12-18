@@ -94,6 +94,11 @@ define([], function () {
             }).catch(e => console.error(e));
     }
 
+    function getTags(page, pageSize, cb) {
+        let url = base + `/api/tag?page=${page}&pageSize=${pageSize}`
+        return jfetch(url, null, cb);        
+    }
+
     function getSearchResults(query, questionOnly = true, cb) {
         let url = base + `/api/post/searchInPosts?questionOnly=${+questionOnly}&query=${query}`
         return jfetch(url, null, cb);
@@ -107,14 +112,74 @@ define([], function () {
             }).catch(e => console.error(e));
     }
 
+    function getSearchHistory(page, pageSize, cb) {
+        let url = `/api/queryhistory?page${page}&pageSize${pageSize}`
+        return jfetch(url, null, cb)
+    } 
+
     function getSearchQuery() {
         let query = document.querySelector('#searchForm > #query').value;
         return query;
     }
 
-    function getAnswersToPost(postId, cb) {
-        let url = base + `/api/post/parentId/${postId}`
-        return jfetch(url, null, cb);
+    function addToSearchHistory(search, cb) {
+        const url = '/api/queryhistory';
+        let headers =  {"Content-Type": "application/json"}
+        const body = JSON.stringify({id: 0, accountId: 1, query: search, creationDate: new Date(Date.now())});
+        const options = {
+            method: 'PUT',
+            headers,
+            body: '"'+body.replace(/\"/g, '\\"')+'"',
+        }
+        return (fetch(url, options, cb))
+    }
+
+    function getFavorites(page, pageSize, cb) {
+        let url = `/api/history?page=${page}&pageSize=${pageSize}`   
+        return jfetch(url, null, cb)
+    }
+
+    function findPostHistory(postId, cb) {
+        let url = `/api/history/findPost?postId=${postId}`        
+        return fetch(url, null)
+        .then(response => response.status === 204 ? false : response.json())
+        .then(r => cb(r))
+        .catch(err => console.error(err));
+    }
+
+    function removeFromHistory(postId, cb) {
+        let url = `/api/history/byPost/${postId}`
+        let options = {
+            method: 'DELETE',
+        }
+        return jfetch(url, options, cb)
+    }
+
+    function historyUpdate(entity, cb) {
+        const url = `/api/history/`
+        const body = JSON.stringify(entity)
+        const options = {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: '"'+body.replace(/\"/g, '\\"')+'"'            
+        }
+        return jfetch(url, options, cb);
+    }
+    function addToHistory(post, note = "", cb) {
+        const url = '/api/history';
+        let headers =  {"Content-Type": "application/json"}
+        const body = JSON.stringify({id: 0, postId: post.id, accountId: 1, marked: true, note, creationDate: new Date(Date.now())});
+        const options = {
+            method: 'PUT',
+            headers,
+            body: '"'+body.replace(/\"/g, '\\"')+'"',
+        }
+        return jfetch(url, options, cb)
+    }
+
+    function getAnswersToPost(page, pageSize, postId, cb) {
+        let url = base + `/api/post/parentId/${postId}?page=${page}&pageSize=${pageSize}`
+        return fetch(url, null, cb).then(r => r.json()).then(r => cb(r)).catch(e => console.error(e));
     }
 
     function getWordCloud(query, cb) {
@@ -124,6 +189,7 @@ define([], function () {
 
     return {
         jfetch,
+        addToSearchHistory,
         getRandomQuestion,
         getTagforPost,
         getUserById,
@@ -133,6 +199,7 @@ define([], function () {
         getSearchResults,
         getPostsByIds,
         getSearchQuery,
+        getSearchHistory,
         getAnswersToPost,
         getPostById,
         fetchServer,
@@ -140,5 +207,11 @@ define([], function () {
         getPostsForUser,
         getWordCloud,
         getUsers,
+        addToHistory,
+        findPostHistory,
+        getTags,
+        historyUpdate,
+        removeFromHistory,
+        getFavorites
     }
 });

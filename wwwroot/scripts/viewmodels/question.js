@@ -3,23 +3,36 @@ define(['api', 'jquery', 'knockout'], function (api, $, ko) {
     this.question = ko.observable({});
     this.loadingAnswers = ko.observable(true);
     this.answers = ko.observableArray([]);
+    this.answersPage = ko.observable(0);
+    this.answersPageSize = ko.observable(10);
+    this.prev = ko.observable("");
+    this.next = ko.observable("");
+    this.totalAnswer = ko.observable(0);
+    this.sizeAviable = ko.observableArray([10, 20, 50])
+    
     this.answerText = ko.computed(
       () => this.answers().length === 0 ?
       'Fetching answer..' :
-      `${this.answers().length} Answer${this.answers().length > 1 ? 's' : ''}`)
+      `${this.totalAnswer()} Answer${this.totalAnswer() > 1 ? 's' : ''}`)
 
+    this.getAnswers = (id, page = this.answersPage(), pageSize = this.answersPageSize()) => {
+      api.getAnswersToPost(page, pageSize, id, answerIds => {
+        console.log(answerIds);
+        this.next(answerIds.next)
+        this.totalAnswer(answerIds.total)
+        this.prev(answerIds.prev)
+        api.getPostsByIds(answerIds.data.map(e => e.data.id), e => {
+          this.answers(e);
+          this.loadingAnswers(false);
+          return e;
+        });
+      });
+    }
     this.updateQuestion = (id) => {
       let postId = id;
       api.getPostById(postId, e => {
         this.question(e.data);
-
-        api.getAnswersToPost(e.data.id, answerIds => {
-          api.getPostsByIds(answerIds.result, e => {
-            this.answers(e);
-            this.loadingAnswers(false);
-            return e;
-          });
-        });
+        this.getAnswers(e.data.id)
       });
     };
     const [hash, id] = window.location.hash.slice(1).split('/');
@@ -31,6 +44,24 @@ define(['api', 'jquery', 'knockout'], function (api, $, ko) {
     } else {
       location.assign('#Home');
     }
+
+    this.goPrev = () => {
+      this.answersPage(this.answersPage() - 1);
+      this.loadingAnswers(true)
+      this.getAnswers();
+  }
+
+  this.goNext = () => {
+      this.answersPage(this.answersPage() + 1);
+      this.loadingAnswers(true)      
+      this.getAnswers();
+  }
+
+  this.changePageSize = (d, e) => {
+      this.pageSize(event.target.value);
+      this.loadingAnswers(true)      
+      this.getAnswers();
+  }
   }
 
   return Question;

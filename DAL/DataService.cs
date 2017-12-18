@@ -17,7 +17,7 @@ namespace DataAccessLayer
         private DatabaseContext context = new DatabaseContext();
         public GenericWritableRepository<Account> accountRepository { get; }
         public CommentRepository commentRepository { get; }
-        public GenericWritableRepository<History> historyRepository { get; }
+        public HistoryRepository historyRepository { get; }
         public GenericReadableRepository<LinkPost> linkPostRepository { get; }
         public GenericReadableRepository<LTagsPost> ltagsPostRepository { get; }
         public PostRepository postRepository { get; }
@@ -34,7 +34,7 @@ namespace DataAccessLayer
             //The constructor must instanciate everyRepository
             this.accountRepository = new GenericWritableRepository<Account>();
             this.commentRepository = new CommentRepository(this);
-            this.historyRepository = new GenericWritableRepository<History>();
+            this.historyRepository = new HistoryRepository(this);
             this.linkPostRepository = new GenericReadableRepository<LinkPost>();
             this.ltagsPostRepository = new GenericReadableRepository<LTagsPost>();
             this.postRepository = new PostRepository(this);
@@ -57,7 +57,7 @@ namespace DataAccessLayer
             //At some point, you should read Models/Comment.cs
             return this.commentRepository;
         }
-        public GenericWritableRepository<History> GetHistoryRepository()
+        public HistoryRepository GetHistoryRepository()
         {
             //At some point, you should read Models/History.cs
             return this.historyRepository;

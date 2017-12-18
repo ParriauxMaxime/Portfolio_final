@@ -7,7 +7,7 @@ define(['api', 'jquery', 'knockout'], function (api, $, ko) {
         this.next = ko.observable(props.next === "" ? false : true);
         this.link = ko.observable(props.link);
         this.page = ko.observable(props.page || 0);
-        this.pageSize = ko.observable(props.pageSize || 10)
+        this.pageSize = ko.observable(props.pageSize)
         this.sizeAviable = ko.observableArray([10, 20, 50])
         this.goPrev = () => {
             props.goPrev()
@@ -30,6 +30,7 @@ define(['api', 'jquery', 'knockout'], function (api, $, ko) {
         this.changePageSize = (p, event) => {
             this.pageSize(event.target.value);
             props.changePageSize(event.target.value);
+            return false;
         }
     }
 

@@ -21,11 +21,33 @@ define(['api', 'jquery', 'knockout'], function (api, $, ko) {
 
         this.post = ko.observable(post)
         this.tags = ko.observableArray([]);
-        this.user = ko.observable({})
+        this.user = ko.observable({});
+        this.marked = ko.observable(false);
         this.authorAvatar = ko.observable('');
         this.comments = ko.observableArray([]);
         this.commentsShowed = ko.observableArray([]);
         this.condensedComment = ko.observable(true);
+
+        this.noteChanged = (d, e) => {
+            const id = this.marked().id
+            const note = e.target.value;
+            api.historyUpdate({...this.marked(), note}, (e) => {
+                
+            })
+        }
+        this.addFavorite = () => {
+            const note = $('#modal-textarea').val();
+            api.addToHistory(this.post(), note, (e) => {
+                this.marked({note});
+            });
+        }
+        this.deleteFavorite = () => {
+            api.removeFromHistory(this.post().id, e => {
+                this.marked(false);
+                if (this.post().hasOwnProperty('notify')) 
+                    this.post().notify();               
+            })
+        }
         this.changeComment = () => {
             this.condensedComment(!this.condensedComment());
             return false;
@@ -33,6 +55,10 @@ define(['api', 'jquery', 'knockout'], function (api, $, ko) {
         this.numberComments = ko.computed(() => this.comments().length)
 
         this.updatePost = () => {
+            api.findPostHistory(this.post().id, e => {
+                if (e !== false)
+                    this.marked(e);
+            })
             const fetchAvatar = (e, cb = e => e) => {
                 return api.fetchServer(`https://stackoverflow.com/users/${e.id}/${e.displayName}`, (e) => {
                     const html = $.parseHTML(e);

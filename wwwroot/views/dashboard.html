@@ -42,23 +42,21 @@
 <script type="text/html" id="template-charts">
     <div class="card">
         <div class="card-header">
-            Charts
+            Tags cloud
         </div>
         <div class="card-body">
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Neque voluptatem nihil velit cumque qui atque, eligendi natus ipsa
-            aliquam non in molestiae aliquid mollitia perspiciatis sequi doloribus asperiores explicabo provident.
+            <div data-bind="component: { name: 'WordCloud' }">
+            </div>
         </div>
-    </div>
 </script>
 
 <script type="text/html" id="template-history">
     <div class="card">
         <div class="card-header">
-            History
+            Search history
         </div>
         <div class="card-body">
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Neque voluptatem nihil velit cumque qui atque, eligendi natus ipsa
-            aliquam non in molestiae aliquid mollitia perspiciatis sequi doloribus asperiores explicabo provident.
+            <div data-bind="component: {name: 'List', params: searchHistoryCard()}" />
         </div>
     </div>
 </script>

@@ -28,7 +28,7 @@
                         page: <span data-bind="text: page()"></span>
                     </li>
                     <li>
-                            show: <select class="pageSize" data-bind="options: sizeAviable, event: { change: changePageSize }, value: pageSize()">
+                            show: <select class="pageSize" data-bind="options: sizeAviable, value: pageSize(), event: { change: changePageSize }">
                             </select>
                         </li>
                     <li class="page-item" data-bind="click: goNext, css: { disabled: !next() }">

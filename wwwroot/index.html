@@ -56,7 +56,7 @@
                     </a>
                 </li>
             </ul>
-            <form id="searchForm" data-bind="submit: (e) => { goTo('Search/' + $(e).find('input')[0].value)}">
+            <form id="searchForm" data-bind="submit: onSubmit">
                 <input class="form-control mr-sm-2" id='query' type="search" placeholder="Search" aria-label="Search">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit" style="margin-left: auto">Search</button>
             </form>

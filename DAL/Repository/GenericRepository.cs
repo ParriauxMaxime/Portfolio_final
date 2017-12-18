@@ -15,7 +15,7 @@ namespace DataAccessLayer.Repository
     //Never use that, use GenericReadableRepository or GenericWritableRepository
     public abstract class GenericRepository<TEntity> where TEntity : GenericModel
     {
-        internal DatabaseContext context = new DatabaseContext() ;
+        internal DatabaseContext context = new DatabaseContext();
         internal DbSet<TEntity> dbSet;
 
         public GenericRepository()
@@ -46,10 +46,11 @@ namespace DataAccessLayer.Repository
                 return orderBy(query)
                         .Distinct()
                         .Skip(page * pageSize)
-                        .Take(pageSize - 1)
+                        .Take(pageSize)
                         .ToListAsync();
             }
-            else {
+            else
+            {
                 return query.Skip(page * pageSize).Take(pageSize - 1).ToListAsync();
             }
 
@@ -78,7 +79,10 @@ namespace DataAccessLayer.Repository
         public virtual int Insert(TEntity entity)
         {
             int count = dbSet.Count();
-            entity.Id = dbSet.Skip(count - 1).Take(1).ToList()[0].Id + 1;
+            if (count == 0)
+                entity.Id = 0;
+            else
+                entity.Id = dbSet.Skip(count - 1).Take(1).ToList()[0].Id + 1;
             dbSet.Add(entity);
             this.context.SaveChanges();
             return entity.Id;
@@ -104,21 +108,21 @@ namespace DataAccessLayer.Repository
         public virtual int Update(TEntity entityToUpdate)
         {
             int code = 200;
-            if (context.Entry(entityToUpdate).State == EntityState.Detached) {
-                dbSet.Attach(entityToUpdate);            
-            }
+            TEntity original = dbSet.Find(entityToUpdate.Id);
 
-            if (GetByID(entityToUpdate.Id) == null) {
+            if (original != null)
+            {
+                this.context.Entry(original).CurrentValues.SetValues(entityToUpdate);
+                this.context.SaveChanges();
+            }
+            else
+            {
                 dbSet.Add(entityToUpdate);
                 context.Entry(entityToUpdate).State = EntityState.Added;
                 code = 201;
-            } 
-            else {
-                context.Entry(entityToUpdate).State = EntityState.Modified;
             }
             this.context.SaveChanges();
-            context.Entry(entityToUpdate).State = EntityState.Detached;
-            return code;            
+            return code;
         }
     }
 }

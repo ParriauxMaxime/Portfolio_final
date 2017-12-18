@@ -31,4 +31,12 @@ Delimiter ;
 
 CALL getTagsForPost(5404941);
 
-ALTER TABLE comments ADD INDEX (postId);
+ALTER TABLE l_comments ADD INDEX (postId);
+ALTER TABLE l_posts ADD INDEX (postTypeId);
+ALTER TABLE l_posts ADD INDEX (parentId);
+ALTER TABLE l_comments ADD INDEX (userId);
+ALTER TABLE l_posts ADD INDEX (userId);
+
+ALTER TABLE history CHANGE Notes note TEXT;
+
+INSERT INTO accounts (id, name, creationDate) values (0, "anonymous", NOW());

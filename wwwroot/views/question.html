@@ -12,8 +12,36 @@
             </div>
         </div>
     </div>
-    <div class="no-gutters grey-bc min-fh" id="Answers" data-bind='foreach: answers'>
-        <div data-bind="component: { name: 'Post', params: $data.data }">
+    <div class="container">
+        <div class="row no-gutters grey-bc min-fh" id="Answers" data-bind="foreach: answers">
+            <div data-bind="component: { name: 'Post', params: $data.data }">
+            </div>
+        </div>
+        <div class="row">
+            <div class="container-fluid">
+                <div class="row">
+                    <nav aria-label="..." style="width: 100%;">
+                        <ul class="pagination" style="align-items: center; justify-content: space-between; width: 100%">
+                            <li class="page-item" data-bind="click: goPrev, css: { disabled: !prev() }">
+                                <span class="page-link">Previous</span>
+                            </li>
+                            <li>
+                                page:
+                                <span data-bind="text: answersPage()"></span>
+                            </li>
+                            <li>
+                                show:
+                                <select class="pageSize" data-bind="options: sizeAviable, value: answersPageSize(), event: { change: changePageSize }">
+                                </select>
+                            </li>
+                            <li class="page-item" data-bind="click: goNext, css: { disabled: !next() }">
+                                <span class="page-link">Next</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
         </div>
     </div>
+</div>
 </div>

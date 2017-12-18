@@ -1,4 +1,3 @@
-
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -12,6 +11,8 @@ namespace Models
       public int AccountId {get; set;}
       public System.DateTime CreationDate {get; set;}
       public bool Marked {get; set;}
+      public string Note {get; set;}
+
       
     }
   }
