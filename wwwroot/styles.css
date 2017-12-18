@@ -151,6 +151,10 @@ pre {
     background-color: #eff0f1;
 }
 
+#Answers .answer {
+    width: 100%;
+}
+
 .flex {
     display: flex;
 }

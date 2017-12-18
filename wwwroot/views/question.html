@@ -14,12 +14,13 @@
     </div>
     <div class="container">
         <div class="row no-gutters grey-bc min-fh" id="Answers" data-bind="foreach: answers">
-            <div data-bind="component: { name: 'Post', params: $data.data }">
+            <div class="answer" data-bind="component: { name: 'Post', params: $data.data }">
             </div>
+            <hr/>
         </div>
         <div class="row">
             <div class="container-fluid">
-                <div class="row">
+                <div class="row no-gutters">
                     <nav aria-label="..." style="width: 100%;">
                         <ul class="pagination" style="align-items: center; justify-content: space-between; width: 100%">
                             <li class="page-item" data-bind="click: goPrev, css: { disabled: !prev() }">

@@ -9,7 +9,7 @@ define(['api', 'jquery', 'knockout'], function (api, $, ko) {
     this.next = ko.observable("");
     this.totalAnswer = ko.observable(0);
     this.sizeAviable = ko.observableArray([10, 20, 50])
-    
+
     this.answerText = ko.computed(
       () => this.answers().length === 0 ?
       'Fetching answer..' :
@@ -46,22 +46,26 @@ define(['api', 'jquery', 'knockout'], function (api, $, ko) {
     }
 
     this.goPrev = () => {
-      this.answersPage(this.answersPage() - 1);
+      if (this.prev() !== "") {
+        this.answersPage(this.answersPage() - 1);
+        this.loadingAnswers(true)
+        this.getAnswers(this.question().id);
+      }
+    }
+
+    this.goNext = () => {
+      if (this.next()) {
+        this.answersPage(this.answersPage() + 1);
+        this.loadingAnswers(true)
+        this.getAnswers(this.question().id);
+      }
+    }
+
+    this.changePageSize = (d, e) => {
+      this.answersPageSize(event.target.value);
       this.loadingAnswers(true)
-      this.getAnswers();
-  }
-
-  this.goNext = () => {
-      this.answersPage(this.answersPage() + 1);
-      this.loadingAnswers(true)      
-      this.getAnswers();
-  }
-
-  this.changePageSize = (d, e) => {
-      this.pageSize(event.target.value);
-      this.loadingAnswers(true)      
-      this.getAnswers();
-  }
+      this.getAnswers(this.question().id);
+    }
   }
 
   return Question;

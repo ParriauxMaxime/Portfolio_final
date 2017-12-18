@@ -38,6 +38,36 @@ namespace WebService.Controllers
             return Ok(_dataService.GetProcedures().getTagsForPost(postId));
         }
 
+        private string makeURL(int? id, int page, int pageSize, string appendix, int count) {
+            var host = "";
+            if (Request == null) // It's null while Unit Testing...
+            {
+                //WTF
+                host = "localhost:5001";
+            }
+            else
+            {
+                host = Request.Host.ToUriComponent();
+            }
+            var controller = ControllerContext.RouteData?.Values["controller"].ToString().ToLower();
+            var url = "http://" + host + "/api/" + controller + (appendix != "" ? "/" : "") + appendix;
+            if (id == null)
+            {
+                if (page < 0)
+                {
+                    return "";
+                }
+                else if (page > (count / pageSize))
+                {
+                    return "";
+                }
+                else
+                    return url + "?page=" + page + "&pageSize=" + pageSize;
+            }
+            else
+                return url + "/" + id + "?page=" + page + "&pageSize=" + pageSize;
+        }
+
         [HttpGet("parentId/{parentId}")]
         public IActionResult GetAnswersForPost(int parentId, int page = 0, int pageSize = 50)
         {
@@ -60,14 +90,15 @@ namespace WebService.Controllers
             {
                 tmp.Add(new Encapsulation { Url = "", Data = new Post {Id = e} });
             });
+            
             var result = new ListEncapsulation
             {
                 Total = count,
                 Pages = count / pageSize,
                 Page = page,
-                Prev = createUrl(null, page - 1, pageSize, "parentId/" + parentId.ToString()),
-                Next = createUrl(null, page + 1, pageSize, "parentId/" + parentId.ToString()),
-                Url = createUrl(null, page, pageSize, "/parentId/" + parentId.ToString()),
+                Prev = makeURL(null, page - 1, pageSize, "parentId/" + parentId.ToString(), count),
+                Next = makeURL(null, page + 1, pageSize, "parentId/" + parentId.ToString(), count),
+                Url = makeURL(null, page, pageSize, "parentId/" + parentId.ToString(), count),
                 Data = tmp
             };
             return Ok(result);

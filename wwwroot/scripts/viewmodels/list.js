@@ -10,10 +10,12 @@ define(['api', 'jquery', 'knockout'], function (api, $, ko) {
         this.pageSize = ko.observable(props.pageSize)
         this.sizeAviable = ko.observableArray([10, 20, 50])
         this.goPrev = () => {
-            props.goPrev()
+            if (this.prev())
+                props.goPrev()
         }
         this.goNext = () => {
-            props.goNext();
+            if (this.next())
+                props.goNext();
         }
         this.goTo = ({
             id,
