@@ -85,7 +85,7 @@
             <!--tag-->
             <div class="col-6 offset-sm-1 col-sm-8 order-5">
                 <div data-bind="foreach: tags">
-                    <a href="#" class="badge badge-primary" data-bind="text: $data"></a>
+                    <a class="badge badge-primary" data-bind="text: $data, attr: { href: '#Search/' + $data, title: 'Search for ' + $data}"></a>
                 </div>
             </div>
             <!--date & author-->
