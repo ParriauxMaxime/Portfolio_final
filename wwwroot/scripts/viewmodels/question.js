@@ -61,7 +61,7 @@ define(['api', 'jquery', 'knockout'], function (api, $, ko) {
       }
     }
 
-    this.changePageSize = (d, e) => {
+    this.changePageSize = (d, event) => {
       this.answersPageSize(event.target.value);
       this.loadingAnswers(true)
       this.getAnswers(this.question().id);
