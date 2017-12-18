@@ -5,10 +5,8 @@ define(['api', 'jquery', 'jqcloud', 'knockout'], function (api, $, jQCloud, ko) 
       // e.g 'sql injection' becomes 'sql,injection'
       let sqlQuery = query.replace(/\s+/g, ',');
 
-      console.log(sqlQuery);
 
       api.getWordCloud(sqlQuery, wordArray => {
-        console.log(wordArray);
         $('.wordcloud').jQCloud(wordArray, {
           autoResize: true
         });

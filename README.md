@@ -1,8 +1,13 @@
 # Portfolio-final
 
-Repository for the Portfolio project for RAWDATA course.
-See PDF attached to this repository.
+Repository for the Portfolio project for RAWDATA course.  
+See PDF attached to this repository.  
+-----
+# Get Started  
+  
+```dotnet run```   
 
+----
 <div class="no-gutters">
     <!-- Jumbotron -->
     <div class="jumbotron jumbotron-fluid" style="margin-bottom: 0;">
@@ -83,11 +88,11 @@ See PDF attached to this repository.
 </div>
 
 ## Contributor
-Hakan Türkmenoğlu
-Eneko Ortiz De Zarate
-Simon Bouvier
-Ali Sabbagh
-Maxime Parriaux
+Hakan Türkmenoğlu  
+Eneko Ortiz De Zarate  
+Simon Bouvier  
+Ali Sabbagh  
+Maxime Parriaux  
 
 ## License
 MIT

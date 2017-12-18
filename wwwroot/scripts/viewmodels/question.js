@@ -17,7 +17,6 @@ define(['api', 'jquery', 'knockout'], function (api, $, ko) {
 
     this.getAnswers = (id, page = this.answersPage(), pageSize = this.answersPageSize()) => {
       api.getAnswersToPost(page, pageSize, id, answerIds => {
-        console.log(answerIds);
         this.next(answerIds.next)
         this.totalAnswer(answerIds.total)
         this.prev(answerIds.prev)
