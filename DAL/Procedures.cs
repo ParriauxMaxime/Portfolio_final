@@ -204,5 +204,43 @@ namespace DataAccessLayer
                 return result;
             }
         }
+        
+        public class WeightedList
+        {
+            public string word { get;  }
+            public double rank { get; }
+            
+            public WeightedList(string word, double rank)
+            {
+                this.word = word;
+                this.rank = rank;
+            }
+        }
+        
+        public List<WeightedList> WeightedListTFIDF(string query)
+        {
+            using (DatabaseContext db = new DatabaseContext())
+            {
+                var result = new List<WeightedList>();
+                using (var cmd = new MySqlCommand())
+                {
+                    cmd.Connection = (MySqlConnection)db.Database.GetDbConnection();
+                    cmd.Connection.Open();
+                    cmd.Parameters.Add("@1", DbType.String);
+                    cmd.Parameters["@1"].Value = query;
+                    cmd.CommandText = "CALL getWeightedListTFIDF(@1)";
+
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            result.Add(new WeightedList(reader.GetString(0), reader.GetDouble(1)));
+                        }
+                    }
+                    cmd.Connection.Close();
+                }
+                return result;
+            }
+        }
     }
 }

@@ -49,5 +49,11 @@ namespace WebService.Controllers
         {
             return Ok(_dataService.GetProcedures().TermNetwork(query));
         }
+        
+        [HttpGet("wordCloud")]
+        public IActionResult WordCloud(string query = "")
+        {
+            return Ok(_dataService.GetProcedures().WeightedListTFIDF(query));
+        }
     }
 }
