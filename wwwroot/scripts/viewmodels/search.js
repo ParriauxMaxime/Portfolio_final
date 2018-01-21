@@ -16,7 +16,7 @@ define(['api', 'jquery', 'knockout'], function (api, $, ko) {
             `${this.totalResult()} Result${this.totalResult() != 1 ? 's' : ''}`)
       
         this.updateSearch = (query = this.query(), page = this.page(), pageSize = this.pageSize()) => {
-            api.getSearchResults(page, pageSize, query.replace(/\s+/g, ','), true, postIds => {
+            api.getSearchResults(page, pageSize, decodeURIComponent(query).replace(/\s+/g, ','), true, postIds => {
                 this.next(postIds.next)
                 this.totalResult(postIds.total)
                 this.prev(postIds.prev)

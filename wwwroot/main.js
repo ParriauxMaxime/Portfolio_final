@@ -83,7 +83,8 @@ define(['knockout', 'api'], function (ko, api) {
             return false;
         }
         this.onSubmit = (e) => {
-            const value = $(e).find('input')[0].value;
+            let value = $(e).find('input')[0].value;
+			value = encodeURIComponent(value);
             api.addToSearchHistory(value)
             this.goTo('Search/' + value);
         }
